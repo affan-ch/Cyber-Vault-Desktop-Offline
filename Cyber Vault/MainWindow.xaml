@@ -14,11 +14,12 @@
 
     <tb:TaskbarIcon
         x:Name="TrayIcon"
-        ToolTipText="ToolTip"
+        ToolTipText="Cyber Vault"
         IconSource="/Assets/WindowIcon.ico"
-        MenuActivation="LeftOrRightClick"
+        MenuActivation="RightClick"
         PopupActivation="DoubleClick"
         >
+        
         <tb:TaskbarIcon.ContextFlyout>
             <MenuFlyout AreOpenCloseAnimationsEnabled="False">
                 <MenuFlyoutItem Command="{x:Bind ShowHideWindowCommand}" Text="Show/Hide Window" />
