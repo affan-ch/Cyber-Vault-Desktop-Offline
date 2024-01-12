@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "Cyber Vault (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Cyber Vault (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
