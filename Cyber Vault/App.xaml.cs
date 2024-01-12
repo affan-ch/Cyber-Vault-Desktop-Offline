@@ -42,6 +42,8 @@ public partial class App : Application
 
     public static UIElement? AppTitlebar { get; set; }
 
+    public static bool HandleClosedEvents { get; set; } = true;
+
     public App()
     {
         InitializeComponent();
@@ -95,6 +97,16 @@ public partial class App : Application
     protected async override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
+
+        MainWindow.Closed += (sender, args) =>
+        {
+            if (HandleClosedEvents)
+            {
+                args.Handled = true;
+                MainWindow.Hide();
+            }
+        };
+
 
         await App.GetService<IActivationService>().ActivateAsync(args);
     }

@@ -9,7 +9,25 @@
     MinWidth="500"
     MinHeight="500"
     PersistenceId="MainWindow"
+    xmlns:tb="using:H.NotifyIcon"
     mc:Ignorable="d">
+
+    <tb:TaskbarIcon
+        x:Name="TrayIcon"
+        ToolTipText="ToolTip"
+        IconSource="/Assets/WindowIcon.ico"
+        MenuActivation="LeftOrRightClick"
+        PopupActivation="DoubleClick"
+        >
+        <tb:TaskbarIcon.ContextFlyout>
+            <MenuFlyout AreOpenCloseAnimationsEnabled="False">
+                <MenuFlyoutItem Command="{x:Bind ShowHideWindowCommand}" Text="Show/Hide Window" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Command="{x:Bind ExitApplicationCommand}" Text="Exit" />
+            </MenuFlyout>
+        </tb:TaskbarIcon.ContextFlyout>
+    </tb:TaskbarIcon>
+
     <Window.SystemBackdrop>
         <MicaBackdrop/>
     </Window.SystemBackdrop>

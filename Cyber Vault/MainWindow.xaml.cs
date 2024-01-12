@@ -1,7 +1,7 @@
-﻿using Cyber_Vault.Helpers;
-
+﻿using CommunityToolkit.Mvvm.Input;
+using Cyber_Vault.Helpers;
+using H.NotifyIcon.EfficiencyMode;
 using Windows.UI.ViewManagement;
-
 namespace Cyber_Vault;
 
 public sealed partial class MainWindow : WindowEx
@@ -22,6 +22,39 @@ public sealed partial class MainWindow : WindowEx
         dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
         settings = new UISettings();
         settings.ColorValuesChanged += Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
+
+        EfficiencyModeUtilities.SetEfficiencyMode(true);
+
+        TrayIcon.ForceCreate(true); // Show System Tray Icon
+
+    }
+
+    [RelayCommand]
+    public void ShowHideWindow()
+    {
+        var window = App.MainWindow;
+        if (window == null)
+        {
+            return;
+        }
+
+        if (window.Visible)
+        {
+            window.Hide();
+        }
+        else
+        {
+            window.Show();
+        }
+    }
+
+    [RelayCommand]
+    public void ExitApplication()
+    {
+        //DatabaseHelper.StoreListInDatabase();
+        App.HandleClosedEvents = false;
+        TrayIcon.Dispose();
+        App.MainWindow?.Close();
     }
 
     // this handles updating the caption button colors correctly when indows system theme is changed
