@@ -22,6 +22,11 @@ public sealed partial class HomePage : Page
         ViewModel = App.GetService<HomeViewModel>();
         InitializeComponent();
 
+        App.MainWindow.ExtendsContentIntoTitleBar = true;
+        App.MainWindow.SetTitleBar(AppTitleBar);
+        App.AppTitlebar = AppTitleBarText;
+        AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+
         _ = ActivationService.StartupAsync();
     }
 

@@ -6,12 +6,34 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ScrollViewer x:Name="ContentArea">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Vertical">
-                <PasswordBox Header="Enter your Master Key:" PlaceholderText="Master Key" Width="300" Margin="0 0 0 20"/>
-                <Button Style="{StaticResource AccentButtonStyle}" Content="Continue" Click="Button_Click" HorizontalAlignment="Center" />
-            </StackPanel>
+    <Grid>
+        <Grid x:Name="AppTitleBar"
+          Canvas.ZIndex="1"
+          Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
+          IsHitTestVisible="True"
+          VerticalAlignment="Top"
+          Margin="20,13,0,0"
+        >
+            <Image Source="/Assets/WindowIcon.ico"
+               HorizontalAlignment="Left"
+               Width="16"
+               Height="16" />
+            <TextBlock x:Name="AppTitleBarText"
+                   VerticalAlignment="Center"
+                   TextWrapping="NoWrap"
+                   Style="{StaticResource CaptionTextBlockStyle}"
+                   Margin="28,0,0,0"/>
         </Grid>
-    </ScrollViewer>
+        <ScrollViewer 
+            x:Name="ContentArea"
+            Canvas.ZIndex="0"
+        >
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical">
+                    <PasswordBox Header="Enter your Master Key:" PlaceholderText="Master Key" Width="300" Margin="0 0 0 20"/>
+                    <Button Style="{StaticResource AccentButtonStyle}" Content="Continue" Click="Button_Click" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </Page>
