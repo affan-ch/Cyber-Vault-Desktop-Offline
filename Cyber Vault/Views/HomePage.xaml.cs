@@ -37,6 +37,8 @@ public sealed partial class HomePage : Page
         
         await ActivationService.StartupAsync();
 
+       
+
     }
 
 

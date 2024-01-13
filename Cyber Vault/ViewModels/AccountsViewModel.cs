@@ -2,9 +2,9 @@
 
 namespace Cyber_Vault.ViewModels;
 
-public partial class AddAccountViewModel : ObservableRecipient
+public partial class AccountsViewModel : ObservableRecipient
 {
-    public AddAccountViewModel()
+    public AccountsViewModel()
     {
     }
 }

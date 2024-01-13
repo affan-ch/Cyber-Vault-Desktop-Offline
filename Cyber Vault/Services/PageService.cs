@@ -16,7 +16,7 @@ public class PageService : IPageService
     {
         Configure<HomeViewModel, HomePage>();
         Configure<SettingsViewModel, SettingsPage>();
-        Configure<AddAccountViewModel, AddAccountPage>();
+        Configure<AccountsViewModel, AccountsPage>();
     }
 
     public Type GetPageType(string key)
