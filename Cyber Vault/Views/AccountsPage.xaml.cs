@@ -18,22 +18,30 @@ public sealed partial class AccountsPage : Page
         ViewModel = App.GetService<AccountsViewModel>();
         InitializeComponent();
 
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=microsoft.com&sz=128", "Microsoft", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=microsoft.com&sz=128", "Microsoft", "affan_ali_ch@outlook.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+
     }
 
     private void AddAccountInListView(string url, string title, string email)
     {
 
         // Create a new StackPanel dynamically
-        var dynamicStackPanel = new StackPanel
+        var dynamicStackPanel = new Grid
         {
-            Orientation = Orientation.Horizontal,
-            Margin = new Thickness(0, 5, 20, 5),
+            Margin = new Thickness(0, 1, 20, 5),
             Height = 70,
             Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"],
             CornerRadius = new CornerRadius(5),
             
         };
+
+        // Create ColumnDefinitions for the Grid
+        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For image
+        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // For inner stack panel
+        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For spacer
+        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For font icon
+
 
         dynamicStackPanel.PointerEntered += (sender, e) =>
         {
@@ -81,13 +89,19 @@ public sealed partial class AccountsPage : Page
         innerStackPanel.Children.Add(textBlock1);
         innerStackPanel.Children.Add(textBlock2);
 
+
         // Create a FontIcon
         var fontIcon = new FontIcon
         {
             Glyph = "\xE974",
-            Opacity = 0.9,
-            Margin = new Thickness(170, 0, 0, 0),
+            Opacity = 0.8,
+            Margin = new Thickness(0, 0, 10, 0),
         };
+
+        // Set Grid.Column for each element
+        Grid.SetColumn(image, 0);
+        Grid.SetColumn(innerStackPanel, 1);
+        Grid.SetColumn(fontIcon, 3);
 
         // Add the Image, inner StackPanel, and FontIcon to the dynamic StackPanel
         dynamicStackPanel.Children.Add(image);

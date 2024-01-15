@@ -22,12 +22,12 @@
 						</Grid>
 
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
-							<Button Background="Transparent" BorderThickness="0" >
+							<Button Background="Transparent" BorderThickness="0" Height="40">
                                 <FontIcon Glyph="&#xE71C;" FontSize="17"/>
                             </Button>
 
-                            <Button Background="Transparent" BorderThickness="0" >
-                                <FontIcon Glyph="&#xECC8;" FontSize="17"/>
+                            <Button Background="Transparent" BorderThickness="0" Height="40" >
+                                <FontIcon Glyph="&#xF164;" FontSize="19" />
                             </Button>
 
                         </StackPanel>
@@ -39,30 +39,9 @@
 					<!-- Accounts ListView -->
                     <ScrollViewer Width="400" Margin="0,20,0,10">
                         <StackPanel x:Name="AccountsListView"  Orientation="Vertical">
-                           
-                            <StackPanel Orientation="Horizontal"
-                                        Margin="0 0 20 0"
-                                        Height="70"
-                                        Background="{ThemeResource DesktopAcrylicTransparentBrush}"
-                                        CornerRadius="5">
-                                
-                                <Image Margin="15,10,10,10"
-                                       Source="https://www.google.com/s2/favicons?domain=microsoft.com&amp;sz=128"
-                                       Width="40"
-                                       Height="40" />
-
-                                <StackPanel Orientation="Vertical" Margin="5, 10, 0, 0">
-                                    <TextBlock Text="Microsoft" Style="{ThemeResource BaseTextBlockStyle}" FontSize="17"/>
-                                    <TextBlock Text="affan_ali_ch@outlook.com" Style="{ThemeResource BaseTextBlockStyle}" FontSize="14" Opacity="0.9"/>
-                                </StackPanel>
-
-                                <ItemContainer Background="Transparent" BorderThickness="0" Margin="113,0,0,0">
-                                    <FontIcon Glyph="&#xE974;" Opacity="0.9" />
-                                </ItemContainer>
-                            </StackPanel>
+                           <!-- Item to be Added Dynamically by C# Code -->
                         </StackPanel>
                     </ScrollViewer>
-
 
                 </StackPanel>
 				<Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
