@@ -20,6 +20,14 @@ public sealed partial class AccountsPage : Page
 
         AddAccountInListView("https://www.google.com/s2/favicons?domain=microsoft.com&sz=128", "Microsoft", "affan_ali_ch@outlook.com");
         AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
+        AddAccountInListView("https://www.google.com/s2/favicons?domain=microsoft.com&sz=128", "Microsoft", "affan_ali_ch@outlook.com");
+
 
     }
 
