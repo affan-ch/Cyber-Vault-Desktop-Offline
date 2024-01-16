@@ -27,10 +27,13 @@
     <CornerRadius x:Key="NavigationViewContentGridCornerRadius">8,0,0,0</CornerRadius>
     <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
     <Thickness x:Key="NavigationViewHeaderMargin">56,34,0,0</Thickness>
-    <Thickness x:Key="NavigationViewPageContentMargin">56,24,56,0</Thickness>
+    <Thickness x:Key="NavigationViewPageContentMargin">30,24,30,0</Thickness>
 
     <Thickness x:Key="MenuBarContentMargin">36,24,36,0</Thickness>
 
     <Thickness x:Key="SettingsPageHyperlinkButtonMargin">-12,4,0,0</Thickness>
+
+    <Thickness x:Key="AccountsPageMidTextBoxMargin">0,20,20,0</Thickness>
+    <Thickness x:Key="AccountsPageRightTextBoxMargin">0,20,13,0</Thickness>
     
 </ResourceDictionary>

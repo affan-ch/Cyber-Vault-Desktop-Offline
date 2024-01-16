@@ -6,11 +6,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-	<StackPanel Orientation="Horizontal">
-        <Grid Width="400">
+	<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Sidebar -->
+        <Grid 
+            Width="360"
+            Grid.Column="0"
+        >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <!-- Other rows as needed -->
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -44,7 +52,7 @@
                     <AutoSuggestBox Grid.Row="1" PlaceholderText="Search Accounts" QueryIcon="Find" Margin="0,20,20,0"/>
 
 					<!-- Accounts ListView -->
-                    <ScrollViewer Grid.Row="2" Width="400" Margin="0,20,0,10">
+                    <ScrollViewer Grid.Row="2" Width="360" Margin="0,20,0,10">
                         <StackPanel x:Name="AccountsListView"  Orientation="Vertical">
                            <!-- Item to be Added Dynamically by C# Code -->
                         </StackPanel>
@@ -56,10 +64,262 @@
 
 		</Grid>
 
-		<ScrollViewer>
-			<StackPanel Orientation="Vertical">
-				<TextBlock Text="" />
-			</StackPanel>
-		</ScrollViewer>
-	</StackPanel>
+        
+        <!-- Right Content -->
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Right First -->
+            <Grid Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                            
+                            <!-- Account Type -->
+                            <ComboBox PlaceholderText="Pick an Account Type" SelectedIndex="6">
+                                <x:String>Google</x:String>
+                                <x:String>Microsoft</x:String>
+                                <x:String>Facebook</x:String>
+                                <x:String>Instagram</x:String>
+                                <x:String>Snapchat</x:String>
+                                <x:String>GitHub</x:String>
+                                <x:String>Custom</x:String>
+
+                                <ComboBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Select Account Type" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                    </StackPanel>
+                                </ComboBox.Header>
+                            </ComboBox>
+                            
+                            <!-- Title -->
+                            <TextBox 
+                                PlaceholderText="Twitter" 
+                                Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter Title" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+                            <!-- Domain -->
+                            <TextBox 
+                                PlaceholderText="twitter.com" 
+                                Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter Domain" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <ScrollViewer Margin="20,0,2,20">
+                            <StackPanel Orientation="Vertical">
+
+                                <!-- Name -->
+                                <TextBox 
+                                    PlaceholderText="Affan Ch." 
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Name" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!-- Email -->
+                                <TextBox 
+                                    PlaceholderText="affan@twitter.com" 
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Email" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!-- Username -->
+                                <TextBox 
+                                    PlaceholderText="affan798"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Username" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!-- Phone Number -->
+                                <TextBox
+                                     PlaceholderText="+923205404030" 
+                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Phone Number" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!-- Password -->
+                                <PasswordBox
+                                    PlaceholderText="pass123$" 
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
+                                    <PasswordBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Password" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xF0E8;" FontSize="13"/>
+                                        </StackPanel>
+                                    </PasswordBox.Header>
+                                </PasswordBox>
+
+                                <!-- Pin -->
+                                <PasswordBox
+                                    PlaceholderText="79860" 
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
+                                    <PasswordBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Pin" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xF0E8;" FontSize="13"/>
+                                        </StackPanel>
+                                    </PasswordBox.Header>
+                                </PasswordBox>
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+
+                <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
+            </Grid>
+
+            
+            <!-- Right Second -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Grid Grid.Row="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,20">
+                        
+                        <!-- Save Button -->
+                        <Button Style="{StaticResource AccentButtonStyle}" Width="73">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon 
+                                    Glyph="&#xE74E;" 
+                                    FontSize="17"/>
+                                <TextBlock 
+                                    Text="Save"  
+                                    Margin="4,0,0,0"
+                                    Style="{ThemeResource BodyTextBlockStyle}" 
+                                    VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                
+                <Grid Grid.Row="1">
+                    <ScrollViewer Margin="20,0,5,20">
+                        <StackPanel Orientation="Vertical">
+
+                            <TextBox
+                                PlaceholderText="79860" 
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter Date Of Birth" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+                            <TextBox
+                                PlaceholderText="affan@gmail.com" 
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter Recovery Email" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+                            <TextBox
+                                PlaceholderText="+923205404031" 
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter Recovery Phone Number" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+                            <TextBox
+                                PlaceholderText="otpauth://totp/?secret=" 
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
+                                TextWrapping="Wrap" AcceptsReturn="True"
+                                AutomationProperties.Name="multi-line TextBox">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter 2FA QR Code Text" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+
+                            <TextBox
+                                PlaceholderText="mhmtfiqlvg2ve63jwk4gq2ojju2xrh6s" 
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Enter 2FA Secret Key" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+                            <TextBox
+                                PlaceholderText="Google Photos Backup" 
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
+                                TextWrapping="Wrap" AcceptsReturn="True"
+                                AutomationProperties.Name="multi-line TextBox">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Notes" Margin="0,0,4,0"/>
+                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+                
+            </Grid>
+        </Grid>
+		
+	</Grid>
 </Page>
