@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Cyber_Vault.Contracts.Services;
+using Cyber_Vault.DB;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.Services;
 using Cyber_Vault.ViewModels;
@@ -93,6 +94,7 @@ public sealed partial class ShellPage : Page
     {
         try
         {
+            MasterKey.DeleteFromMemory();
             UIElement? _login = App.GetService<HomePage>();
             App.MainWindow.Content = _login ?? new Frame();
 

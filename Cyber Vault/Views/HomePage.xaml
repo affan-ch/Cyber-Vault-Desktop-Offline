@@ -29,9 +29,31 @@
             Canvas.ZIndex="0"
         >
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Orientation="Vertical">
-                    <PasswordBox Header="Enter your Master Key:" PlaceholderText="Master Key" Width="300" Margin="0 0 0 20"/>
-                    <Button Style="{StaticResource AccentButtonStyle}" Content="Continue" Click="Button_Click" HorizontalAlignment="Center" />
+                
+                <StackPanel x:Name="Login_StackPanel" Orientation="Vertical" Visibility="Collapsed">
+                    <PasswordBox x:Name="Login_PasswordBox"
+                                 Header="Enter your Master Key:"
+                                 PlaceholderText="Master Key"
+                                 Width="300"
+                                 Margin="0 0 0 20"/>
+                    <Button x:Name="Login_Button"
+                            Style="{StaticResource AccentButtonStyle}"
+                            Content="Continue"
+                            Click="Login_Button_Click" 
+                            HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel x:Name="Signup_StackPanel" Orientation="Vertical" Visibility="Collapsed">
+                    <PasswordBox x:Name="Signup_PasswordBox" 
+                                 Header="Create a Secure Master Key:" 
+                                 PlaceholderText="Master Key" 
+                                 Width="300" 
+                                 Margin="0 0 0 20"/>
+                    <Button x:Name="Signup_Button"
+                            Style="{StaticResource AccentButtonStyle}"
+                            Content="Set Master Key"
+                            Click="Signup_Button_Click"
+                            HorizontalAlignment="Center" />
                 </StackPanel>
             </Grid>
         </ScrollViewer>

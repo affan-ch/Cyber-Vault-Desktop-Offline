@@ -84,7 +84,11 @@
                         <StackPanel Orientation="Vertical" Margin="20,0,0,0">
                             
                             <!-- Account Type -->
-                            <ComboBox PlaceholderText="Pick an Account Type" SelectedIndex="6">
+                            <ComboBox 
+                                x:Name="AccountType_ComboBox" 
+                                PlaceholderText="Pick an Account Type" 
+                                SelectedIndex="6" 
+                                SelectionChanged="ComboBox_SelectionChanged">
                                 <x:String>Google</x:String>
                                 <x:String>Microsoft</x:String>
                                 <x:String>Facebook</x:String>
@@ -102,7 +106,7 @@
                             </ComboBox>
                             
                             <!-- Title -->
-                            <TextBox 
+                            <TextBox x:Name="Title_TextBox"
                                 PlaceholderText="Twitter" 
                                 Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
                                 <TextBox.Header>
@@ -114,7 +118,7 @@
                             </TextBox>
 
                             <!-- Domain -->
-                            <TextBox 
+                            <TextBox x:Name="Domain_TextBox"
                                 PlaceholderText="twitter.com" 
                                 Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                 <TextBox.Header>

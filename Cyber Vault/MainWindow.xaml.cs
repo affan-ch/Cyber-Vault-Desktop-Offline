@@ -1,6 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Cyber_Vault.DB;
 using Cyber_Vault.Helpers;
+using Cyber_Vault.Services;
+using Cyber_Vault.Utils;
+using Cyber_Vault.Views;
 using H.NotifyIcon.EfficiencyMode;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 using Windows.UI.ViewManagement;
 namespace Cyber_Vault;
 
@@ -26,10 +32,12 @@ public sealed partial class MainWindow : WindowEx
 
         TrayIcon.ForceCreate(true); // Show System Tray Icon
 
+        DatabaseHelper.CreateDatabase();
+
     }
 
     [RelayCommand]
-    public void ShowHideWindow()
+    public async void ShowHideWindow()
     {
         var window = App.MainWindow;
         if (window == null)
@@ -39,6 +47,15 @@ public sealed partial class MainWindow : WindowEx
 
         if (window.Visible)
         {
+            // On Minimize to System Tray --> Delete MasterKey from Memory
+            MasterKey.DeleteFromMemory();
+
+            // On Minimize to System Tray --> Logout
+            UIElement? _login = App.GetService<HomePage>();
+            App.MainWindow.Content = _login ?? new Frame();
+            await ActivationService.StartupAsync();
+
+            // On Minimize to System Tray --> Hide Window
             window.Hide();
         }
         else
@@ -50,7 +67,6 @@ public sealed partial class MainWindow : WindowEx
     [RelayCommand]
     public void ExitApplication()
     {
-        //DatabaseHelper.StoreListInDatabase();
         App.HandleClosedEvents = false;
         TrayIcon.Dispose();
         App.MainWindow?.Close();

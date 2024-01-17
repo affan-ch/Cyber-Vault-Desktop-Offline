@@ -2,6 +2,7 @@
 using Cyber_Vault.Contracts.Services;
 using Cyber_Vault.Core.Contracts.Services;
 using Cyber_Vault.Core.Services;
+using Cyber_Vault.DB;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.Models;
 using Cyber_Vault.Services;
@@ -11,6 +12,7 @@ using Cyber_Vault.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Cyber_Vault;
 
@@ -99,11 +101,20 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        MainWindow.Closed += (sender, args) =>
+        MainWindow.Closed += async (sender, args) =>
         {
             if (HandleClosedEvents)
             {
                 args.Handled = true;
+
+                // On Minimize to System Tray --> Delete MasterKey from Memory
+                MasterKey.DeleteFromMemory();
+
+                // On Minimize to System Tray --> Logout
+                UIElement? _login = App.GetService<HomePage>();
+                App.MainWindow.Content = _login ?? new Frame();
+                await ActivationService.StartupAsync();
+
                 MainWindow.Hide();
             }
         };

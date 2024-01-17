@@ -118,4 +118,22 @@ public sealed partial class AccountsPage : Page
 
         AccountsListView.Children.Add(dynamicStackPanel);
     }
+
+    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Title_TextBox != null && Domain_TextBox != null)
+        {
+            if (AccountType_ComboBox.SelectedValue.ToString() == "Custom")
+            {
+                Title_TextBox.Visibility = Visibility.Visible;
+                Domain_TextBox.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                Title_TextBox.Visibility = Visibility.Collapsed;
+                Domain_TextBox.Visibility = Visibility.Collapsed;
+            }
+        } 
+    }
 }
