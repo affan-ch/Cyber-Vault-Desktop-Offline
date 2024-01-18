@@ -3,6 +3,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Media;
+using Cyber_Vault.BL;
+using Cyber_Vault.DL;
+using Cyber_Vault.DB;
 
 namespace Cyber_Vault.Views;
 
@@ -135,5 +138,86 @@ public sealed partial class AccountsPage : Page
                 Domain_TextBox.Visibility = Visibility.Collapsed;
             }
         } 
+    }
+
+    private void AddAccount_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        AddAccountContainer_Grid.Visibility = Visibility.Visible;
+
+    }
+
+    private void Save_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var AccountType = AccountType_ComboBox.SelectedValue.ToString();
+        var Title = Title_TextBox.Text;
+        var Domain = Domain_TextBox.Text;
+        var Name = Name_TextBox.Text;
+        var Email = Email_TextBox.Text;
+        var Username = Username_TextBox.Text;
+        var PhoneNumber = PhoneNumber_TextBox.Text;
+        var Password = Password_TextBox.Password;
+        var Pin = Pin_TextBox.Password;
+        var DateOfBirth = DateOfBirth_TextBox.Text;
+        var RecoveryEmail = RecoveryEmail_TextBox.Text;
+        var RecoveryPhoneNumber = RecoveryPhoneNumber_TextBox.Text;
+        var QrCode = QrCode_TextBox.Text;
+        var SecretKey = SecretKey_TextBox.Text;
+        var Notes = Notes_TextBox.Text;
+
+        if (AccountType == "Custom")
+        {
+            if (Title == string.Empty || Domain == string.Empty)
+            {    
+                // TODO: Show error message
+                return;
+            }
+        }
+        else
+        {
+            
+        }
+
+        var account = new Account
+        (
+            Type: AccountType ?? "",
+            Title: Title ?? "",
+            Domain: Domain ?? "",
+            Name: Name ?? "",
+            Email: Email ?? "",
+            Username: Username ?? "",
+            PhoneNumber: PhoneNumber ?? "",
+            Password: Password ?? "",
+            Pin: Pin ?? "",
+            DateOfBirth: DateOfBirth ?? "",
+            RecoveryEmail: RecoveryEmail ?? "",
+            RecoveryPhoneNumber: RecoveryPhoneNumber ?? "",
+            QrCode: QrCode ?? "",
+            Secret: SecretKey ?? "",
+            Notes: Notes ?? ""
+        );
+
+        AccountDL.AddAccount(account);
+        AccountDB.StoreAccount(account);
+        // TODO: Show success message
+        ClearFields();
+    }
+
+    private void ClearFields()
+    {
+        Title_TextBox.Text = string.Empty;
+        Domain_TextBox.Text = string.Empty;
+        Name_TextBox.Text = string.Empty;
+        Email_TextBox.Text = string.Empty;
+        Username_TextBox.Text = string.Empty;
+        PhoneNumber_TextBox.Text = string.Empty;
+        Password_TextBox.Password = string.Empty;
+        Pin_TextBox.Password = string.Empty;
+        DateOfBirth_TextBox.Text = string.Empty;
+        RecoveryEmail_TextBox.Text = string.Empty;
+        RecoveryPhoneNumber_TextBox.Text = string.Empty;
+        QrCode_TextBox.Text = string.Empty;
+        SecretKey_TextBox.Text = string.Empty;
+        Notes_TextBox.Text = string.Empty;
     }
 }

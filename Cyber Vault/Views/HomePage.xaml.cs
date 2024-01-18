@@ -58,6 +58,7 @@ public sealed partial class HomePage : Page
 
         MasterKey.StoreInMemory(key);
 
+
         UIElement? _shell = App.GetService<ShellPage>();
         App.MainWindow.Content = _shell ?? new Frame();
         

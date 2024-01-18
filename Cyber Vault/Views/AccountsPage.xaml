@@ -37,11 +37,67 @@
 						</Grid>
 
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
-							<Button Background="Transparent" BorderThickness="0" Height="40">
-                                <FontIcon Glyph="&#xE71C;" FontSize="17"/>
+							<!-- Filter Button -->
+                            <Button x:Name="Filter_Button" Background="Transparent" BorderThickness="0" Height="40">
+                               
+                                <Button.Content>
+                                    <FontIcon Glyph="&#xE71C;" FontSize="17"/>
+                                </Button.Content>
+                                
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="All">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="U" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutSeparator/>
+                                        <MenuFlyoutItem Text="Google">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="G" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Text="Microsoft">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="M" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Text="Facebook">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="K" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Text="Instagram">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="R" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Text="Snapchat">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="N" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Text="GitHub">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="H" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutSeparator/>
+                                        <MenuFlyoutItem Text="Custom">
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="T" Modifiers="Control"/>
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Button.Flyout>
                             </Button>
 
-                            <Button Background="Transparent" BorderThickness="0" Height="40" >
+                            <!-- Add Account Button -->
+                            <Button x:Name="AddAccount_Button"
+                                    Click="AddAccount_Button_Click"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Height="40" >
                                 <FontIcon Glyph="&#xF164;" FontSize="19" />
                             </Button>
 
@@ -65,8 +121,8 @@
 		</Grid>
 
         
-        <!-- Right Content -->
-        <Grid Grid.Column="1">
+        <!-- Right Content (Add Account) -->
+        <Grid x:Name="AddAccountContainer_Grid" Grid.Column="1" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -136,7 +192,7 @@
                             <StackPanel Orientation="Vertical">
 
                                 <!-- Name -->
-                                <TextBox 
+                                <TextBox x:Name="Name_TextBox"
                                     PlaceholderText="Affan Ch." 
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                     <TextBox.Header>
@@ -148,7 +204,7 @@
                                 </TextBox>
 
                                 <!-- Email -->
-                                <TextBox 
+                                <TextBox x:Name="Email_TextBox"
                                     PlaceholderText="affan@twitter.com" 
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                     <TextBox.Header>
@@ -160,7 +216,7 @@
                                 </TextBox>
 
                                 <!-- Username -->
-                                <TextBox 
+                                <TextBox x:Name="Username_TextBox"
                                     PlaceholderText="affan798"
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                     <TextBox.Header>
@@ -172,7 +228,7 @@
                                 </TextBox>
 
                                 <!-- Phone Number -->
-                                <TextBox
+                                <TextBox x:Name="PhoneNumber_TextBox"
                                      PlaceholderText="+923205404030" 
                                      Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
                                     <TextBox.Header>
@@ -184,7 +240,7 @@
                                 </TextBox>
 
                                 <!-- Password -->
-                                <PasswordBox
+                                <PasswordBox x:Name="Password_TextBox"
                                     PlaceholderText="pass123$" 
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
                                     <PasswordBox.Header>
@@ -196,7 +252,7 @@
                                 </PasswordBox>
 
                                 <!-- Pin -->
-                                <PasswordBox
+                                <PasswordBox x:Name="Pin_TextBox"
                                     PlaceholderText="79860" 
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
                                     <PasswordBox.Header>
@@ -227,7 +283,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,20">
                         
                         <!-- Save Button -->
-                        <Button Style="{StaticResource AccentButtonStyle}" Width="73">
+                        <Button x:Name="Save_Button" Style="{StaticResource AccentButtonStyle}" Width="73" Click="Save_Button_Click">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon 
                                     Glyph="&#xE74E;" 
@@ -246,8 +302,9 @@
                     <ScrollViewer Margin="20,0,5,20">
                         <StackPanel Orientation="Vertical">
 
-                            <TextBox
-                                PlaceholderText="79860" 
+                            <!-- Date Of Birth -->
+                            <TextBox x:Name="DateOfBirth_TextBox"
+                                PlaceholderText="31-12-2001" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
@@ -257,7 +314,8 @@
                                 </TextBox.Header>
                             </TextBox>
 
-                            <TextBox
+                            <!-- Recovery Email -->
+                            <TextBox x:Name="RecoveryEmail_TextBox"
                                 PlaceholderText="affan@gmail.com" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
@@ -268,7 +326,8 @@
                                 </TextBox.Header>
                             </TextBox>
 
-                            <TextBox
+                            <!-- Recovery Phone Number -->
+                            <TextBox x:Name="RecoveryPhoneNumber_TextBox"
                                 PlaceholderText="+923205404031" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
@@ -279,7 +338,8 @@
                                 </TextBox.Header>
                             </TextBox>
 
-                            <TextBox
+                            <!-- 2FA QR Code -->
+                            <TextBox x:Name="QrCode_TextBox"
                                 PlaceholderText="otpauth://totp/?secret=" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 TextWrapping="Wrap" AcceptsReturn="True"
@@ -292,8 +352,8 @@
                                 </TextBox.Header>
                             </TextBox>
 
-
-                            <TextBox
+                            <!-- 2FA Secret Key -->
+                            <TextBox x:Name="SecretKey_TextBox"
                                 PlaceholderText="mhmtfiqlvg2ve63jwk4gq2ojju2xrh6s" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
@@ -304,7 +364,8 @@
                                 </TextBox.Header>
                             </TextBox>
 
-                            <TextBox
+                            <!-- Notes -->
+                            <TextBox x:Name="Notes_TextBox"
                                 PlaceholderText="Google Photos Backup" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 TextWrapping="Wrap" AcceptsReturn="True"
@@ -325,5 +386,22 @@
             </Grid>
         </Grid>
 		
+        
+        <!-- Right Content (Select to View) -->
+        <Grid x:Name="ErrorContainer_Grid" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                    <Image Source="/Assets/select.png" Width="288" Height="277" />
+                    <TextBlock Text="Select Any Account to View Here" Style="{ThemeResource TitleTextBlockStyle}"
+                               FontSize="18" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        
+        
 	</Grid>
 </Page>
