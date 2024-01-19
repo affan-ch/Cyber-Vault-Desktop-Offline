@@ -83,9 +83,19 @@ internal class Account
         get; set; 
     }
 
+    public string? DateAdded
+    {
+        get; set;
+    }
+
+    public string? DateModified
+    {
+        get; set;
+    }
+
     public Account(int Id, string Type, string Title, string Domain, string Name, string Email,
         string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)
+        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes, string DateAdded, string DateModified)
     {
         this.Id = Id;
         this.Type = Type;
@@ -103,11 +113,13 @@ internal class Account
         this.QrCode = QrCode;
         this.Secret = Secret;
         this.Notes = Notes;
+        this.DateAdded = DateAdded;
+        this.DateModified = DateModified;
     }
 
     public Account(string Type, string Title, string Domain, string Name, string Email,
-    string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-    string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)
+        string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
+        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)
     {
         this.Type = Type;
         this.Title = Title;

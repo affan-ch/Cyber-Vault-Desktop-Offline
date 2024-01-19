@@ -33,7 +33,7 @@
 
     <Thickness x:Key="SettingsPageHyperlinkButtonMargin">-12,4,0,0</Thickness>
 
-    <Thickness x:Key="AccountsPageMidTextBoxMargin">0,20,20,0</Thickness>
-    <Thickness x:Key="AccountsPageRightTextBoxMargin">0,20,13,0</Thickness>
+    <Thickness x:Key="AccountsPageMidTextBoxMargin">20,20,20,0</Thickness>
+    <Thickness x:Key="AccountsPageRightTextBoxMargin">20,20,13,0</Thickness>
     
 </ResourceDictionary>

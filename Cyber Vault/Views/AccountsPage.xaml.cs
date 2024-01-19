@@ -21,16 +21,23 @@ public sealed partial class AccountsPage : Page
         ViewModel = App.GetService<AccountsViewModel>();
         InitializeComponent();
 
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=microsoft.com&sz=128", "Microsoft", "affan_ali_ch@outlook.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=google.com&sz=128", "Google", "affan@gmail.com");
-        AddAccountInListView("https://www.google.com/s2/favicons?domain=microsoft.com&sz=128", "Microsoft", "affan_ali_ch@outlook.com");
+        if(AccountDL.GetAccounts().Count == 0)
+        {
+            Accounts_ScrollViewer.Visibility = Visibility.Collapsed;
+            NoAccounts_Grid.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            Accounts_ScrollViewer.Visibility = Visibility.Visible;
+            NoAccounts_Grid.Visibility = Visibility.Collapsed;
 
+            var accounts = AccountDL.GetAccounts();
+
+            foreach(var account in accounts)
+            {
+                AddAccountInListView($"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
+            }
+        }
 
     }
 
@@ -67,10 +74,10 @@ public sealed partial class AccountsPage : Page
         // Create an Image and set its properties
         var image = new Image
         {
-            Margin = new Thickness(15, 10, 10, 10),
+            Margin = new Thickness(12, 10, 10, 10),
             Source = new BitmapImage(new Uri(url)),
-            Width = 40,
-            Height = 40
+            Width = 35,
+            Height = 35
         };
 
         // Create the inner StackPanel
@@ -80,7 +87,7 @@ public sealed partial class AccountsPage : Page
             Margin = new Thickness(5, 10, 0, 0)
         };
 
-        // Create TextBlocks and set their properties
+        // Title TextBlock
         var textBlock1 = new TextBlock
         {
             Text = title,
@@ -88,11 +95,12 @@ public sealed partial class AccountsPage : Page
             FontSize = 17
         };
 
-        TextBlock textBlock2 = new TextBlock
+        // Email TextBlock
+        var textBlock2 = new TextBlock
         {
             Text = email,
             Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
-            FontSize = 14,
+            FontSize = 12,
             Opacity = 0.9
         };
 
@@ -106,7 +114,7 @@ public sealed partial class AccountsPage : Page
         {
             Glyph = "\xE974",
             Opacity = 0.8,
-            Margin = new Thickness(0, 0, 10, 0),
+            Margin = new Thickness(0, 0, 5, 0),
         };
 
         // Set Grid.Column for each element

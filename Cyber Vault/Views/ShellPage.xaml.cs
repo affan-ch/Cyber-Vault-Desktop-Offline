@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Cyber_Vault.Contracts.Services;
 using Cyber_Vault.DB;
+using Cyber_Vault.DL;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.Services;
 using Cyber_Vault.ViewModels;
@@ -39,6 +40,8 @@ public sealed partial class ShellPage : Page
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
 
         NavigationFrame.Content = App.GetService<AccountsPage>();
+
+        AccountDL.LoadAccountsFromDatabase();
     }
 
     private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

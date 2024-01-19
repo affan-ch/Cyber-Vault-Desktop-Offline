@@ -78,7 +78,9 @@ internal class AccountDL
                 RecoveryPhoneNumber: reader["RecoveryPhoneNumber"].ToString() ?? "",
                 QrCode: reader["QrCode"].ToString() ?? "",
                 Secret: reader["Secret"].ToString() ?? "",
-                Notes: reader["Notes"].ToString() ?? ""
+                Notes: reader["Notes"].ToString() ?? "",
+                DateAdded: reader["DateAdded"].ToString() ?? "",
+                DateModified: reader["DateModified"].ToString() ?? ""
             );
         
             accounts.Add(account);
