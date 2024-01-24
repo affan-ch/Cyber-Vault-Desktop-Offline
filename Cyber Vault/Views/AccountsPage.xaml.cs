@@ -6,11 +6,14 @@ using Microsoft.UI.Xaml.Media;
 using Cyber_Vault.BL;
 using Cyber_Vault.DL;
 using Cyber_Vault.DB;
+using System;
 
 namespace Cyber_Vault.Views;
 
 public sealed partial class AccountsPage : Page
 {
+    private int backupCodeCount = 1;
+
     public AccountsViewModel ViewModel
     {
         get;
@@ -138,7 +141,6 @@ public sealed partial class AccountsPage : Page
             {
                 Title_TextBox.Visibility = Visibility.Visible;
                 Domain_TextBox.Visibility = Visibility.Visible;
-
             }
             else
             {
@@ -227,5 +229,42 @@ public sealed partial class AccountsPage : Page
         QrCode_TextBox.Text = string.Empty;
         SecretKey_TextBox.Text = string.Empty;
         Notes_TextBox.Text = string.Empty;
+    }
+
+    private void AddBackupCode_Button_Click(object sender, RoutedEventArgs e)
+    {
+        backupCodeCount += 1;
+        var random = new Random();
+
+        var backupCode = new TextBox
+        {
+            Name = $"BackupCode{backupCodeCount}_TextBox",
+            Margin = new Thickness(20, 20, 13, 0),
+            PlaceholderText = random.Next(100000, 1000000).ToString(),
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = $"Enter Backup Code {backupCodeCount}",
+                        Margin = new Thickness(0, 0, 4, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\xE734",
+                        FontSize = 13
+                    }
+                }
+            }
+        };
+
+        BackupCodes_StackPanel.Children.Add(backupCode);
+
+        if(backupCodeCount == 16)
+        {
+            AddBackupCode_Button.Visibility = Visibility.Collapsed;
+        }
     }
 }

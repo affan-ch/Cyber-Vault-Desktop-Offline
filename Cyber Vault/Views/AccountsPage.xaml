@@ -207,7 +207,7 @@
                                 <!-- Domain -->
                                 <TextBox x:Name="Domain_TextBox"
                                     PlaceholderText="twitter.com" 
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                    Margin="20,20,20,10">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Enter Domain" Margin="0,0,4,0"/>
@@ -438,21 +438,32 @@
                                            FontSize="17"/>
                                 
                                 <!-- Add Backup Code Button -->
-                                <Button Grid.Column="2" Margin="0,0,12,0" BorderThickness="0" Background="Transparent" Height="30" Width="40">
+                                <Button x:Name="AddBackupCode_Button" 
+                                        Click="AddBackupCode_Button_Click"
+                                        Grid.Column="2" 
+                                        Margin="0,0,12,0" 
+                                        BorderThickness="0" 
+                                        Background="Transparent" 
+                                        Height="30" 
+                                        Width="40">
                                     <FontIcon Glyph="&#xECC8;" FontSize="17" />
                                 </Button>
                             </Grid>
 
-                            <TextBox x:Name="BackupCode1_TextBox"
-                                PlaceholderText="123987" 
-                                Margin="20,10,13,0">
-                                <TextBox.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Backup Code" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
-                                    </StackPanel>
-                                </TextBox.Header>
-                            </TextBox>
+                            <StackPanel x:Name="BackupCodes_StackPanel" Orientation="Vertical">
+
+                                <TextBox x:Name="BackupCode1_TextBox"
+                                    PlaceholderText="123987" 
+                                    Margin="20,10,13,0">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter Backup Code" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+                                
+                            </StackPanel>
 
 
                         </StackPanel>
