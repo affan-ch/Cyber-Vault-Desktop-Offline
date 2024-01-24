@@ -93,4 +93,28 @@ internal class AccountDB
         connection.Close();
     }
 
+
+    // Get Max Id
+    public static int GetMaxId()
+    {
+        using var connection = new SQLiteConnection(DatabaseHelper.ConnectionString);
+        connection.Open();
+       
+        using var command = new SQLiteCommand(connection)
+        {  
+            CommandText = @"SELECT MAX(Id) FROM Account"
+        };
+       
+        using var reader = command.ExecuteReader();
+       
+        reader.Read();
+       
+        var maxId = int.Parse(reader[0].ToString() ?? "0");
+       
+        connection.Close();
+       
+        return maxId;
+    }
+
+
 }
