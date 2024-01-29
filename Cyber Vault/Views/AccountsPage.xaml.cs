@@ -209,6 +209,30 @@ public sealed partial class AccountsPage : Page
 
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
+
+        var backupCodes = new List<BackupCode>();
+        foreach (var child in BackupCodes_StackPanel.Children)
+        {
+            if (child is TextBox backupCode)
+            {
+                if(backupCode.Text == string.Empty)
+                {
+                    continue;
+                }
+            
+                var backupCodeBL = new BackupCode
+                (
+                    AccountId: AccountDB.GetMaxId(),
+                    Code: backupCode.PlaceholderText
+                );
+            
+                BackupCodeDL.AddBackupCode(backupCodeBL);
+                backupCodes.Add(backupCodeBL);
+            }
+        }
+        BackupCodeDB.StoreBackupCodes(backupCodes);
+
+
         // TODO: Show success message
         ClearFields();
     }
@@ -234,6 +258,8 @@ public sealed partial class AccountsPage : Page
     private void AddBackupCode_Button_Click(object sender, RoutedEventArgs e)
     {
         backupCodeCount += 1;
+
+
         var random = new Random();
 
         var backupCode = new TextBox
@@ -262,9 +288,20 @@ public sealed partial class AccountsPage : Page
 
         BackupCodes_StackPanel.Children.Add(backupCode);
 
-        if(backupCodeCount == 16)
+        AddBackupCode_Button.Visibility = (backupCodeCount >= 16) ? Visibility.Collapsed : Visibility.Visible;
+        RemoveBackupCode_Button.Visibility = (backupCodeCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void RemoveBackupCode_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (BackupCodes_StackPanel.Children.Count > 0)
         {
-            AddBackupCode_Button.Visibility = Visibility.Collapsed;
+            backupCodeCount -= 1;
+            BackupCodes_StackPanel.Children.RemoveAt(BackupCodes_StackPanel.Children.Count - 1);
+
+            AddBackupCode_Button.Visibility = (backupCodeCount >= 16) ? Visibility.Collapsed : Visibility.Visible;
+            RemoveBackupCode_Button.Visibility = (backupCodeCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
         }
     }
+
 }

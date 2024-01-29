@@ -43,7 +43,7 @@ internal class DatabaseHelper
         Id INTEGER PRIMARY KEY AUTOINCREMENT,
         AccountId INTEGER NOT NULL,
         Code TEXT NOT NULL,
-        IsUsed INTEGER NOT NULL,
+        IsUsed INTEGER DEFAULT 0,
         DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );";

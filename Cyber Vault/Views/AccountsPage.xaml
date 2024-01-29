@@ -424,6 +424,7 @@
 
                             <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,10,0"/>
 
+                            <!-- Backup Codes Grid -->
                             <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -436,18 +437,33 @@
                                            Grid.Column="0"
                                            Style="{ThemeResource BodyStrongTextBlockStyle}"
                                            FontSize="17"/>
-                                
-                                <!-- Add Backup Code Button -->
-                                <Button x:Name="AddBackupCode_Button" 
+
+                                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                                    <!-- Remove Backup Code Button -->
+                                    <Button x:Name="RemoveBackupCode_Button" 
+                                        Click="RemoveBackupCode_Button_Click"
+                                        Margin="0,0,3,0" 
+                                        BorderThickness="0" 
+                                        Background="Transparent" 
+                                        Height="30" 
+                                        Visibility="Collapsed"
+                                        Width="40">
+                                        <FontIcon Glyph="&#xECC9;" FontSize="17" />
+                                    </Button>
+
+                                    <!-- Add Backup Code Button -->
+                                    <Button x:Name="AddBackupCode_Button" 
                                         Click="AddBackupCode_Button_Click"
-                                        Grid.Column="2" 
                                         Margin="0,0,12,0" 
                                         BorderThickness="0" 
                                         Background="Transparent" 
                                         Height="30" 
                                         Width="40">
-                                    <FontIcon Glyph="&#xECC8;" FontSize="17" />
-                                </Button>
+                                        <FontIcon Glyph="&#xECC8;" FontSize="17" />
+                                    </Button>
+
+                                </StackPanel>
+                                
                             </Grid>
 
                             <StackPanel x:Name="BackupCodes_StackPanel" Orientation="Vertical">
