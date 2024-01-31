@@ -43,7 +43,7 @@ internal class EncyptionHelper
         using var aesAlg = Aes.Create();
         aesAlg.KeySize = 128; // Set the key size explicitly
         aesAlg.BlockSize = 128; // Set the block size explicitly
-        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(16, '0').Substring(0, 16));
+        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(16, '0')[..16]);
         aesAlg.IV = iv;
         aesAlg.Mode = CipherMode.CFB;
         aesAlg.Padding = PaddingMode.None; // No padding

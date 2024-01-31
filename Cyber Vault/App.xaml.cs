@@ -107,8 +107,8 @@ public partial class App : Application
             {
                 args.Handled = true;
 
-                // On Minimize to System Tray --> Delete MasterKey from Memory
-                MasterKey.DeleteFromMemory();
+                // On Minimize to System Tray --> Delete MasterPassword from Memory
+                CredentialsManager.DeletePasswordFromMemory();
 
                 // On Minimize to System Tray --> Logout
                 UIElement? _login = App.GetService<HomePage>();

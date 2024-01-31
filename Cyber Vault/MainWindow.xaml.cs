@@ -48,7 +48,7 @@ public sealed partial class MainWindow : WindowEx
         if (window.Visible)
         {
             // On Minimize to System Tray --> Delete MasterKey from Memory
-            MasterKey.DeleteFromMemory();
+            CredentialsManager.DeletePasswordFromMemory();
 
             // On Minimize to System Tray --> Logout
             UIElement? _login = App.GetService<HomePage>();

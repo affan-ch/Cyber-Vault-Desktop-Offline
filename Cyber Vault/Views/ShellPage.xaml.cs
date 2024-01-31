@@ -97,7 +97,7 @@ public sealed partial class ShellPage : Page
     {
         try
         {
-            MasterKey.DeleteFromMemory();
+            CredentialsManager.DeletePasswordFromMemory();
             UIElement? _login = App.GetService<HomePage>();
             App.MainWindow.Content = _login ?? new Frame();
 

@@ -28,34 +28,57 @@
             x:Name="ContentArea"
             Canvas.ZIndex="0"
         >
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                
-                <StackPanel x:Name="Login_StackPanel" Orientation="Vertical" Visibility="Collapsed">
-                    <PasswordBox x:Name="Login_PasswordBox"
-                                 Header="Enter your Master Key:"
-                                 PlaceholderText="Master Key"
-                                 Width="300"
-                                 Margin="0 0 0 20"/>
-                    <Button x:Name="Login_Button"
-                            Style="{StaticResource AccentButtonStyle}"
-                            Content="Continue"
-                            Click="Login_Button_Click" 
-                            HorizontalAlignment="Center" />
-                </StackPanel>
 
-                <StackPanel x:Name="Signup_StackPanel" Orientation="Vertical" Visibility="Collapsed">
-                    <PasswordBox x:Name="Signup_PasswordBox" 
-                                 Header="Create a Secure Master Key:" 
-                                 PlaceholderText="Master Key" 
-                                 Width="300" 
-                                 Margin="0 0 0 20"/>
-                    <Button x:Name="Signup_Button"
-                            Style="{StaticResource AccentButtonStyle}"
-                            Content="Set Master Key"
-                            Click="Signup_Button_Click"
-                            HorizontalAlignment="Center" />
-                </StackPanel>
-            </Grid>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Cyber Vault" Style="{StaticResource RighteousTextStyle}" FontSize="55" HorizontalAlignment="Center" Margin="0,0,0,25"/>
+             
+                <Grid>
+                
+                    <!-- Login StackPanel -->
+                    <StackPanel x:Name="Login_StackPanel" Orientation="Vertical" Visibility="Collapsed">
+                        <TextBox x:Name="Login_Username_TextBox"
+                                 Header="Enter Username:"
+                                 PlaceholderText="Username"
+                                 Width="300"
+                                 Margin="0 0 0 25"
+                        />
+                        <PasswordBox x:Name="Login_PasswordBox"
+                                     Header="Enter your Master Key:"
+                                     PlaceholderText="Master Key"
+                                     Width="300"
+                                     Margin="0 0 0 30"
+                        />
+                        <Button x:Name="Login_Button"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Content="Continue"
+                                Click="Login_Button_Click" 
+                                HorizontalAlignment="Center" 
+                        />
+                    </StackPanel>
+
+                    <!-- Signup StackPanel -->
+                    <StackPanel x:Name="Signup_StackPanel" Orientation="Vertical" Visibility="Collapsed">
+                        <TextBox x:Name="Signup_Username_TextBox"
+                                 Header="Set a Username:"
+                                 PlaceholderText="Username"
+                                 Width="300"
+                                 Margin="0 0 0 25"
+                        />
+                        <PasswordBox x:Name="Signup_PasswordBox" 
+                                     Header="Set a Strong Master Password:" 
+                                     PlaceholderText="Master Password" 
+                                     Width="300" 
+                                     Margin="0 0 0 30"
+                        />
+                        <Button x:Name="Signup_Button"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Content="Create Account"
+                                Click="Signup_Button_Click"
+                                HorizontalAlignment="Center" 
+                        />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>

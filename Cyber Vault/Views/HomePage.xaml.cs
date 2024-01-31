@@ -28,7 +28,7 @@ public sealed partial class HomePage : Page
         _ = ActivationService.StartupAsync();
 
 
-        if(MasterKey.IsInDatabase())
+        if(CredentialsManager.CheckInDatabase())
         {
             Login_StackPanel.Visibility = Visibility.Visible;
         }
@@ -40,23 +40,33 @@ public sealed partial class HomePage : Page
 
     private async void Login_Button_Click(object _, RoutedEventArgs e)
     {
-        var key = Login_PasswordBox.Password;
-
-        if(key.Length < 8)
+        if (Login_Username_TextBox.Text.Length < 5)
         {
+            Login_Username_TextBox.Text = string.Empty;
             Login_PasswordBox.Password = string.Empty;
             // TODO: Show error message
             return;
         }
 
-        if(!MasterKey.IsCorrect(key))
+        if (Login_PasswordBox.Password.Length < 8)
         {
+            Login_Username_TextBox.Text = string.Empty;
             Login_PasswordBox.Password = string.Empty;
             // TODO: Show error message
             return;
         }
 
-        MasterKey.StoreInMemory(key);
+
+        if (!CredentialsManager.MatchInDatabase(Login_Username_TextBox.Text, Login_PasswordBox.Password))
+        {
+            Login_Username_TextBox.Text = string.Empty;
+            Login_PasswordBox.Password = string.Empty;
+            // TODO: Show error message
+            return;
+        }
+
+        CredentialsManager.StoreUsernameInMemory(Login_Username_TextBox.Text);
+        CredentialsManager.StorePasswordInMemory(Login_PasswordBox.Password);
 
 
         UIElement? _shell = App.GetService<ShellPage>();
@@ -67,16 +77,23 @@ public sealed partial class HomePage : Page
 
     private void Signup_Button_Click(object sender, RoutedEventArgs e)
     {
-        var key = Signup_PasswordBox.Password;
-
-        if(key.Length < 8)
+        if (Signup_Username_TextBox.Text.Length < 5)
         {
+            Signup_Username_TextBox.Text = string.Empty;
             Signup_PasswordBox.Password = string.Empty;
             // TODO: Show error message
             return;
         }
 
-        MasterKey.StoreInDatabase(key);
+        if (Signup_PasswordBox.Password.Length < 8)
+        {
+            Signup_Username_TextBox.Text = string.Empty;
+            Signup_PasswordBox.Password = string.Empty;
+            // TODO: Show error message
+            return;
+        }
+
+        CredentialsManager.StoreInDatabase(Signup_Username_TextBox.Text, Signup_PasswordBox.Password);
 
         // TODO: Show success message
 

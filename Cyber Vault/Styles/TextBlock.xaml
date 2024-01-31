@@ -17,4 +17,10 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
+    <Style x:Key="RighteousTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="/Assets/Righteous-Regular.ttf#Righteous" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+
 </ResourceDictionary>
