@@ -30,7 +30,7 @@
         >
 
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Cyber Vault" Style="{StaticResource RighteousTextStyle}" FontSize="55" HorizontalAlignment="Center" Margin="0,0,0,25"/>
+                <TextBlock Text="Cyber Vault" Style="{StaticResource RighteousTextStyle}" FontSize="58" HorizontalAlignment="Left" Margin="0,0,0,25"/>
              
                 <Grid>
                 
@@ -58,24 +58,71 @@
 
                     <!-- Signup StackPanel -->
                     <StackPanel x:Name="Signup_StackPanel" Orientation="Vertical" Visibility="Collapsed">
-                        <TextBox x:Name="Signup_Username_TextBox"
-                                 Header="Set a Username:"
-                                 PlaceholderText="Username"
-                                 Width="300"
-                                 Margin="0 0 0 25"
-                        />
-                        <PasswordBox x:Name="Signup_PasswordBox" 
-                                     Header="Set a Strong Master Password:" 
-                                     PlaceholderText="Master Password" 
-                                     Width="300" 
-                                     Margin="0 0 0 30"
-                        />
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Username TextBox (Signup) -->
+                            <TextBox x:Name="Signup_Username_TextBox"
+                                     Header="Set a Username:"
+                                     PlaceholderText="Username"
+                                     Width="300"
+                                     Margin="0 0 10 25"
+                            />
+                            
+                            <!-- Username Info Button -->
+                            <Button x:Name="UsernameInfo_Button" 
+                                    Click="UsernameInfo_Button_Click" 
+                                    BorderThickness="0"
+                                    Height="35"
+                                    Background="Transparent">
+                                <Button.Content>
+                                    <FontIcon Glyph="&#xE946;" FontSize="17" VerticalAlignment="Center" />
+                                </Button.Content>
+                            </Button>
+
+                            <!-- Username Info TeachingTip -->
+                            <TeachingTip x:Name="Username_TeachingTip"
+                                Target="{x:Bind UsernameInfo_Button}"
+                                Title="Username Info"
+                                Subtitle="• No spaces allowed&#x0a;• Only lowercase alphabets&#x0a;• At least one number required&#x0a;• Must be at least 5 characters long&#x0a;• Max 16 characters allowed">
+                            </TeachingTip>
+                        </StackPanel>
+                        
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Password TextBox (Signup) -->
+                            <PasswordBox x:Name="Signup_PasswordBox" 
+                                Header="Set a Strong Master Password:" 
+                                PlaceholderText="Master Password" 
+                                Width="300" 
+                                Margin="0 0 10 30"
+                            />
+
+                            <!-- Password Info Button -->
+                            <Button x:Name="PasswordInfo_Button"
+                                    VerticalAlignment="Center" 
+                                    Click="PasswordInfo_Button_Click" 
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Height="35">
+                                <Button.Content>
+                                    <FontIcon Glyph="&#xE946;" FontSize="17" VerticalAlignment="Center" />
+                                </Button.Content>
+                            </Button>
+
+                            <!-- Password Info TeachingTip -->
+                            <TeachingTip x:Name="Password_TeachingTip"
+                                Target="{x:Bind PasswordInfo_Button}"
+                                Title="Password Info"
+                                Subtitle="• No spaces allowed&#x0a;• At least one Uppercase Letter&#x0a;• Must have at least one Special Character&#x0a;• At least one number required&#x0a;• Must be at least 8 characters long&#x0a;• Max 16 characters allowed">
+                            </TeachingTip>
+                        </StackPanel>
+
                         <Button x:Name="Signup_Button"
-                                Style="{StaticResource AccentButtonStyle}"
-                                Content="Create Account"
-                                Click="Signup_Button_Click"
-                                HorizontalAlignment="Center" 
+                            Style="{StaticResource AccentButtonStyle}"
+                            Content="Create Account"
+                            Click="Signup_Button_Click"
+                            HorizontalAlignment="Center" 
                         />
+
                     </StackPanel>
                 </Grid>
             </StackPanel>

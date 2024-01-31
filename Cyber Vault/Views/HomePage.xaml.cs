@@ -102,4 +102,14 @@ public sealed partial class HomePage : Page
         Login_StackPanel.Visibility = Visibility.Visible;
 
     }
+
+    private void UsernameInfo_Button_Click(object sender, RoutedEventArgs e)
+    {
+        Username_TeachingTip.IsOpen = true;
+    }
+
+    private void PasswordInfo_Button_Click(object sender, RoutedEventArgs e)
+    {
+        Password_TeachingTip.IsOpen = true;
+    }
 }

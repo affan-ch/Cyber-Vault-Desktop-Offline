@@ -9,14 +9,14 @@ internal class EncyptionHelper
     public static string Encrypt(string data, string pin)
     {
         using var aesAlg = Aes.Create();
-        aesAlg.KeySize = 128; // Set the key size explicitly
+        aesAlg.KeySize = 256; // Set the key size explicitly for AES-256
         aesAlg.BlockSize = 128; // Set the block size explicitly
-        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(16, '0')[..16]);
+        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(32, '0')[..32]); // Use a 32-byte key for AES-256
 
         aesAlg.GenerateIV();
         var iv = aesAlg.IV;
 
-        aesAlg.Mode = CipherMode.CFB;
+        aesAlg.Mode = CipherMode.CFB; // Cipher Feedback Mode
         aesAlg.Padding = PaddingMode.None; // No padding
 
         var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, iv);
@@ -41,9 +41,9 @@ internal class EncyptionHelper
         var cipherBytes = Convert.FromBase64String(cipherText).Skip(16).ToArray();
 
         using var aesAlg = Aes.Create();
-        aesAlg.KeySize = 128; // Set the key size explicitly
+        aesAlg.KeySize = 256; // Set the key size explicitly for AES-256
         aesAlg.BlockSize = 128; // Set the block size explicitly
-        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(16, '0')[..16]);
+        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(32, '0')[..32]);
         aesAlg.IV = iv;
         aesAlg.Mode = CipherMode.CFB;
         aesAlg.Padding = PaddingMode.None; // No padding
