@@ -28,26 +28,28 @@
             x:Name="ContentArea"
             Canvas.ZIndex="0"
         >
-
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Cyber Vault" Style="{StaticResource RighteousTextStyle}" FontSize="58" HorizontalAlignment="Left" Margin="0,0,0,25"/>
-             
                 <Grid>
-                
                     <!-- Login StackPanel -->
                     <StackPanel x:Name="Login_StackPanel" Orientation="Vertical" Visibility="Collapsed">
+                        <!-- Username TextBox (Login) -->
                         <TextBox x:Name="Login_Username_TextBox"
                                  Header="Enter Username:"
                                  PlaceholderText="Username"
                                  Width="300"
                                  Margin="0 0 0 25"
                         />
+                        
+                        <!-- Password TextBox (Login) -->
                         <PasswordBox x:Name="Login_PasswordBox"
                                      Header="Enter your Master Key:"
                                      PlaceholderText="Master Key"
                                      Width="300"
                                      Margin="0 0 0 30"
                         />
+                        
+                        <!-- Login Button -->
                         <Button x:Name="Login_Button"
                                 Style="{StaticResource AccentButtonStyle}"
                                 Content="Continue"
@@ -116,13 +118,13 @@
                             </TeachingTip>
                         </StackPanel>
 
+                        <!-- Signup Button -->
                         <Button x:Name="Signup_Button"
                             Style="{StaticResource AccentButtonStyle}"
                             Content="Create Account"
                             Click="Signup_Button_Click"
                             HorizontalAlignment="Center" 
                         />
-
                     </StackPanel>
                 </Grid>
             </StackPanel>

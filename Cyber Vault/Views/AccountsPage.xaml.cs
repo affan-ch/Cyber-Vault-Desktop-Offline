@@ -6,7 +6,11 @@ using Microsoft.UI.Xaml.Media;
 using Cyber_Vault.BL;
 using Cyber_Vault.DL;
 using Cyber_Vault.DB;
-using System;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using CommunityToolkit.Mvvm.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Cyber_Vault.Utils;
+
 
 namespace Cyber_Vault.Views;
 
@@ -304,4 +308,177 @@ public sealed partial class AccountsPage : Page
         }
     }
 
+    private async void GeneratePassword_Button_Click(object _, RoutedEventArgs e)
+    {
+        // UpperCase CheckBox
+        var UpperCase_CheckBox = new CheckBox
+        {
+            Name = "UpperCase_CheckBox",
+            Content = "Include Uppercase (A-Z)",
+            Margin = new Thickness(0, 0, 0, 10),
+            IsChecked = true
+        };
+
+        // LowerCase CheckBox
+        var LowerCase_CheckBox = new CheckBox
+        {
+            Name = "LowerCase_CheckBox",
+            Content = "Include Lowercase (a-z)",
+            Margin = new Thickness(0, 0, 0, 10),
+            IsChecked = true
+        };
+
+        // Numbers CheckBox
+        var Numbers_CheckBox = new CheckBox
+        {
+            Name = "Numbers_CheckBox",
+            Content = "Include Numbers (0-9)",
+            Margin = new Thickness(0, 0, 0, 10),
+            IsChecked = true
+        };
+
+        // SpecialCharacters CheckBox
+        var SpecialCharacters_CheckBox = new CheckBox
+        {
+            Name = "SpecialCharacters_CheckBox",
+            Content = "Include Special Characters (!@#$%&?)",
+            Margin = new Thickness(0, 0, 0, 10),
+            IsChecked = true
+        };
+
+        // Password Length Slider
+        var PasswordLength_Slider = new Slider
+        {
+            Name = "PasswordLength_Slider",
+            Header = "Password Length",
+            Minimum = 8,
+            Maximum = 64,
+            Value = 20,
+            Margin = new Thickness(0, 0, 0, 10)
+        };
+
+        // Output Grid
+        var Output_Grid = new Grid
+        {
+            ColumnDefinitions =
+            {
+                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                new ColumnDefinition { Width = GridLength.Auto },
+                new ColumnDefinition { Width = GridLength.Auto }
+            },
+        };
+
+        // Generated Password TextBox
+        var GeneratedPassword_TextBox = new TextBox
+        {
+            Name = "GeneratedPassword_TextBox",
+            Header = "Generated Password",
+            IsReadOnly = true,
+            Margin = new Thickness(0, 0, 0, 10),
+            MinWidth = 300,
+            Text = PasswordGenerator.Generate(20, true, true, true, true),
+            TextWrapping = TextWrapping.Wrap,
+        };
+
+        // Copy Password Button
+        var CopyPassword_Button = new Button
+        {
+            Name = "CopyPassword_Button",
+            Content = new FontIcon
+            {
+                Glyph = "\xE8C8",
+                FontSize = 15
+            },
+            Margin = new Thickness(10, 0, 0, 10),
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Height = 32,
+            Command = new RelayCommand(() =>
+            {
+                var textBox = GeneratedPassword_TextBox;
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(textBox.Text);
+                Clipboard.SetContent(dataPackage);
+            })
+        };
+
+        // Set ToolTips for the Copy Password Button
+        ToolTipService.SetToolTip(CopyPassword_Button, "Copy Password");
+        ToolTipService.SetPlacement(CopyPassword_Button, PlacementMode.Bottom);
+
+        // Generate Password Button
+        var GeneratePassword_Button = new Button
+        {
+            Name = "GeneratePassword_Button",
+            Content = new FontIcon
+            {
+                Glyph = "\uE777",
+                FontSize = 14
+            },
+            Margin = new Thickness(10, 0, 0, 10),
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Height = 32,
+            Command = new RelayCommand(() =>
+            {   
+                var includeUpper = UpperCase_CheckBox.IsChecked ?? false;
+                var includeLower = LowerCase_CheckBox.IsChecked ?? false;
+                var includeNumbers = Numbers_CheckBox.IsChecked ?? false;
+                var includeSpecialChars = SpecialCharacters_CheckBox.IsChecked ?? false;
+                var length = (int)PasswordLength_Slider.Value;
+                       
+                var password = PasswordGenerator.Generate(length, includeUpper, includeLower, includeNumbers, includeSpecialChars);
+                GeneratedPassword_TextBox.Text = password;
+            })
+        };
+
+        // Set ToolTips for the Generate Password Button
+        ToolTipService.SetToolTip(GeneratePassword_Button, "Generate New Password");
+        ToolTipService.SetPlacement(GeneratePassword_Button, PlacementMode.Bottom);
+
+        // Set the Grid.Column for each element
+        Grid.SetColumn(GeneratedPassword_TextBox, 0);
+        Grid.SetColumn(CopyPassword_Button, 1);
+        Grid.SetColumn(GeneratePassword_Button, 2);
+
+        // Add the elements to the Output Grid
+        Output_Grid.Children.Add(GeneratedPassword_TextBox);
+        Output_Grid.Children.Add(CopyPassword_Button);
+        Output_Grid.Children.Add(GeneratePassword_Button);
+
+
+        // StackPanel to contain the elements
+        var Container_StackPanel = new StackPanel 
+        { 
+            Orientation = Orientation.Vertical 
+        };
+
+        // Add the elements to the StackPanel
+        Container_StackPanel.Children.Add(UpperCase_CheckBox);
+        Container_StackPanel.Children.Add(LowerCase_CheckBox);
+        Container_StackPanel.Children.Add(Numbers_CheckBox);
+        Container_StackPanel.Children.Add(SpecialCharacters_CheckBox);
+        Container_StackPanel.Children.Add(PasswordLength_Slider);
+        Container_StackPanel.Children.Add(Output_Grid);
+
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = "Generate Password",
+            PrimaryButtonText = "Use this Password",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = Container_StackPanel
+        };
+
+        var result = await dialog.ShowAsync();
+
+        if(result.ToString() == "Primary")
+        {
+            Password_TextBox.Password = GeneratedPassword_TextBox.Text;
+        }
+
+    }
 }

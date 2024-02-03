@@ -265,16 +265,36 @@
                                 </TextBox>
 
                                 <!-- Password -->
-                                <PasswordBox x:Name="Password_TextBox"
-                                    PlaceholderText="pass123$" 
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
-                                    <PasswordBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Password" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E8;" FontSize="13"/>
-                                        </StackPanel>
-                                    </PasswordBox.Header>
-                                </PasswordBox>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <!-- Password TextBox -->
+                                    <PasswordBox x:Name="Password_TextBox"
+                                        PlaceholderText="pass123$" 
+                                        Grid.Column="0"
+                                        Margin="20,20,10,0" >
+                                        <PasswordBox.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Enter Password" Margin="0,0,4,0"/>
+                                                <FontIcon Glyph="&#xF0E8;" FontSize="13"/>
+                                            </StackPanel>
+                                        </PasswordBox.Header>
+                                    </PasswordBox>
+
+                                    <!-- Generate Password Button -->
+                                    <Button x:Name="GeneratePassword_Button"
+                                            Click="GeneratePassword_Button_Click"
+                                            Grid.Column="1" 
+                                            Margin="0,0,20,0" 
+                                            VerticalAlignment="Bottom" 
+                                            ToolTipService.ToolTip="Generate Password"
+                                            ToolTipService.Placement="Top">
+                                        <FontIcon Glyph="&#xE8A7;" />
+                                    </Button>
+                                </Grid>
 
                                 <!-- Pin -->
                                 <PasswordBox x:Name="Pin_TextBox"
