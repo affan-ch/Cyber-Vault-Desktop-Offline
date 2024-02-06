@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Cyber_Vault.Services;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.DB;
+using Cyber_Vault.DL;
 
 namespace Cyber_Vault.Views;
 
@@ -67,7 +68,7 @@ public sealed partial class HomePage : Page
 
         CredentialsManager.StoreUsernameInMemory(Login_Username_TextBox.Text);
         CredentialsManager.StorePasswordInMemory(Login_PasswordBox.Password);
-
+        AccountDL.LoadAccountsFromDatabase();
 
         UIElement? _shell = App.GetService<ShellPage>();
         App.MainWindow.Content = _shell ?? new Frame();

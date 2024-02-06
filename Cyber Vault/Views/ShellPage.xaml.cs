@@ -41,7 +41,6 @@ public sealed partial class ShellPage : Page
 
         NavigationFrame.Content = App.GetService<AccountsPage>();
 
-        AccountDL.LoadAccountsFromDatabase();
     }
 
     private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

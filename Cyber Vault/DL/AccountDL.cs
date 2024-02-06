@@ -1,6 +1,7 @@
 ﻿using System.Data.SQLite;
 using Cyber_Vault.BL;
 using Cyber_Vault.Utils;
+using Cyber_Vault.DB;
 
 namespace Cyber_Vault.DL;
 
@@ -60,25 +61,24 @@ internal class AccountDL
     
         while (reader.Read())
         {
-        
             var account = new Account
             (             
                 Id: int.Parse(reader["Id"].ToString() ?? "0"),
-                Type: reader["Type"].ToString() ?? "",
-                Title: reader["Title"].ToString() ?? "",
-                Domain: reader["Domain"].ToString() ?? "",
-                Name: reader["Name"].ToString() ?? "",
-                Email: reader["Email"].ToString() ?? "",
-                Username: reader["Username"].ToString() ?? "",
-                PhoneNumber: reader["PhoneNumber"].ToString() ?? "",
-                Password: reader["Password"].ToString() ?? "",
-                Pin: reader["Pin"].ToString() ?? "",
-                DateOfBirth: reader["DateOfBirth"].ToString() ?? "",
-                RecoveryEmail: reader["RecoveryEmail"].ToString() ?? "",
-                RecoveryPhoneNumber: reader["RecoveryPhoneNumber"].ToString() ?? "",
-                QrCode: reader["QrCode"].ToString() ?? "",
-                Secret: reader["Secret"].ToString() ?? "",
-                Notes: reader["Notes"].ToString() ?? "",
+                Type: EncyptionHelper.Decrypt(reader["Type"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Title:  EncyptionHelper.Decrypt(reader["Title"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Domain: EncyptionHelper.Decrypt(reader["Domain"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Name: EncyptionHelper.Decrypt(reader["Name"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Email: EncyptionHelper.Decrypt(reader["Email"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Username: EncyptionHelper.Decrypt(reader["Username"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                PhoneNumber: EncyptionHelper.Decrypt(reader["PhoneNumber"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Password: EncyptionHelper.Decrypt(reader["Password"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Pin: EncyptionHelper.Decrypt(reader["Pin"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                DateOfBirth: EncyptionHelper.Decrypt(reader["DateOfBirth"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                RecoveryEmail: EncyptionHelper.Decrypt(reader["RecoveryEmail"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                RecoveryPhoneNumber: EncyptionHelper.Decrypt(reader["RecoveryPhoneNumber"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                QrCode: EncyptionHelper.Decrypt(reader["QrCode"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Secret: EncyptionHelper.Decrypt(reader["Secret"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
+                Notes: EncyptionHelper.Decrypt(reader["Notes"].ToString() ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()),
                 DateAdded: reader["DateAdded"].ToString() ?? "",
                 DateModified: reader["DateModified"].ToString() ?? ""
             );

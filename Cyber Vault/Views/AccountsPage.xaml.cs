@@ -307,7 +307,9 @@ public sealed partial class AccountsPage : Page
             RemoveBackupCode_Button.Visibility = (backupCodeCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
         }
     }
+    
 
+    // Password Generator
     private async void GeneratePassword_Button_Click(object _, RoutedEventArgs e)
     {
         // UpperCase CheckBox
@@ -481,4 +483,5 @@ public sealed partial class AccountsPage : Page
         }
 
     }
+
 }

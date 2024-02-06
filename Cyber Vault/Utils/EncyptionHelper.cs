@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Cyber_Vault.Utils;
@@ -8,6 +9,10 @@ internal class EncyptionHelper
     // Encrypts a string using the Master Key
     public static string Encrypt(string data, string pin)
     {
+        if(data == string.Empty || data == null || pin == string.Empty || pin == null)
+        {
+            return string.Empty;
+        }
         using var aesAlg = Aes.Create();
         aesAlg.KeySize = 256; // Set the key size explicitly for AES-256
         aesAlg.BlockSize = 128; // Set the block size explicitly
@@ -37,6 +42,15 @@ internal class EncyptionHelper
     // Decrypts a string using the Master Key
     public static string Decrypt(string cipherText, string pin)
     {
+        if(cipherText == string.Empty || pin == string.Empty || cipherText == null || pin == null)
+        {
+            return string.Empty; 
+        }
+
+        Debug.WriteLine("CipherText:");
+        Debug.WriteLine(cipherText);
+        Debug.WriteLine("Pin:");
+        Debug.WriteLine(pin);
         var iv = Convert.FromBase64String(cipherText).Take(16).ToArray();
         var cipherBytes = Convert.FromBase64String(cipherText).Skip(16).ToArray();
 
