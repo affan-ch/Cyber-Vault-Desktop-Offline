@@ -195,6 +195,7 @@
                                 <!-- Title -->
                                 <TextBox x:Name="Title_TextBox"
                                     PlaceholderText="Twitter" 
+                                    IsSpellCheckEnabled="False"
                                     Margin="20,0,20,0" >
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -207,6 +208,7 @@
                                 <!-- Domain -->
                                 <TextBox x:Name="Domain_TextBox"
                                     PlaceholderText="twitter.com" 
+                                    IsSpellCheckEnabled="False"
                                     Margin="20,20,20,10">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -219,6 +221,7 @@
                                 <!-- Name -->
                                 <TextBox x:Name="Name_TextBox"
                                     PlaceholderText="Affan Ch." 
+                                    IsSpellCheckEnabled="False"
                                     Margin="20,10,20,0">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -230,7 +233,8 @@
 
                                 <!-- Email -->
                                 <TextBox x:Name="Email_TextBox"
-                                    PlaceholderText="affan@twitter.com" 
+                                    PlaceholderText="affan@twitter.com"
+                                    IsSpellCheckEnabled="False"
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -243,6 +247,7 @@
                                 <!-- Username -->
                                 <TextBox x:Name="Username_TextBox"
                                     PlaceholderText="affan798"
+                                    IsSpellCheckEnabled="False"
                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -255,6 +260,7 @@
                                 <!-- Phone Number -->
                                 <TextBox x:Name="PhoneNumber_TextBox"
                                      PlaceholderText="+923205404030" 
+                                    IsSpellCheckEnabled="False"
                                      Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -311,6 +317,7 @@
                                 <!-- Date Of Birth -->
                                 <TextBox x:Name="DateOfBirth_TextBox"
                                 PlaceholderText="31-12-2001" 
+                                IsSpellCheckEnabled="False"
                                 Margin="{StaticResource AccountsPageMidTextBoxMargin}">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
@@ -322,6 +329,7 @@
 
                                 <!-- Notes -->
                                 <TextBox x:Name="Notes_TextBox"
+                                IsSpellCheckEnabled="False"
                                 PlaceholderText="Google Photos Backup" 
                                 Margin="{StaticResource AccountsPageMidTextBoxMargin}"
                                 TextWrapping="Wrap" AcceptsReturn="True"
@@ -384,6 +392,7 @@
                             
                             <!-- Recovery Email -->
                             <TextBox x:Name="RecoveryEmail_TextBox"
+                                IsSpellCheckEnabled="False"
                                 PlaceholderText="affan@gmail.com" 
                                 Margin="20,0,13,0">
                                 <TextBox.Header>
@@ -396,6 +405,7 @@
 
                             <!-- Recovery Phone Number -->
                             <TextBox x:Name="RecoveryPhoneNumber_TextBox"
+                                IsSpellCheckEnabled="False"
                                 PlaceholderText="+923205404031" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
@@ -419,6 +429,7 @@
                             <!-- 2FA QR Code -->
                             <TextBox x:Name="QrCode_TextBox"
                                 PlaceholderText="otpauth://totp/?secret=" 
+                                IsSpellCheckEnabled="False"
                                 Margin="20,0,13,0"
                                 TextWrapping="Wrap" AcceptsReturn="True"
                                 AutomationProperties.Name="multi-line TextBox">
@@ -432,6 +443,7 @@
 
                             <!-- 2FA Secret Key -->
                             <TextBox x:Name="SecretKey_TextBox"
+                                IsSpellCheckEnabled="False"
                                 PlaceholderText="mhmtfiqlvg2ve63jwk4gq2o" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
@@ -489,6 +501,7 @@
                             <StackPanel x:Name="BackupCodes_StackPanel" Orientation="Vertical">
 
                                 <TextBox x:Name="BackupCode1_TextBox"
+                                    IsSpellCheckEnabled="False"
                                     PlaceholderText="123987" 
                                     Margin="20,10,13,0">
                                     <TextBox.Header>
@@ -524,7 +537,29 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        
+
+
+        <!-- Right Content (View Account) -->
+        <Grid x:Name="ViewAccount_Grid" Grid.Column="1" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Right First (View Account) -->
+            <Grid Grid.Column="0">
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock x:Name="Email_TextBlock" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Right Second (View Account) -->
+            <Grid Grid.Column="1">
+                
+            </Grid>
+        </Grid>
         
 	</Grid>
 </Page>

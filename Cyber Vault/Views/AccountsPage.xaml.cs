@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using CommunityToolkit.Mvvm.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Cyber_Vault.Utils;
+using System.Diagnostics;
 
 
 namespace Cyber_Vault.Views;
@@ -17,6 +18,10 @@ namespace Cyber_Vault.Views;
 public sealed partial class AccountsPage : Page
 {
     private int backupCodeCount = 1;
+    private readonly RadioButtons radioButtons = new()
+    {
+        Visibility = Visibility.Collapsed
+    };
 
     public AccountsViewModel ViewModel
     {
@@ -42,13 +47,13 @@ public sealed partial class AccountsPage : Page
 
             foreach(var account in accounts)
             {
-                AddAccountInListView($"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
+                AddAccountInListView(account.Id ?? 0,$"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
             }
         }
 
     }
 
-    private void AddAccountInListView(string url, string title, string email)
+    private void AddAccountInListView(int id, string url, string title, string email)
     {
 
         // Create a new StackPanel dynamically
@@ -77,6 +82,30 @@ public sealed partial class AccountsPage : Page
         {
              dynamicStackPanel.Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
         };
+
+        var radioButton = new RadioButton
+        {
+            Name = id.ToString(),
+            IsChecked = false,
+            Visibility = Visibility.Collapsed,
+        };
+
+        radioButton.Unchecked += (sender, e) =>
+        {
+            dynamicStackPanel.Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+            
+            dynamicStackPanel.PointerEntered += (sender, e) =>
+            {
+                dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+            };
+
+            dynamicStackPanel.PointerExited += (sender, e) =>
+            {
+                dynamicStackPanel.Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+            };
+        };
+
+        radioButtons.Items.Add(radioButton);
 
         // Create an Image and set its properties
         var image = new Image
@@ -114,6 +143,7 @@ public sealed partial class AccountsPage : Page
         // Add TextBlocks to the inner StackPanel
         innerStackPanel.Children.Add(textBlock1);
         innerStackPanel.Children.Add(textBlock2);
+        innerStackPanel.Children.Add(radioButton);
 
 
         // Create a FontIcon
@@ -133,6 +163,37 @@ public sealed partial class AccountsPage : Page
         dynamicStackPanel.Children.Add(image);
         dynamicStackPanel.Children.Add(innerStackPanel);
         dynamicStackPanel.Children.Add(fontIcon);
+
+        dynamicStackPanel.PointerPressed += (sender, e) =>
+        {
+            foreach (var rb in radioButtons.Items.Cast<RadioButton>())
+            {
+                if (rb.Name == id.ToString())
+                {
+                    rb.IsChecked = true;
+                    Debug.WriteLine(rb.Name);
+                    dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                    dynamicStackPanel.PointerEntered += (sender, e) =>
+                    {
+                        dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                    };
+                    dynamicStackPanel.PointerExited += (sender, e) =>
+                    {                    
+                        dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                    };
+
+                    ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+                    AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
+                    ViewAccount_Grid.Visibility = Visibility.Visible;
+
+                    Email_TextBlock.Text = email;
+                }
+                else
+                {
+                    rb.IsChecked = false;
+                }
+            }
+        };
 
         AccountsListView.Children.Add(dynamicStackPanel);
     }
@@ -156,9 +217,14 @@ public sealed partial class AccountsPage : Page
 
     private void AddAccount_Button_Click(object sender, RoutedEventArgs e)
     {
+        ViewAccount_Grid.Visibility = Visibility.Collapsed;
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
         AddAccountContainer_Grid.Visibility = Visibility.Visible;
 
+        foreach (var rb in radioButtons.Items.Cast<RadioButton>())
+        {
+            rb.IsChecked = false;
+        }
     }
 
     private void Save_Button_Click(object sender, RoutedEventArgs e)
@@ -194,6 +260,7 @@ public sealed partial class AccountsPage : Page
 
         var account = new Account
         (
+            Id: AccountDB.GetMaxId() + 1,
             Type: AccountType ?? "",
             Title: Title ?? "",
             Domain: Domain ?? "",
@@ -213,6 +280,7 @@ public sealed partial class AccountsPage : Page
 
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
+        AddAccountInListView(account.Id ?? 0, account.Domain ?? "unsplash.com", account.Title ?? "Custom Account", account.Email ?? "");
 
         var backupCodes = new List<BackupCode>();
         foreach (var child in BackupCodes_StackPanel.Children)

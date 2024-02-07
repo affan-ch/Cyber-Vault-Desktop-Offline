@@ -117,6 +117,28 @@ internal class Account
         this.DateModified = DateModified;
     }
 
+    public Account(int Id, string Type, string Title, string Domain, string Name, string Email,
+        string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
+        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)
+    {
+        this.Id = Id;
+        this.Type = Type;
+        this.Title = Title;
+        this.Domain = Domain;
+        this.Name = Name;
+        this.Email = Email;
+        this.Username = Username;
+        this.PhoneNumber = PhoneNumber;
+        this.Password = Password;
+        this.Pin = Pin;
+        this.DateOfBirth = DateOfBirth;
+        this.RecoveryEmail = RecoveryEmail;
+        this.RecoveryPhoneNumber = RecoveryPhoneNumber;
+        this.QrCode = QrCode;
+        this.Secret = Secret;
+        this.Notes = Notes;
+    }
+
     public Account(string Type, string Title, string Domain, string Name, string Email,
         string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
         string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)

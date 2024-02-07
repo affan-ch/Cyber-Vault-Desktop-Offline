@@ -47,10 +47,6 @@ internal class EncyptionHelper
             return string.Empty; 
         }
 
-        Debug.WriteLine("CipherText:");
-        Debug.WriteLine(cipherText);
-        Debug.WriteLine("Pin:");
-        Debug.WriteLine(pin);
         var iv = Convert.FromBase64String(cipherText).Take(16).ToArray();
         var cipherBytes = Convert.FromBase64String(cipherText).Skip(16).ToArray();
 
