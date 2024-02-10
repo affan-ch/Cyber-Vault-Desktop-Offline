@@ -18,6 +18,7 @@ namespace Cyber_Vault.Views;
 
 public sealed partial class AccountsPage : Page
 {
+    private int currentAccountId = 0;
     private int backupCodeCount = 1;
     private readonly RadioButtons radioButtons = new()
     {
@@ -33,25 +34,7 @@ public sealed partial class AccountsPage : Page
     {
         ViewModel = App.GetService<AccountsViewModel>();
         InitializeComponent();
-
-        if(AccountDL.GetAccounts().Count == 0)
-        {
-            Accounts_ScrollViewer.Visibility = Visibility.Collapsed;
-            NoAccounts_Grid.Visibility = Visibility.Visible;
-        }
-        else
-        {
-            Accounts_ScrollViewer.Visibility = Visibility.Visible;
-            NoAccounts_Grid.Visibility = Visibility.Collapsed;
-
-            var accounts = AccountDL.GetAccounts();
-
-            foreach(var account in accounts)
-            {
-                AddAccountInListView(account.Id ?? 0,$"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
-            }
-        }
-
+        RefreshAccountsListView();
     }
 
     private void AddAccountInListView(int id, string url, string title, string email)
@@ -173,6 +156,7 @@ public sealed partial class AccountsPage : Page
                 {
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
+                    currentAccountId = id;
                     dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     dynamicStackPanel.PointerEntered += (sender, e) =>
                     {
@@ -187,8 +171,141 @@ public sealed partial class AccountsPage : Page
                     AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
                     ViewAccount_Grid.Visibility = Visibility.Visible;
 
-                    
-                    Email_Text.Text = email;
+                    var account = AccountDL.GetAccountById(id);
+
+                    if (account == null)
+                    {
+                        return;
+                    }
+
+                    // Domain
+                    if (account.Domain != null && account.Domain != string.Empty)
+                    {                                       
+                        Domain_Container.Visibility = Visibility.Visible;
+                        Domain_Text.Text = account.Domain;
+                    }
+                    else
+                    {                                       
+                        Domain_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Name
+                    if (account.Name != null && account.Name != string.Empty)
+                    {                    
+                        Name_Container.Visibility = Visibility.Visible;
+                        Name_Text.Text = account.Name;
+                    }
+                    else
+                    {                    
+                        Name_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Email
+                    if (account.Email != null && account.Email != string.Empty)
+                    {
+                        Email_Container.Visibility = Visibility.Visible;
+                        Email_Text.Text = email;
+                    }
+                    else
+                    {
+                        Email_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Username
+                    if (account.Username != null && account.Username != string.Empty)
+                    {             
+                        Username_Container.Visibility = Visibility.Visible;
+                        Username_Text.Text = account.Username;
+                    }
+                    else
+                    {                    
+                        Username_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Phone Number
+                    if (account.PhoneNumber != null && account.PhoneNumber != string.Empty)
+                    {                    
+                        PhoneNumber_Container.Visibility = Visibility.Visible;
+                        PhoneNumber_Text.Text = account.PhoneNumber;
+                    }
+                    else
+                    {                    
+                        PhoneNumber_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Password
+                    if (account.Password != null && account.Password != string.Empty)
+                    {                                       
+                        Password_Container.Visibility = Visibility.Visible;
+                        Password_Text.Text = new string('●', account.Password.Length);
+                        Password_Text_Hidden.Text = account.Password;
+                        TogglePassword_CheckBox.IsChecked = false;
+                        PasswordToggle_Icon.Glyph = "\uE7B3";
+                        ToolTipService.SetToolTip(TogglePassword_Button, "Show Password");
+                    }
+                    else
+                    {                                       
+                        Password_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Pin
+                    if (account.Pin != null && account.Pin != string.Empty)
+                    {
+                        Pin_Container.Visibility = Visibility.Visible;
+                        Pin_Text.Text = new string('●', account.Pin.Length);
+                        Pin_Text_Hidden.Text = account.Pin;
+                        TogglePin_CheckBox.IsChecked = false;
+                        PinToggle_Icon.Glyph = "\uE7B3";
+                        ToolTipService.SetToolTip(TogglePin_Button, "Show Pin");
+                    }
+                    else
+                    {
+                        Pin_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Date of Birth
+                    if (account.DateOfBirth != null && account.DateOfBirth != string.Empty)
+                    {                    
+                        DOB_Container.Visibility = Visibility.Visible;
+                        DOB_Text.Text = account.DateOfBirth;
+                    }
+                    else
+                    {                    
+                        DOB_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Notes
+                    if (account.Notes != null && account.Notes != string.Empty)
+                    {                                       
+                        Notes_Container.Visibility = Visibility.Visible;
+                        Notes_Text.Text = account.Notes;
+                    }
+                    else
+                    {                                       
+                        Notes_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Recovery Email
+                    if (account.RecoveryEmail != null && account.RecoveryEmail != string.Empty)
+                    {                                       
+                        RecoveryEmail_Container.Visibility = Visibility.Visible;
+                        RecoveryEmail_Text.Text = account.RecoveryEmail;
+                    }
+                    else
+                    {             
+                        RecoveryEmail_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Recovery Phone Number
+                    if (account.RecoveryPhoneNumber != null && account.RecoveryPhoneNumber != string.Empty)
+                    {                                                          
+                        RecoveryPhoneNumber_Container.Visibility = Visibility.Visible;
+                        RecoveryPhoneNumber_Text.Text = account.RecoveryPhoneNumber;
+                    }
+                    else
+                    {                                                          
+                        RecoveryPhoneNumber_Container.Visibility = Visibility.Collapsed;
+                    }
 
                 }
                 else
@@ -283,7 +400,7 @@ public sealed partial class AccountsPage : Page
 
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
-        AddAccountInListView(account.Id ?? 0, account.Domain ?? "unsplash.com", account.Title ?? "Custom Account", account.Email ?? "");
+        AddAccountInListView(account.Id ?? 0, $"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title ?? "Custom Account", account.Email ?? "");
 
         var backupCodes = new List<BackupCode>();
         foreach (var child in BackupCodes_StackPanel.Children)
@@ -312,6 +429,7 @@ public sealed partial class AccountsPage : Page
         ClearFields();
     }
 
+    // Clear All Fields (Add Account Page)
     private void ClearFields()
     {
         Title_TextBox.Text = string.Empty;
@@ -330,7 +448,8 @@ public sealed partial class AccountsPage : Page
         Notes_TextBox.Text = string.Empty;
     }
 
-    private void AddBackupCode_Button_Click(object sender, RoutedEventArgs e)
+    // Add Backup Code Field (Add Account Page)
+    private void AddBackupCode_Button_Click(object _, RoutedEventArgs e)
     {
         backupCodeCount += 1;
 
@@ -367,7 +486,8 @@ public sealed partial class AccountsPage : Page
         RemoveBackupCode_Button.Visibility = (backupCodeCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    private void RemoveBackupCode_Button_Click(object sender, RoutedEventArgs e)
+    // Remove Last Backup Code Field (Add Account Page)
+    private void RemoveBackupCode_Button_Click(object _, RoutedEventArgs e)
     {
         if (BackupCodes_StackPanel.Children.Count > 0)
         {
@@ -379,8 +499,7 @@ public sealed partial class AccountsPage : Page
         }
     }
     
-
-    // Password Generator
+    // Password Generator (Add Account Page)
     private async void GeneratePassword_Button_Click(object _, RoutedEventArgs e)
     {
         // UpperCase CheckBox
@@ -555,7 +674,8 @@ public sealed partial class AccountsPage : Page
 
     }
 
-    private void OpenDomainLink_Button_Click(object sender, RoutedEventArgs e)
+    // Open Domain Link in Browser (View Account Page)
+    private void OpenDomainLink_Button_Click(object _, RoutedEventArgs e)
     {
         var domain = Domain_Text.Text;
         if(domain != string.Empty)
@@ -564,35 +684,40 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-    private void CopyDomain_Button_Click(object sender, RoutedEventArgs e)
+    // Copy Domain Button (View Account Page)
+    private void CopyDomain_Button_Click(object _, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
         dataPackage.SetText(Domain_Text.Text);
         Clipboard.SetContent(dataPackage);
     }
 
-    private void CopyEmail_Button_Click(object sender, RoutedEventArgs e)
+    // Copy Email Button (View Account Page)
+    private void CopyEmail_Button_Click(object _, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
         dataPackage.SetText(Email_Text.Text);
         Clipboard.SetContent(dataPackage);
     }
 
-    private void CopyUsername_Button_Click(object sender, RoutedEventArgs e)
+    // Copy Username Button (View Account Page)
+    private void CopyUsername_Button_Click(object _, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
         dataPackage.SetText(Username_Text.Text);
         Clipboard.SetContent(dataPackage);
     }
 
-    private void CopyPhoneNumber_Button_Click(object sender, RoutedEventArgs e)
+    // Copy Phone Number Button (View Account Page)
+    private void CopyPhoneNumber_Button_Click(object _, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
         dataPackage.SetText(PhoneNumber_Text.Text);
         Clipboard.SetContent(dataPackage);
     }
 
-    private void TogglePassword_Button_Click(object sender, RoutedEventArgs e)
+    // Toggle Hide/Unhide Password Button (View Account Page)
+    private void TogglePassword_Button_Click(object _, RoutedEventArgs e)
     {
         if(TogglePassword_CheckBox.IsChecked == false)
         {
@@ -610,7 +735,8 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-    private void TogglePin_Button_Click(object sender, RoutedEventArgs e)
+    // Toggle Hide/Unhide Pin Button (View Account Page)
+    private void TogglePin_Button_Click(object _, RoutedEventArgs e)
     {
         if (TogglePin_CheckBox.IsChecked == false)
         {
@@ -628,6 +754,7 @@ public sealed partial class AccountsPage : Page
         }
     }
 
+    // Copy Pin Button (View Account Page)
     private void CopyPin_Button_Click(object _, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -635,12 +762,81 @@ public sealed partial class AccountsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
-    private void CopyPassword_Button_Click(object sender, RoutedEventArgs e)
+    // Copy Password Button (View Account Page)
+    private void CopyPassword_Button_Click(object _, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
         dataPackage.SetText(Password_Text_Hidden.Text);
         Clipboard.SetContent(dataPackage);
     }
 
+    // Copy Recovery Phone Number Button (View Account Page)
+    private void CopyRecoveryPhoneNumber_Button_Click(object _, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(RecoveryPhoneNumber_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
 
+    // Copy Recovery Email Button (View Account Page)
+    private void CopyRecoveryEmail_Button_Click(object _, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(RecoveryEmail_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private async void Delete_Button_Click(object _, RoutedEventArgs e)
+    {
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = "Confirm deletion?",
+            PrimaryButtonText = "Delete",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = "Are you sure you want to delete this record? This action cannot be undone and whole record will be permanently removed. Please confirm by typing 'DELETE' to proceed or 'CANCEL' to abort."
+        };
+
+        var result = await dialog.ShowAsync();
+
+        if(result.ToString() == "Primary")
+        {
+            AccountDB.DeleteAccount(currentAccountId);
+            AccountDL.DeleteAccount(currentAccountId);
+
+            ViewAccount_Grid.Visibility = Visibility.Collapsed;
+            ErrorContainer_Grid.Visibility = Visibility.Visible;
+
+            RefreshAccountsListView();
+        }
+
+    }
+
+
+    // Refresh Accounts List View
+    public void RefreshAccountsListView()
+    {
+        AccountsListView.Children.Clear();
+        radioButtons.Items.Clear();
+    
+        if (AccountDL.GetAccounts().Count == 0)
+        {
+            Accounts_ScrollViewer.Visibility = Visibility.Collapsed;
+            NoAccounts_Grid.Visibility = Visibility.Visible;
+        }
+        else
+        {        
+            Accounts_ScrollViewer.Visibility = Visibility.Visible;
+            NoAccounts_Grid.Visibility = Visibility.Collapsed;
+        
+            var accounts = AccountDL.GetAccounts();
+        
+            foreach (var account in accounts)
+            {
+                AddAccountInListView(account.Id ?? 0, $"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
+            }
+        }
+    }   
 }

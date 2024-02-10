@@ -23,9 +23,13 @@ internal class AccountDL
     }
 
     // Delete Account
-    public static void DeleteAccount(Account account)
+    public static void DeleteAccount(int id)
     {
-        accounts.Remove(account);
+        var account = accounts.FirstOrDefault(a => a.Id == id);
+        if (account != null)
+        {
+            accounts.Remove(account);
+        }
     }
 
     // Get All Accounts

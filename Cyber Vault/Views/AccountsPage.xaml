@@ -552,12 +552,13 @@
                     <StackPanel Orientation="Vertical">
 
                         <!-- Domain Container -->
-                        <StackPanel x:Name="Domain_Container" Orientation="Vertical" Margin="20,5,0,0">
+                        <StackPanel x:Name="Domain_Container" Orientation="Vertical" Margin="0,5,0,0">
 
                             <!-- Domain Header -->
                             <TextBlock Text="Domain"
                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
                                        FontSize="17"
+                                       Margin="20,0,0,0"
                             />
 
                             <Grid>
@@ -572,7 +573,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -613,17 +614,18 @@
                                     <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
                                 </Button>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
                         </StackPanel>
 
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         <!-- Name Container -->
-                        <StackPanel x:Name="Name_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="Name_Container" Orientation="Vertical" Margin="0,10,0,0">
                             
                             <!-- Name Header -->
                             <TextBlock Text="Name" 
                                        Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                                       FontSize="17" 
+                                       FontSize="17"
+                                       Margin="20,0,0,0"
                             />
                             
                             <Grid>
@@ -636,7 +638,7 @@
                                         Grid.Column="0"
                                         FontSize="14"
                                         FontWeight="Bold"
-                                        Margin="0,15,0,0"
+                                        Margin="20,15,0,0"
                                         Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -646,14 +648,15 @@
                                     </Paragraph>
                                 </RichTextBlock>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
 
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
                         
                         <!-- Email Container -->
-                        <StackPanel x:Name="Email_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="Email_Container" Orientation="Vertical" Margin="0,10,0,0">
                             <!-- Email Header -->
-                            <TextBlock Text="Email" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <TextBlock Text="Email" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -665,7 +668,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -690,14 +693,15 @@
                                     <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
                                 </Button>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
                         
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         <!-- Username Container -->
-                        <StackPanel x:Name="Username_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="Username_Container" Orientation="Vertical" Margin="0,10,0,0">
                             <!-- Username Header -->
-                            <TextBlock Text="Username" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <TextBlock Text="Username" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -709,7 +713,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -734,17 +738,19 @@
                                     <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
                                 </Button>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
 
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         <!-- Password Container -->
-                        <StackPanel x:Name="Password_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="Password_Container" Orientation="Vertical" Margin="0,10,0,0">
                             
                             <!-- Password Header -->
                             <TextBlock Text="Password"
                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
                                        FontSize="17"
+                                       Margin="20,0,0,0"
                             />
                             
                             <Grid>
@@ -760,7 +766,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -801,17 +807,19 @@
                                     <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
                                 </Button>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
                         
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         <!-- Pin Container -->
-                        <StackPanel x:Name="Pin_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="Pin_Container" Orientation="Vertical" Margin="0,10,0,0">
 
                             <!-- Pin Header -->
                             <TextBlock Text="Pin"
                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
                                        FontSize="17"
+                                       Margin="20,0,0,0"
                             />
 
                             <Grid>
@@ -827,7 +835,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -868,17 +876,19 @@
                                     <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
                                 </Button>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
 
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
                         
                         <!-- Phone Number Container -->
-                        <StackPanel x:Name="PhoneNumber_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="PhoneNumber_Container" Orientation="Vertical" Margin="0,10,0,0">
                             
                             <!-- Phone Number Header -->
                             <TextBlock Text="Phone Number"
                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
                                        FontSize="17"
+                                       Margin="20,0,0,0"
                             />
                             
                             <Grid>
@@ -892,7 +902,7 @@
                                     Grid.Column="0"
                                     FontSize="14"
                                     FontWeight="Bold"
-                                    Margin="0,15,0,0"
+                                    Margin="20,15,0,0"
                                     Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -917,17 +927,19 @@
                                     <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
                                 </Button>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
 
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         <!-- Date Of Birth Container -->
-                        <StackPanel x:Name="DOB_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="DOB_Container" Orientation="Vertical" Margin="0,10,0,0">
 
                             <!-- Date of Birth Header -->
                             <TextBlock Text="Date of Birth" 
                                        Style="{ThemeResource BodyStrongTextBlockStyle}" 
                                        FontSize="17" 
+                                       Margin="20,0,0,0"
                             />
 
                             <Grid>
@@ -940,7 +952,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -950,17 +962,19 @@
                                     </Paragraph>
                                 </RichTextBlock>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
                         </StackPanel>
 
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         <!-- Notes Container -->
-                        <StackPanel x:Name="Notes_Container" Orientation="Vertical" Margin="20,10,0,0">
+                        <StackPanel x:Name="Notes_Container" Orientation="Vertical" Margin="0,10,0,0">
 
                             <!-- Notes Header -->
                             <TextBlock Text="Notes" 
                                        Style="{ThemeResource BodyStrongTextBlockStyle}" 
                                        FontSize="17" 
+                                       Margin="20,0,0,0"
                             />
 
                             <Grid>
@@ -973,7 +987,7 @@
                                        Grid.Column="0"
                                        FontSize="14"
                                        FontWeight="Bold"
-                                       Margin="0,15,0,0"
+                                       Margin="20,15,0,0"
                                        Opacity="0.9"
                                 >
                                     <Paragraph>
@@ -983,8 +997,9 @@
                                     </Paragraph>
                                 </RichTextBlock>
                             </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,15"/>
+
                         </StackPanel>
-                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,15"/>
 
                     </StackPanel>
                     
@@ -994,7 +1009,143 @@
             <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
             <!-- Right Second (View Account) -->
             <Grid Grid.Column="1">
-                
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical">
+
+                        <!-- Header Grid (Containing Delete and Modify Button) -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,15">
+
+                                <!-- Delete Button -->
+                                <Button x:Name="Delete_Button" Width="90" Margin="0,0,10,0" Click="Delete_Button_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon 
+                                           Glyph="&#xE74D;" 
+                                           FontSize="17"/>
+                                        <TextBlock 
+                                           Text="Delete"  
+                                           Margin="5,0,0,0"
+                                           Style="{ThemeResource BodyTextBlockStyle}" 
+                                           VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <!-- Modify Button -->
+                                <Button x:Name="Modify_Button" Style="{StaticResource AccentButtonStyle}" Width="95">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon 
+                                           Glyph="&#xE70F;" 
+                                           FontSize="17"/>
+                                        <TextBlock 
+                                           Text="Modify"  
+                                           Margin="5,0,0,0"
+                                           Style="{ThemeResource BodyTextBlockStyle}" 
+                                           VerticalAlignment="Center"/> 
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                        </Grid>
+
+                        <!-- Recovery Email Container -->
+                        <StackPanel x:Name="RecoveryEmail_Container" Orientation="Vertical" Margin="0,10,0,0">
+                            <!-- Recovery Email Header -->
+                            <TextBlock Text="Recovery Email" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Recovery Email TextBlock -->
+                                <RichTextBlock x:Name="RecoveryEmail_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="20,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="RecoveryEmail_Text" Text="affan@gmail.com"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Copy Recovery Email Button -->
+                                <Button x:Name="CopyRecoveryEmail_Button"
+                                    Grid.Column="1" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyRecoveryEmail_Button_Click"
+                                    ToolTipService.ToolTip="Copy Recovery Email"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        </StackPanel>
+
+
+                        <!-- Recovery Phone Number Container -->
+                        <StackPanel x:Name="RecoveryPhoneNumber_Container" Orientation="Vertical" Margin="0,10,0,0">
+                            <!-- Recovery Phone Number Header -->
+                            <TextBlock Text="Recovery Phone Number" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Recovery Phone Number TextBlock -->
+                                <RichTextBlock x:Name="RecoveryPhoneNumber_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="20,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="RecoveryPhoneNumber_Text" Text="+923090090540"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Copy Recovery Phone Number Button -->
+                                <Button x:Name="CopyRecoveryPhoneNumber_Button"
+                                    Grid.Column="1" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyRecoveryPhoneNumber_Button_Click"
+                                    ToolTipService.ToolTip="Copy Recovery Phone Number"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
         </Grid>
         
