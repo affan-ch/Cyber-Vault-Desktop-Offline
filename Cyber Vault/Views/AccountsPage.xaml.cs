@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Cyber_Vault.Utils;
 using System.Diagnostics;
-using Microsoft.UI;
+using QRCoder;
 
 
 namespace Cyber_Vault.Views;
@@ -45,7 +45,7 @@ public sealed partial class AccountsPage : Page
         {
             Margin = new Thickness(0, 1, 20, 5),
             Height = 70,
-            Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"],
+            Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"],
             CornerRadius = new CornerRadius(5),
             
         };
@@ -59,12 +59,12 @@ public sealed partial class AccountsPage : Page
 
         dynamicStackPanel.PointerEntered += (sender, e) =>
         {
-            dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+            dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
         };
 
         dynamicStackPanel.PointerExited += (sender, e) =>
         {
-             dynamicStackPanel.Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+             dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
         };
 
         var radioButton = new RadioButton
@@ -76,23 +76,23 @@ public sealed partial class AccountsPage : Page
 
         radioButton.Unchecked += (sender, e) =>
         {
-            dynamicStackPanel.Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+            dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
             
             dynamicStackPanel.PointerEntered += (sender, e) =>
             {
-                dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
             };
 
             dynamicStackPanel.PointerExited += (sender, e) =>
             {
-                dynamicStackPanel.Background = (Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+                dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
             };
         };
 
         radioButtons.Items.Add(radioButton);
 
         // Create an Image and set its properties
-        var image = new Image
+        var image = new Microsoft.UI.Xaml.Controls.Image
         {
             Margin = new Thickness(12, 10, 10, 10),
             Source = new BitmapImage(new Uri(url)),
@@ -157,14 +157,14 @@ public sealed partial class AccountsPage : Page
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
                     currentAccountId = id;
-                    dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                    dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     dynamicStackPanel.PointerEntered += (sender, e) =>
                     {
-                        dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                        dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     };
                     dynamicStackPanel.PointerExited += (sender, e) =>
                     {                    
-                        dynamicStackPanel.Background = (Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                        dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     };
 
                     ErrorContainer_Grid.Visibility = Visibility.Collapsed;
@@ -305,6 +305,17 @@ public sealed partial class AccountsPage : Page
                     else
                     {                                                          
                         RecoveryPhoneNumber_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // QR Code
+                    if (account.QrCode != null && account.QrCode != string.Empty)
+                    {
+                        QRCode_Image.Visibility = Visibility.Visible;
+                        GenerateQRCode(account.QrCode);
+                    }
+                    else
+                    {
+                        QRCode_Image.Visibility = Visibility.Collapsed;
                     }
 
                 }
@@ -838,5 +849,24 @@ public sealed partial class AccountsPage : Page
                 AddAccountInListView(account.Id ?? 0, $"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
             }
         }
-    }   
+    }
+
+
+    private async void GenerateQRCode(string text)
+    {
+        var qrGenerator = new QRCodeGenerator();
+        var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+        var qrCode = new QRCode(qrCodeData);
+        var qrCodeImage = qrCode.GetGraphic(10, "#ffffff", "#00000000");
+        //qrCodeImage.SetResolution();
+
+        using var memory = new MemoryStream();
+        qrCodeImage.Save(memory, System.Drawing.Imaging.ImageFormat.Png);
+        memory.Position = 0;
+        var bitmapImage = new BitmapImage();
+        await bitmapImage.SetSourceAsync(memory.AsRandomAccessStream());
+
+        QRCode_Image.Source = bitmapImage;
+    }
+
 }

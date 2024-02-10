@@ -1143,6 +1143,9 @@
 
                         </StackPanel>
 
+                        <Grid>
+                            <Image x:Name="QRCode_Image" Width="180" Height="180" />
+                        </Grid>
 
                     </StackPanel>
                 </ScrollViewer>
