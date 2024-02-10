@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Cyber_Vault.Utils;
 using System.Diagnostics;
+using Microsoft.UI;
 
 
 namespace Cyber_Vault.Views;
@@ -186,7 +187,9 @@ public sealed partial class AccountsPage : Page
                     AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
                     ViewAccount_Grid.Visibility = Visibility.Visible;
 
-                    Email_TextBlock.Text = email;
+                    
+                    Email_Text.Text = email;
+
                 }
                 else
                 {
@@ -551,5 +554,93 @@ public sealed partial class AccountsPage : Page
         }
 
     }
+
+    private void OpenDomainLink_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var domain = Domain_Text.Text;
+        if(domain != string.Empty)
+        {
+            Process.Start(new ProcessStartInfo("https://" + domain) { UseShellExecute = true });
+        }
+    }
+
+    private void CopyDomain_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(Domain_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private void CopyEmail_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(Email_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private void CopyUsername_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(Username_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private void CopyPhoneNumber_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(PhoneNumber_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private void TogglePassword_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if(TogglePassword_CheckBox.IsChecked == false)
+        {
+            Password_Text.Text = Password_Text_Hidden.Text;
+            TogglePassword_CheckBox.IsChecked = true;
+            ToolTipService.SetToolTip(TogglePassword_Button, "Hide Password");
+            PasswordToggle_Icon.Glyph = "\uED1A";
+        }
+        else
+        {
+            Password_Text.Text = new string('●', Password_Text_Hidden.Text.Length);
+            TogglePassword_CheckBox.IsChecked = false;
+            ToolTipService.SetToolTip(TogglePassword_Button, "Show Password");
+            PasswordToggle_Icon.Glyph = "\uE7B3";
+        }
+    }
+
+    private void TogglePin_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (TogglePin_CheckBox.IsChecked == false)
+        {
+            TogglePin_CheckBox.IsChecked = true;
+            ToolTipService.SetToolTip(TogglePin_Button, "Hide Pin");
+            PinToggle_Icon.Glyph = "\uED1A";
+            Pin_Text.Text = Pin_Text_Hidden.Text;
+        }
+        else
+        {
+            TogglePin_CheckBox.IsChecked = false;
+            ToolTipService.SetToolTip(TogglePin_Button, "Show Pin");
+            PinToggle_Icon.Glyph = "\uE7B3";
+            Pin_Text.Text = new string('●', Pin_Text_Hidden.Text.Length);
+        }
+    }
+
+    private void CopyPin_Button_Click(object _, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(Pin_Text_Hidden.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private void CopyPassword_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(Password_Text_Hidden.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
 
 }

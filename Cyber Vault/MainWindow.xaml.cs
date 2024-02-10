@@ -21,8 +21,11 @@ public sealed partial class MainWindow : WindowEx
         InitializeComponent();
 
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
+
         Content = null;
         Title = "AppDisplayName".GetLocalized();
+        //var icon = Icon.FromFile(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
+        //this.SetTaskBarIcon(icon);
 
         dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
         settings = new UISettings();

@@ -550,11 +550,448 @@
             <Grid Grid.Column="0">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="Email_TextBlock" />
+
+                        <!-- Domain Container -->
+                        <StackPanel x:Name="Domain_Container" Orientation="Vertical" Margin="20,5,0,0">
+
+                            <!-- Domain Header -->
+                            <TextBlock Text="Domain"
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       FontSize="17"
+                            />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Domain TextBlock -->
+                                <RichTextBlock x:Name="Domain_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Domain_Text" Text="microsoft.com"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Open Domain Link in Browser Button -->
+                                <Button x:Name="OpenDomainLink_Button"
+                                        Grid.Column="1" 
+                                        Margin="0,0,5,0" 
+                                        VerticalAlignment="Bottom" 
+                                        Width="45"
+                                        Height="35"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        ToolTipService.ToolTip="Open in Browser"
+                                        ToolTipService.Placement="Top"
+                                        Click="OpenDomainLink_Button_Click"
+                                >
+                                    <FontIcon Glyph="&#xE8A7;" FontSize="17"/>
+                                </Button>
+
+                                <!-- Copy Domain Button -->
+                                <Button x:Name="CopyDomain_Button"
+                                    Grid.Column="2" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyDomain_Button_Click"
+                                    ToolTipService.ToolTip="Copy Domain"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        <!-- Name Container -->
+                        <StackPanel x:Name="Name_Container" Orientation="Vertical" Margin="20,10,0,0">
+                            
+                            <!-- Name Header -->
+                            <TextBlock Text="Name" 
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}" 
+                                       FontSize="17" 
+                            />
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Name TextBlock -->
+                                <RichTextBlock x:Name="Name_TextBlock" 
+                                        Grid.Column="0"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Margin="0,15,0,0"
+                                        Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Name_Text" Text="Affan Ch."/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                        
+                        <!-- Email Container -->
+                        <StackPanel x:Name="Email_Container" Orientation="Vertical" Margin="20,10,0,0">
+                            <!-- Email Header -->
+                            <TextBlock Text="Email" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Email TextBlock -->
+                                <RichTextBlock x:Name="Email_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Email_Text" Text="affan@microsoft.com"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Copy Email Button -->
+                                <Button x:Name="CopyEmail_Button"
+                                        Grid.Column="1" 
+                                        Margin="0,0,20,0" 
+                                        VerticalAlignment="Bottom" 
+                                        Width="45"
+                                        Height="35"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="CopyEmail_Button_Click"
+                                        ToolTipService.ToolTip="Copy Email"
+                                        ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                        
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        <!-- Username Container -->
+                        <StackPanel x:Name="Username_Container" Orientation="Vertical" Margin="20,10,0,0">
+                            <!-- Username Header -->
+                            <TextBlock Text="Username" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Username TextBlock -->
+                                <RichTextBlock x:Name="Username_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Username_Text" Text="affan297"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Copy Username Button -->
+                                <Button x:Name="CopyUsername_Button"
+                                    Grid.Column="1" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyUsername_Button_Click"
+                                    ToolTipService.ToolTip="Copy Username"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        <!-- Password Container -->
+                        <StackPanel x:Name="Password_Container" Orientation="Vertical" Margin="20,10,0,0">
+                            
+                            <!-- Password Header -->
+                            <TextBlock Text="Password"
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       FontSize="17"
+                            />
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Password TextBlock -->
+                                <TextBlock x:Name="Password_Text_Hidden" Text="pass123$" Visibility="Collapsed"/>
+                                <RichTextBlock x:Name="Password_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Password_Text" Text="●●●●●●●●●●"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Hide/Unhide Password Button -->
+                                <CheckBox x:Name="TogglePassword_CheckBox" IsChecked="False" Visibility="Collapsed"/>
+                                <Button x:Name="TogglePassword_Button"
+                                        Grid.Column="1" 
+                                        Margin="0,0,5,0" 
+                                        VerticalAlignment="Bottom" 
+                                        Width="45"
+                                        Height="35"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="TogglePassword_Button_Click"
+                                        ToolTipService.ToolTip="Show Password"
+                                        ToolTipService.Placement="Top">
+                                    <FontIcon x:Name="PasswordToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
+                                </Button>
+
+                                <!-- Copy Password Button -->
+                                <Button x:Name="CopyPassword_Button"
+                                        Grid.Column="2" 
+                                        Margin="0,0,20,0" 
+                                        VerticalAlignment="Bottom" 
+                                        Width="45"
+                                        Height="35"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="CopyPassword_Button_Click"
+                                        ToolTipService.ToolTip="Copy Password"
+                                        ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                        
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        <!-- Pin Container -->
+                        <StackPanel x:Name="Pin_Container" Orientation="Vertical" Margin="20,10,0,0">
+
+                            <!-- Pin Header -->
+                            <TextBlock Text="Pin"
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       FontSize="17"
+                            />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Pin TextBlock -->
+                                <TextBlock x:Name="Pin_Text_Hidden" Text="03230" Visibility="Collapsed"/>
+                                <RichTextBlock x:Name="Pin_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Pin_Text" Text="●●●●●●"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Hide/Unhide Pin Button -->
+                                <CheckBox x:Name="TogglePin_CheckBox" IsChecked="False" Visibility="Collapsed"/>
+                                <Button x:Name="TogglePin_Button"
+                                        Grid.Column="1" 
+                                        Margin="0,0,5,0" 
+                                        VerticalAlignment="Bottom" 
+                                        Width="45"
+                                        Height="35"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="TogglePin_Button_Click"
+                                        ToolTipService.ToolTip="Show Pin"
+                                        ToolTipService.Placement="Top">
+                                    <FontIcon x:Name="PinToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
+                                </Button>
+
+                                <!-- Copy Pin Button -->
+                                <Button x:Name="CopyPin_Button"
+                                    Grid.Column="2" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyPin_Button_Click"
+                                    ToolTipService.ToolTip="Copy Pin"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                        
+                        <!-- Phone Number Container -->
+                        <StackPanel x:Name="PhoneNumber_Container" Orientation="Vertical" Margin="20,10,0,0">
+                            
+                            <!-- Phone Number Header -->
+                            <TextBlock Text="Phone Number"
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       FontSize="17"
+                            />
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Phone Number TextBlock -->
+                                <RichTextBlock x:Name="PhoneNumber_TextBlock" 
+                                    Grid.Column="0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Margin="0,15,0,0"
+                                    Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="PhoneNumber_Text" Text="+923204540590"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!-- Copy Phone Number Button -->
+                                <Button x:Name="CopyPhoneNumber_Button"
+                                        Grid.Column="1" 
+                                        Margin="0,0,20,0" 
+                                        VerticalAlignment="Bottom" 
+                                        Width="45"
+                                        Height="35"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="CopyPhoneNumber_Button_Click"
+                                        ToolTipService.ToolTip="Copy Phone Number"
+                                        ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        <!-- Date Of Birth Container -->
+                        <StackPanel x:Name="DOB_Container" Orientation="Vertical" Margin="20,10,0,0">
+
+                            <!-- Date of Birth Header -->
+                            <TextBlock Text="Date of Birth" 
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}" 
+                                       FontSize="17" 
+                            />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Date of Birth TextBlock -->
+                                <RichTextBlock x:Name="DOB_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="DOB_Text" Text="14-08-2000"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+                            </Grid>
+                        </StackPanel>
+
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        <!-- Notes Container -->
+                        <StackPanel x:Name="Notes_Container" Orientation="Vertical" Margin="20,10,0,0">
+
+                            <!-- Notes Header -->
+                            <TextBlock Text="Notes" 
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}" 
+                                       FontSize="17" 
+                            />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Notes TextBlock -->
+                                <RichTextBlock x:Name="Notes_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="0,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Notes_Text" Text="Google Photos Backup"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+                            </Grid>
+                        </StackPanel>
+                        <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,15"/>
+
                     </StackPanel>
+                    
                 </ScrollViewer>
             </Grid>
 
+            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
             <!-- Right Second (View Account) -->
             <Grid Grid.Column="1">
                 

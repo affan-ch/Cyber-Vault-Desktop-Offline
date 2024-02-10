@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>D:\Old Window\desktop\cyber-vault-icon.png</Source>
+    <SmallTileSource>D:\Old Window\desktop\cyber-vault-icon.png</SmallTileSource>
+    <MediumTileSource>D:\Old Window\desktop\cyber-vault-icon.png</MediumTileSource>
+    <WideTileSource>D:\Old Window\desktop\cyber-vault-icon.png</WideTileSource>
+    <LargeTileSource>D:\Old Window\desktop\cyber-vault-icon.png</LargeTileSource>
+    <AppIconSource>D:\Old Window\desktop\cyber-vault-icon.png</AppIconSource>
+    <SplashScreenSource>D:\Old Window\desktop\cyber-vault-icon.png</SplashScreenSource>
+    <PackageLogoSource>D:\Old Window\desktop\cyber-vault-icon.png</PackageLogoSource>
+  </PropertyGroup>
+</Project>
