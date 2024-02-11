@@ -1143,9 +1143,72 @@
 
                         </StackPanel>
 
-                        <Grid>
-                            <Image x:Name="QRCode_Image" Width="180" Height="180" />
-                        </Grid>
+
+                        <!-- Authenticator Container -->
+                        <StackPanel x:Name="Authenticator_Container" Orientation="Vertical" Margin="0,10,0,0">
+                            <!-- Authenticator Header -->
+                            <TextBlock Text="Authenticator" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- AuthenticatorTextBlock -->
+                                <RichTextBlock x:Name="Authenticator_TextBlock" 
+                                       Grid.Column="0"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Margin="20,15,0,0"
+                                       Opacity="0.9"
+                                >
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Authenticator_Text" Text="0123456"/>
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <ProgressRing x:Name="OTP_Ring" Grid.Column="1" Width="20" Margin="0,0,12,0" Height="20" Value="100"
+                                    IsIndeterminate="False"
+                                    Background="Transparent"
+                                              />
+
+                                <!-- Authenticator QR Button -->
+                                <Button x:Name="AuthenticatorQR_Button"
+                                    Grid.Column="2" 
+                                    Margin="0,0,5,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="AuthenticatorQR_Button_Click"
+                                    ToolTipService.ToolTip="QR Code"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xED14;" FontSize="17"/>
+                                </Button>
+
+                                <!-- Copy OTP Button -->
+                                <Button x:Name="CopyOTP_Button"
+                                    Grid.Column="3" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    Width="45"
+                                    Height="35"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyOTP_Button_Click"
+                                    ToolTipService.ToolTip="Copy OTP"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                </Button>
+                            </Grid>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+                        </StackPanel>
 
                     </StackPanel>
                 </ScrollViewer>

@@ -2,7 +2,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Media;
 using Cyber_Vault.BL;
 using Cyber_Vault.DL;
 using Cyber_Vault.DB;
@@ -12,6 +11,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Cyber_Vault.Utils;
 using System.Diagnostics;
 using QRCoder;
+using OtpNet;
+using System.Text;
 
 
 namespace Cyber_Vault.Views;
@@ -20,6 +21,9 @@ public sealed partial class AccountsPage : Page
 {
     private int currentAccountId = 0;
     private int backupCodeCount = 1;
+    private Timer? timer;
+    private Timer? progressTimer;
+    private string currentSecretKey = "";
     private readonly RadioButtons radioButtons = new()
     {
         Visibility = Visibility.Collapsed
@@ -157,6 +161,9 @@ public sealed partial class AccountsPage : Page
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
                     currentAccountId = id;
+                    OTP_Ring.Value = 100;
+                    timer = null;
+                    progressTimer = null;
                     dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     dynamicStackPanel.PointerEntered += (sender, e) =>
                     {
@@ -308,14 +315,30 @@ public sealed partial class AccountsPage : Page
                     }
 
                     // QR Code
-                    if (account.QrCode != null && account.QrCode != string.Empty)
+                    if ((account.QrCode != null && account.QrCode != string.Empty) || (account.Secret != null && account.Secret != string.Empty))
                     {
-                        QRCode_Image.Visibility = Visibility.Visible;
-                        GenerateQRCode(account.QrCode);
+                        Authenticator_Container.Visibility = Visibility.Visible;
+
+                        if(account.Secret != null)
+                        {
+                            var totp = new Totp(Encoding.UTF8.GetBytes(account.Secret));
+                            var otp = totp.ComputeTotp(DateTime.UtcNow);
+                            Authenticator_Text.Text = otp;
+
+                            // Compute the initial OTP
+                            UpdateOTP(account.Secret);
+                            currentSecretKey = account.Secret;
+                            // Start the timer to update the OTP every 30 seconds
+                            timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+
+                            // Start the timer to update the ProgressRing value
+                            progressTimer = new Timer(ProgressTimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
+                        }
                     }
                     else
                     {
-                        QRCode_Image.Visibility = Visibility.Collapsed;
+                        currentSecretKey = "";
+                        Authenticator_Container.Visibility = Visibility.Collapsed;
                     }
 
                 }
@@ -327,6 +350,26 @@ public sealed partial class AccountsPage : Page
         };
 
         AccountsListView.Children.Add(dynamicStackPanel);
+    }
+
+    // Method to update OTP
+    private void UpdateOTP(string secret)
+    {
+        var totp = new Totp(Base32Encoding.ToBytes(secret), step: 30, mode: OtpHashMode.Sha1, totpSize: 6, timeCorrection: TimeCorrection.UncorrectedInstance);
+        var otp = totp.ComputeTotp(DateTime.UtcNow);
+        // Use DispatcherQueue to update UI elements safely
+        DispatcherQueue.TryEnqueue(() => {
+            Authenticator_Text.Text = otp;
+        });
+    }
+
+    // Timer callback method
+    private void TimerCallback(object? state)
+    {
+        if(currentSecretKey != null && currentSecretKey != "")
+        {
+            UpdateOTP(currentSecretKey);
+        }
     }
 
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -344,6 +387,18 @@ public sealed partial class AccountsPage : Page
                 Domain_TextBox.Visibility = Visibility.Collapsed;
             }
         } 
+    }
+
+    private void ProgressTimerCallback(object? state)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            OTP_Ring.Value -= 1;
+            if(OTP_Ring.Value == 0)
+            {
+                OTP_Ring.Value = 100;
+            }
+        });
     }
 
     private void AddAccount_Button_Click(object sender, RoutedEventArgs e)
@@ -852,13 +907,51 @@ public sealed partial class AccountsPage : Page
     }
 
 
-    private async void GenerateQRCode(string text)
+    private void CopyOTP_Button_Click(object sender, RoutedEventArgs e)
     {
+        var dataPackage = new DataPackage();
+        dataPackage.SetText(Authenticator_Text.Text);
+        Clipboard.SetContent(dataPackage);
+    }
+
+    private async void AuthenticatorQR_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var scrollViewer = new ScrollViewer
+        {
+            Name = "AuthenticatorDialog_ScrollViewer",
+        };
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = "Authenticator Qr Code",
+            PrimaryButtonText = "Close",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = scrollViewer
+        };
+
+        var stackPanel = new StackPanel
+        {
+            Name = "AuthenticatorDialog_StackPanel",
+            Orientation = Orientation.Vertical,
+        };
+
+        scrollViewer.Content = stackPanel;
+
+        var qrCode_Image = new Image
+        {
+            Name = "AuthenticatorQR_Image",
+            Width = 200,
+            Height = 200,
+            HorizontalAlignment = HorizontalAlignment.Center,
+        };
+
+        var account = AccountDL.GetAccountById(currentAccountId);
         var qrGenerator = new QRCodeGenerator();
-        var qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+        var qrCodeData = qrGenerator.CreateQrCode(account!.QrCode, QRCodeGenerator.ECCLevel.Q);
         var qrCode = new QRCode(qrCodeData);
         var qrCodeImage = qrCode.GetGraphic(10, "#ffffff", "#00000000");
-        //qrCodeImage.SetResolution();
 
         using var memory = new MemoryStream();
         qrCodeImage.Save(memory, System.Drawing.Imaging.ImageFormat.Png);
@@ -866,7 +959,11 @@ public sealed partial class AccountsPage : Page
         var bitmapImage = new BitmapImage();
         await bitmapImage.SetSourceAsync(memory.AsRandomAccessStream());
 
-        QRCode_Image.Source = bitmapImage;
-    }
+        qrCode_Image.Source = bitmapImage;
 
+        stackPanel.Children.Add(qrCode_Image);
+
+        await dialog.ShowAsync();
+
+    }
 }
