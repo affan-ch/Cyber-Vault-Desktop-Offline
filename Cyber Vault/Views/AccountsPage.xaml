@@ -1210,6 +1210,17 @@
 
                         </StackPanel>
 
+                        <!-- Backup Codes Container -->
+                        <StackPanel x:Name="BackupCodes_Container" Orientation="Vertical" Margin="0,10,0,0">
+                            <!-- Backup Codes Header -->
+                            <TextBlock Text="Backup Codes" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+
+                            <StackPanel x:Name="BackupCodes_Grids" Orientation="Vertical" Margin="20,0,0,0">
+                                
+                            </StackPanel>
+
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

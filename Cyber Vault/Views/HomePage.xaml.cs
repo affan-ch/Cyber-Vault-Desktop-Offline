@@ -5,6 +5,9 @@ using Cyber_Vault.Services;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.DB;
 using Cyber_Vault.DL;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Security;
 
 namespace Cyber_Vault.Views;
 
@@ -32,11 +35,27 @@ public sealed partial class HomePage : Page
         if(CredentialsManager.CheckInDatabase())
         {
             Login_StackPanel.Visibility = Visibility.Visible;
+            if(CredentialsManager.GetUsernameFromMemory() != null) {
+                var ptr = IntPtr.Zero;
+                try
+                {
+                    ptr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
+                    Login_Username_TextBox.Text = Marshal.PtrToStringUni(ptr);
+                    Login_PasswordBox.Focus(FocusState.Keyboard);
+                }
+                finally
+                {
+                    Marshal.ZeroFreeGlobalAllocUnicode(ptr);
+                }
+                
+            }
         }
         else
         {
             Signup_StackPanel.Visibility = Visibility.Visible;
         }
+
+        
     }
 
     private async void Login_Button_Click(object _, RoutedEventArgs e)

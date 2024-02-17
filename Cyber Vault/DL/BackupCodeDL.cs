@@ -1,5 +1,7 @@
 ﻿using System.Data.SQLite;
+using System.Runtime.InteropServices;
 using Cyber_Vault.BL;
+using Cyber_Vault.DB;
 using Cyber_Vault.Utils;
 
 namespace Cyber_Vault.DL;
@@ -58,17 +60,32 @@ internal class BackupCodeDL
        
         while (reader.Read())
         {
-            var backupCode = new BackupCode(
-                Id: reader.GetInt32(0),
-                AccountId: reader.GetInt32(1),
-                Code: reader.GetString(2),
-                IsUsed: reader.GetInt32(3),
-                DateAdded: reader.GetString(4),
-                DateUsed: reader.GetString(5),
-                DateModified: reader.GetString(6)
-            );
-            
-            backupCodes.Add(backupCode);
+            var UsernamePtr = IntPtr.Zero;
+            var PasswordPtr = IntPtr.Zero;
+            try
+            {
+                UsernamePtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
+                PasswordPtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetPasswordFromMemory()!);
+                var username = Marshal.PtrToStringUni(UsernamePtr);
+                var password = Marshal.PtrToStringUni(PasswordPtr);
+
+                var backupCode = new BackupCode(
+                    Id: reader.GetInt32(0),
+                    AccountId: reader.GetInt32(1),
+                    Code: EncryptionHelper.Decrypt(reader.GetString(2), username+password),
+                    IsUsed: reader.GetInt32(3),
+                    DateAdded: reader.GetString(4),
+                    DateModified: reader.GetString(5)
+                );
+
+                backupCodes.Add(backupCode);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(UsernamePtr);
+                Marshal.ZeroFreeGlobalAllocUnicode(PasswordPtr);
+            }
+
         }
     
         connection.Close();

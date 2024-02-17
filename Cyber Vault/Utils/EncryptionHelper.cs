@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Cyber_Vault.Utils;
 
-internal class EncyptionHelper
+internal class EncryptionHelper
 {
     // Encrypts a string using the Master Key
     public static string Encrypt(string data, string pin)

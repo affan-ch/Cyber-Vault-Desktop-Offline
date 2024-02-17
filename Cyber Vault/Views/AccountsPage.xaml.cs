@@ -22,7 +22,6 @@ public sealed partial class AccountsPage : Page
     private int currentAccountId = 0;
     private int backupCodeCount = 1;
     private Timer? timer;
-    private Timer? progressTimer;
     private string currentSecretKey = "";
     private readonly RadioButtons radioButtons = new()
     {
@@ -162,8 +161,7 @@ public sealed partial class AccountsPage : Page
                     Debug.WriteLine(rb.Name);
                     currentAccountId = id;
                     OTP_Ring.Value = 100;
-                    timer = null;
-                    progressTimer = null;
+                    timer?.Dispose();
                     dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     dynamicStackPanel.PointerEntered += (sender, e) =>
                     {
@@ -321,24 +319,32 @@ public sealed partial class AccountsPage : Page
 
                         if(account.Secret != null)
                         {
-                            var totp = new Totp(Encoding.UTF8.GetBytes(account.Secret));
-                            var otp = totp.ComputeTotp(DateTime.UtcNow);
-                            Authenticator_Text.Text = otp;
-
-                            // Compute the initial OTP
-                            UpdateOTP(account.Secret);
                             currentSecretKey = account.Secret;
-                            // Start the timer to update the OTP every 30 seconds
-                            timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
-                            // Start the timer to update the ProgressRing value
-                            progressTimer = new Timer(ProgressTimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
+                            // Timer to update the OTP and ProgressRing value
+                            timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
                         }
                     }
                     else
                     {
                         currentSecretKey = "";
                         Authenticator_Container.Visibility = Visibility.Collapsed;
+                    }
+
+                    // Backup Codes
+                    BackupCodeDL.LoadBackupCodesFromDatabase();
+                    var backupCodes = BackupCodeDL.GetBackupCodesByAccountId(id);
+                    if (backupCodes.Count > 0)
+                    {                    
+                        BackupCodes_Container.Visibility = Visibility.Visible;
+                        foreach (var backupCode in backupCodes)
+                        {
+                            AddBackupCodeinContainer(backupCode.Code ?? "", backupCode.IsUsed ?? 0);
+                        }
+                    }
+                    else
+                    {                    
+                        BackupCodes_Container.Visibility = Visibility.Collapsed;
                     }
 
                 }
@@ -351,15 +357,48 @@ public sealed partial class AccountsPage : Page
 
         AccountsListView.Children.Add(dynamicStackPanel);
     }
+    private string oldOTP = "";
 
     // Method to update OTP
     private void UpdateOTP(string secret)
     {
         var totp = new Totp(Base32Encoding.ToBytes(secret), step: 30, mode: OtpHashMode.Sha1, totpSize: 6, timeCorrection: TimeCorrection.UncorrectedInstance);
         var otp = totp.ComputeTotp(DateTime.UtcNow);
-        // Use DispatcherQueue to update UI elements safely
+        var remainingSeconds = totp.RemainingSeconds(DateTime.UtcNow);
+
+        if (oldOTP == "")
+        {
+            oldOTP = otp;
+            SetProgressRingValue(remainingSeconds);
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                Authenticator_Text.Text = otp;
+            });
+        }
+        else if (oldOTP != otp)
+        {
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                Authenticator_Text.Text = otp;
+            });
+            SetProgressRingValue(remainingSeconds);
+        }
+        else if (oldOTP == otp)
+        {
+            SetProgressRingValue(remainingSeconds);
+        }
+
+        
+    }
+
+    private void SetProgressRingValue(int remainingSeconds)
+    {
+        // Calculate the progress ring value based on remaining seconds
+        var progressValue = (remainingSeconds / 30.0) * 100.0;
+
+        // Set the progress ring value
         DispatcherQueue.TryEnqueue(() => {
-            Authenticator_Text.Text = otp;
+            OTP_Ring.Value = progressValue;
         });
     }
 
@@ -371,6 +410,19 @@ public sealed partial class AccountsPage : Page
             UpdateOTP(currentSecretKey);
         }
     }
+
+    private void ProgressTimerCallback(object? state)
+    {
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            OTP_Ring.Value -= 1;
+            if (OTP_Ring.Value == 0)
+            {
+                OTP_Ring.Value = 100;
+            }
+        });
+    }
+
 
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -389,17 +441,6 @@ public sealed partial class AccountsPage : Page
         } 
     }
 
-    private void ProgressTimerCallback(object? state)
-    {
-        DispatcherQueue.TryEnqueue(() =>
-        {
-            OTP_Ring.Value -= 1;
-            if(OTP_Ring.Value == 0)
-            {
-                OTP_Ring.Value = 100;
-            }
-        });
-    }
 
     private void AddAccount_Button_Click(object sender, RoutedEventArgs e)
     {
@@ -481,7 +522,7 @@ public sealed partial class AccountsPage : Page
                 var backupCodeBL = new BackupCode
                 (
                     AccountId: AccountDB.GetMaxId(),
-                    Code: backupCode.PlaceholderText
+                    Code: backupCode.Text
                 );
             
                 BackupCodeDL.AddBackupCode(backupCodeBL);
@@ -964,6 +1005,77 @@ public sealed partial class AccountsPage : Page
         stackPanel.Children.Add(qrCode_Image);
 
         await dialog.ShowAsync();
+
+    }
+
+    private void AddBackupCodeinContainer(string backupCode, int isUsed)
+    {
+        var grid = new Grid
+        {
+        };
+
+        // Create ColumnDefinitions for the Grid
+        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // For Backup Code Text
+        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For Backup Code isUsed Checkbox
+        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto}); // For Backup Code Copy Button
+
+        // Backup Code TextBlock
+        var textBlock = new TextBlock
+        {
+        
+            Text = backupCode,
+            Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
+            FontSize = 17,
+            Margin = new Thickness(0, 0, 0, 0)
+        };
+
+        // Backup Code isUsed CheckBox
+        var checkBox = new CheckBox
+        {
+            IsChecked = (isUsed == 1),
+            IsEnabled = false,
+            Margin = new Thickness(0, 0, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Right
+        };
+
+        // Copy Backup Code Button
+        var copyButton = new Button
+        {
+            Content = new FontIcon
+            {           
+                Glyph = "\uE8C8",
+                FontSize = 15
+            },
+            Margin = new Thickness(10, 0, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Height = 32,
+            Command = new RelayCommand(() =>
+            {      
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(backupCode);
+                Clipboard.SetContent(dataPackage);
+            })
+        };
+
+        // Set ToolTips for the Copy Backup Code Button
+        ToolTipService.SetToolTip(copyButton, "Copy Backup Code");
+        ToolTipService.SetPlacement(copyButton, PlacementMode.Bottom);
+
+
+        // Set Grid.Column for each element
+        Grid.SetColumn(textBlock, 0);
+        Grid.SetColumn(checkBox, 1);
+        Grid.SetColumn(copyButton, 2);
+
+        // Add the TextBlock, CheckBox, and Button to the Grid
+        grid.Children.Add(textBlock);
+
+        grid.Children.Add(checkBox);
+
+        grid.Children.Add(copyButton);
+
+        BackupCodes_Grids.Children.Add(grid);
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Data.SQLite;
+using System.Runtime.InteropServices;
 using Cyber_Vault.BL;
 using Cyber_Vault.Utils;
 
@@ -17,10 +18,26 @@ internal class BackupCodeDB
         {
             command.CommandText = @"INSERT INTO BackupCode (AccountId, Code) VALUES (@AccountId, @Code)";
 
-            command.Parameters.AddWithValue("@AccountId", backupCode.AccountId);
-            command.Parameters.AddWithValue("@Code", backupCode.Code);
+            var UsernamePtr = IntPtr.Zero;
+            var PasswordPtr = IntPtr.Zero;
+            try
+            {
+                UsernamePtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
+                PasswordPtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetPasswordFromMemory()!);
+                var username = Marshal.PtrToStringUni(UsernamePtr);
+                var password = Marshal.PtrToStringUni(PasswordPtr);
 
-            command.ExecuteNonQuery();
+                command.Parameters.AddWithValue("@AccountId", backupCode.AccountId);
+                command.Parameters.AddWithValue("@Code", EncryptionHelper.Encrypt(backupCode.Code ?? "", username + password));
+
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(UsernamePtr);
+                Marshal.ZeroFreeGlobalAllocUnicode(PasswordPtr);
+            }
+
         }
 
         connection.Close();

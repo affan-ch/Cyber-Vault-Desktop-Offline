@@ -8,6 +8,7 @@ using H.NotifyIcon.EfficiencyMode;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using Windows.UI.ViewManagement;
+using Cyber_Vault.DL;
 namespace Cyber_Vault;
 
 public sealed partial class MainWindow : WindowEx
@@ -58,6 +59,9 @@ public sealed partial class MainWindow : WindowEx
             App.MainWindow.Content = _login ?? new Frame();
             await ActivationService.StartupAsync();
 
+            //  Clear the Account List
+            AccountDL.ClearAccounts();
+
             // On Minimize to System Tray --> Hide Window
             window.Hide();
         }
@@ -70,6 +74,10 @@ public sealed partial class MainWindow : WindowEx
     [RelayCommand]
     public void ExitApplication()
     {
+        AccountDL.ClearAccounts();
+        CredentialsManager.DeleteUsernameFromMemory();
+        CredentialsManager.DeletePasswordFromMemory();
+
         App.HandleClosedEvents = false;
         TrayIcon.Dispose();
         App.MainWindow?.Close();

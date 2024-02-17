@@ -13,7 +13,7 @@ internal class CredentialsManager
     // Store Key in Database
     public static void StoreInDatabase(string username, string password)
     {
-        var encryptedKey = EncyptionHelper.Encrypt(username+password, username+password);
+        var encryptedKey = EncryptionHelper.Encrypt(username+password, username+password);
         using var connection = new SQLiteConnection(DatabaseHelper.ConnectionString);
         connection.Open();
     
@@ -47,7 +47,7 @@ internal class CredentialsManager
             var encryptedKey = reader["Key"].ToString() ?? string.Empty;
             if (encryptedKey != string.Empty)
             {
-                var decryptedKey = EncyptionHelper.Decrypt(encryptedKey, username+password);
+                var decryptedKey = EncryptionHelper.Decrypt(encryptedKey, username+password);
                 if(decryptedKey == username+password)
                 {                
                     connection.Close();
@@ -104,12 +104,16 @@ internal class CredentialsManager
     // Delete Username from Memory
     public static void DeleteUsernameFromMemory()
     {
+        //Username?.Clear();
+        //Username?.Dispose();
         Username = null;
     }
 
     // Delete Master Password from Memory
     public static void DeletePasswordFromMemory()
     {
+        //MasterPassword?.Clear();
+        //MasterPassword?.Dispose();
         MasterPassword = null;
     }
 

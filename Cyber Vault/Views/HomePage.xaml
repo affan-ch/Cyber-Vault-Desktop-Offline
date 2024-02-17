@@ -39,6 +39,7 @@
                                  PlaceholderText="Username"
                                  Width="300"
                                  Margin="0 0 0 25"
+                                 TabIndex="0"
                         />
                         
                         <!-- Password TextBox (Login) -->
@@ -47,6 +48,7 @@
                                      PlaceholderText="Master Key"
                                      Width="300"
                                      Margin="0 0 0 30"
+                                     TabIndex="1"
                         />
                         
                         <!-- Login Button -->
@@ -55,6 +57,7 @@
                                 Content="Continue"
                                 Click="Login_Button_Click" 
                                 HorizontalAlignment="Center" 
+                                TabIndex="2"
                         />
                     </StackPanel>
 

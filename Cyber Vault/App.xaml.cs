@@ -3,6 +3,7 @@ using Cyber_Vault.Contracts.Services;
 using Cyber_Vault.Core.Contracts.Services;
 using Cyber_Vault.Core.Services;
 using Cyber_Vault.DB;
+using Cyber_Vault.DL;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.Models;
 using Cyber_Vault.Services;
@@ -109,6 +110,9 @@ public partial class App : Application
 
                 // On Minimize to System Tray --> Delete MasterPassword from Memory
                 CredentialsManager.DeletePasswordFromMemory();
+
+                // Clear the Account List
+                AccountDL.ClearAccounts();
 
                 // On Minimize to System Tray --> Logout
                 UIElement? _login = App.GetService<HomePage>();

@@ -1,7 +1,9 @@
 ﻿
 using System.Data.SQLite;
+using System.Runtime.InteropServices;
 using Cyber_Vault.BL;
 using Cyber_Vault.Utils;
+using Microsoft.UI.Xaml;
 
 namespace Cyber_Vault.DB;
 
@@ -20,23 +22,40 @@ internal class AccountDB
         };
 
 
-        command.Parameters.AddWithValue("@Type", EncyptionHelper.Encrypt(account.Type ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Title", EncyptionHelper.Encrypt(account.Title ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Domain", EncyptionHelper.Encrypt(account.Domain ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Name", EncyptionHelper.Encrypt(account.Name ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Email", EncyptionHelper.Encrypt(account.Email ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Username", EncyptionHelper.Encrypt(account.Username ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@PhoneNumber", EncyptionHelper.Encrypt(account.PhoneNumber ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Password", EncyptionHelper.Encrypt(account.Password ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Pin", EncyptionHelper.Encrypt(account.Pin ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@DateOfBirth", EncyptionHelper.Encrypt(account.DateOfBirth ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@RecoveryEmail", EncyptionHelper.Encrypt(account.RecoveryEmail ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@RecoveryPhoneNumber", EncyptionHelper.Encrypt(account.RecoveryPhoneNumber ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@QrCode", EncyptionHelper.Encrypt(account.QrCode ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Secret", EncyptionHelper.Encrypt(account.Secret ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
-        command.Parameters.AddWithValue("@Notes", EncyptionHelper.Encrypt(account.Notes ?? "", CredentialsManager.GetUsernameFromMemory()!.ToString() + CredentialsManager.GetPasswordFromMemory()!.ToString()));
+        var UsernamePtr = IntPtr.Zero;
+        var PasswordPtr = IntPtr.Zero;
+        try
+        {
+            UsernamePtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
+            PasswordPtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetPasswordFromMemory()!);
+            var username = Marshal.PtrToStringUni(UsernamePtr);
+            var password = Marshal.PtrToStringUni(PasswordPtr);
 
-        command.ExecuteNonQuery();
+            command.Parameters.AddWithValue("@Type", EncryptionHelper.Encrypt(account.Type ?? "", username + password));
+            command.Parameters.AddWithValue("@Title", EncryptionHelper.Encrypt(account.Title ?? "", username + password));
+            command.Parameters.AddWithValue("@Domain", EncryptionHelper.Encrypt(account.Domain ?? "", username + password));
+            command.Parameters.AddWithValue("@Name", EncryptionHelper.Encrypt(account.Name ?? "", username + password));
+            command.Parameters.AddWithValue("@Email", EncryptionHelper.Encrypt(account.Email ?? "", username + password));
+            command.Parameters.AddWithValue("@Username", EncryptionHelper.Encrypt(account.Username ?? "", username + password));
+            command.Parameters.AddWithValue("@PhoneNumber", EncryptionHelper.Encrypt(account.PhoneNumber ?? "", username + password));
+            command.Parameters.AddWithValue("@Password", EncryptionHelper.Encrypt(account.Password ?? "", username + password));
+            command.Parameters.AddWithValue("@Pin", EncryptionHelper.Encrypt(account.Pin ?? "", username + password));
+            command.Parameters.AddWithValue("@DateOfBirth", EncryptionHelper.Encrypt(account.DateOfBirth ?? "", username + password));
+            command.Parameters.AddWithValue("@RecoveryEmail", EncryptionHelper.Encrypt(account.RecoveryEmail ?? "", username + password));
+            command.Parameters.AddWithValue("@RecoveryPhoneNumber", EncryptionHelper.Encrypt(account.RecoveryPhoneNumber ?? "", username + password));
+            command.Parameters.AddWithValue("@QrCode", EncryptionHelper.Encrypt(account.QrCode ?? "", username + password));
+            command.Parameters.AddWithValue("@Secret", EncryptionHelper.Encrypt(account.Secret ?? "", username + password));
+            command.Parameters.AddWithValue("@Notes", EncryptionHelper.Encrypt(account.Notes ?? "", username + password));
+
+            command.ExecuteNonQuery();
+
+        }
+        finally
+        {
+            Marshal.ZeroFreeGlobalAllocUnicode(UsernamePtr);
+            Marshal.ZeroFreeGlobalAllocUnicode(PasswordPtr);
+        }
+
 
         connection.Close();
     }
@@ -109,12 +128,16 @@ internal class AccountDB
         using var reader = command.ExecuteReader();
        
         reader.Read();
-       
-        var maxId = int.Parse(reader[0].ToString() ?? "0");
-       
-        connection.Close();
-       
-        return maxId;
+        try
+        {
+            var maxId = int.Parse(reader[0].ToString() ?? "0");
+            return maxId;
+        }
+        catch
+        {
+            connection.Close();
+            return 0;
+        }       
     }
 
 
