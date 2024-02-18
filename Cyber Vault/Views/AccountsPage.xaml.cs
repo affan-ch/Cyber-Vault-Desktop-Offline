@@ -15,6 +15,7 @@ using OtpNet;
 using System.Text;
 using Microsoft.UI.Xaml.Documents;
 using static QRCoder.PayloadGenerator;
+using Microsoft.UI.Text;
 
 
 namespace Cyber_Vault.Views;
@@ -1021,6 +1022,93 @@ public sealed partial class AccountsPage : Page
 
         stackPanel.Children.Add(qrCode_Image);
 
+
+        var copyQrCodeButton = new Button
+        {
+            Content = new FontIcon
+            {
+                Glyph = "\uE8C8",
+                FontSize = 17
+            },
+            Margin = new Thickness(0, 0, 20, 0),
+            BorderThickness = new Thickness(0),
+            Height = 35,
+            Width = 45,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Command = new RelayCommand(() =>
+            {
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(account!.QrCode);
+                Clipboard.SetContent(dataPackage);
+            })
+        };
+
+        ToolTipService.SetToolTip(copyQrCodeButton, "Copy QR Code");
+        ToolTipService.SetPlacement(copyQrCodeButton, PlacementMode.Bottom);
+
+        stackPanel.Children.Add(copyQrCodeButton);
+
+
+
+
+        var issuerIndex = account.QrCode!.IndexOf("&issuer=");
+
+        if (issuerIndex != -1)
+        {
+            // Extract the substring containing the issuer parameter
+            var issuerSubstring = account.QrCode!.Substring(issuerIndex + "&issuer=".Length);
+
+            // Find the index of the next parameter delimiter
+            var nextDelimiterIndex = issuerSubstring.IndexOf('&');
+
+            // Extract the issuer value
+            var issuerValue = nextDelimiterIndex != -1 ? issuerSubstring[..nextDelimiterIndex] : issuerSubstring;
+
+            var issuer = Uri.UnescapeDataString(issuerValue);
+
+            var IssuerLabel = new TextBlock
+            {
+                Text = "Issuer",
+                Margin = new Thickness(0, 15, 0, 0),
+                Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                FontSize = 17
+            };
+
+            var IssuerText = new TextBlock
+            {
+                Text = issuer,
+                Margin = new Thickness(0, 10, 0, 0),
+                FontSize = 13,
+                FontWeight = FontWeights.Bold,
+                Opacity = 0.9
+            };
+
+            stackPanel.Children.Add(IssuerLabel);
+            stackPanel.Children.Add(IssuerText);
+        }
+
+
+        var SecretLabel = new TextBlock
+        {
+            Text = "Secret",
+            Margin = new Thickness(0, 15, 0, 0),
+            Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+            FontSize = 17
+        };
+
+        var SecretText = new TextBlock
+        {
+            Text = account.Secret?.ToUpper(),
+            Margin = new Thickness(0,10,0,0),
+            FontSize = 13,
+            FontWeight = FontWeights.Bold,
+            Opacity = 0.9
+        };
+
+        stackPanel.Children.Add(SecretLabel);
+        stackPanel.Children.Add(SecretText);
+
+
         await dialog.ShowAsync();
 
     }
@@ -1181,6 +1269,7 @@ public sealed partial class AccountsPage : Page
 
     }
 
+    // Update Account Button (Update Account Page)
     private void Update_Button_Click(object sender, RoutedEventArgs e)
     {
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
@@ -1228,4 +1317,6 @@ public sealed partial class AccountsPage : Page
         RenderUserInterface(account);
 
     }
+
+
 }
