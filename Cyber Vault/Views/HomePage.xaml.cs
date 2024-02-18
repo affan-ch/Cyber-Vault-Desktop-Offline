@@ -88,6 +88,7 @@ public sealed partial class HomePage : Page
         CredentialsManager.StoreUsernameInMemory(Login_Username_TextBox.Text);
         CredentialsManager.StorePasswordInMemory(Login_PasswordBox.Password);
         AccountDL.LoadAccountsFromDatabase();
+        BackupCodeDL.LoadBackupCodesFromDatabase();
 
         UIElement? _shell = App.GetService<ShellPage>();
         App.MainWindow.Content = _shell ?? new Frame();

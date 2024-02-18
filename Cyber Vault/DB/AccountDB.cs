@@ -71,23 +71,39 @@ internal class AccountDB
         {
            CommandText = @"UPDATE Account SET Type = @Type, Title = @Title, Domain = @Domain, Name = @Name, Email = @Email, Username = @Username, PhoneNumber = @PhoneNumber, Password = @Password, Pin = @Pin, DateOfBirth = @DateOfBirth, RecoveryEmail = @RecoveryEmail, RecoveryPhoneNumber = @RecoveryPhoneNumber, QrCode = @QrCode, Secret = @Secret, Notes = @Notes WHERE Id = @Id"
         };
-    
-        command.Parameters.AddWithValue("@Id", account.Id);
-        command.Parameters.AddWithValue("@Type", account.Type);
-        command.Parameters.AddWithValue("@Title", account.Title);
-        command.Parameters.AddWithValue("@Domain", account.Domain);
-        command.Parameters.AddWithValue("@Name", account.Name);
-        command.Parameters.AddWithValue("@Email", account.Email);
-        command.Parameters.AddWithValue("@Username", account.Username);
-        command.Parameters.AddWithValue("@PhoneNumber", account.PhoneNumber);
-        command.Parameters.AddWithValue("@Password", account.Password);
-        command.Parameters.AddWithValue("@Pin", account.Pin);
-        command.Parameters.AddWithValue("@DateOfBirth", account.DateOfBirth);
-        command.Parameters.AddWithValue("@RecoveryEmail", account.RecoveryEmail);
-        command.Parameters.AddWithValue("@RecoveryPhoneNumber", account.RecoveryPhoneNumber);
-        command.Parameters.AddWithValue("@QrCode", account.QrCode);
-        command.Parameters.AddWithValue("@Secret", account.Secret);
-        command.Parameters.AddWithValue("@Notes", account.Notes);
+
+        var UsernamePtr = IntPtr.Zero;
+        var PasswordPtr = IntPtr.Zero;
+        try
+        {
+            UsernamePtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
+            PasswordPtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetPasswordFromMemory()!);
+            var username = Marshal.PtrToStringUni(UsernamePtr);
+            var password = Marshal.PtrToStringUni(PasswordPtr);
+
+            command.Parameters.AddWithValue("@Id", account.Id);
+            command.Parameters.AddWithValue("@Type", EncryptionHelper.Encrypt(account.Type ?? "", username + password));
+            command.Parameters.AddWithValue("@Title", EncryptionHelper.Encrypt(account.Title ?? "", username + password));
+            command.Parameters.AddWithValue("@Domain", EncryptionHelper.Encrypt(account.Domain ?? "", username + password));
+            command.Parameters.AddWithValue("@Name", EncryptionHelper.Encrypt(account.Name ?? "", username + password));
+            command.Parameters.AddWithValue("@Email", EncryptionHelper.Encrypt(account.Email ?? "", username + password));
+            command.Parameters.AddWithValue("@Username", EncryptionHelper.Encrypt(account.Username ?? "", username + password));
+            command.Parameters.AddWithValue("@PhoneNumber", EncryptionHelper.Encrypt(account.PhoneNumber ?? "", username + password));
+            command.Parameters.AddWithValue("@Password", EncryptionHelper.Encrypt(account.Password ?? "", username + password));
+            command.Parameters.AddWithValue("@Pin", EncryptionHelper.Encrypt(account.Pin ?? "", username + password));
+            command.Parameters.AddWithValue("@DateOfBirth", EncryptionHelper.Encrypt(account.DateOfBirth ?? "", username + password));
+            command.Parameters.AddWithValue("@RecoveryEmail", EncryptionHelper.Encrypt(account.RecoveryEmail ?? "", username + password));
+            command.Parameters.AddWithValue("@RecoveryPhoneNumber", EncryptionHelper.Encrypt(account.RecoveryPhoneNumber ?? "", username + password));
+            command.Parameters.AddWithValue("@QrCode", EncryptionHelper.Encrypt(account.QrCode ?? "", username + password));
+            command.Parameters.AddWithValue("@Secret", EncryptionHelper.Encrypt(account.Secret ?? "", username + password));
+            command.Parameters.AddWithValue("@Notes", EncryptionHelper.Encrypt(account.Notes ?? "", username + password));
+
+        }
+        finally
+        {        
+            Marshal.ZeroFreeGlobalAllocUnicode(UsernamePtr);
+            Marshal.ZeroFreeGlobalAllocUnicode(PasswordPtr);
+        }
     
         command.ExecuteNonQuery();
 

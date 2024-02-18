@@ -374,6 +374,20 @@
                                     VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
+
+                        <!-- Update Button -->
+                        <Button x:Name="Update_Button" Style="{StaticResource AccentButtonStyle}" Width="90" Click="Update_Button_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon 
+                                    Glyph="&#xE74E;" 
+                                    FontSize="17"/>
+                                <TextBlock 
+                                    Text="Update"  
+                                    Margin="4,0,0,0"
+                                    Style="{ThemeResource BodyTextBlockStyle}" 
+                                    VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Grid>
                 
@@ -1037,7 +1051,7 @@
                                 </Button>
 
                                 <!-- Modify Button -->
-                                <Button x:Name="Modify_Button" Style="{StaticResource AccentButtonStyle}" Width="95">
+                                <Button x:Name="Modify_Button" Style="{StaticResource AccentButtonStyle}" Width="95" Click="Modify_Button_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon 
                                            Glyph="&#xE70F;" 
@@ -1216,8 +1230,9 @@
                             <TextBlock Text="Backup Codes" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
 
                             <StackPanel x:Name="BackupCodes_Grids" Orientation="Vertical" Margin="20,0,0,0">
-                                
+                                <!-- To be added by C# Code -->
                             </StackPanel>
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,20"/>
 
                         </StackPanel>
 

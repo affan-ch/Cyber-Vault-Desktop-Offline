@@ -13,6 +13,8 @@ using System.Diagnostics;
 using QRCoder;
 using OtpNet;
 using System.Text;
+using Microsoft.UI.Xaml.Documents;
+using static QRCoder.PayloadGenerator;
 
 
 namespace Cyber_Vault.Views;
@@ -183,170 +185,7 @@ public sealed partial class AccountsPage : Page
                         return;
                     }
 
-                    // Domain
-                    if (account.Domain != null && account.Domain != string.Empty)
-                    {                                       
-                        Domain_Container.Visibility = Visibility.Visible;
-                        Domain_Text.Text = account.Domain;
-                    }
-                    else
-                    {                                       
-                        Domain_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Name
-                    if (account.Name != null && account.Name != string.Empty)
-                    {                    
-                        Name_Container.Visibility = Visibility.Visible;
-                        Name_Text.Text = account.Name;
-                    }
-                    else
-                    {                    
-                        Name_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Email
-                    if (account.Email != null && account.Email != string.Empty)
-                    {
-                        Email_Container.Visibility = Visibility.Visible;
-                        Email_Text.Text = email;
-                    }
-                    else
-                    {
-                        Email_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Username
-                    if (account.Username != null && account.Username != string.Empty)
-                    {             
-                        Username_Container.Visibility = Visibility.Visible;
-                        Username_Text.Text = account.Username;
-                    }
-                    else
-                    {                    
-                        Username_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Phone Number
-                    if (account.PhoneNumber != null && account.PhoneNumber != string.Empty)
-                    {                    
-                        PhoneNumber_Container.Visibility = Visibility.Visible;
-                        PhoneNumber_Text.Text = account.PhoneNumber;
-                    }
-                    else
-                    {                    
-                        PhoneNumber_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Password
-                    if (account.Password != null && account.Password != string.Empty)
-                    {                                       
-                        Password_Container.Visibility = Visibility.Visible;
-                        Password_Text.Text = new string('●', account.Password.Length);
-                        Password_Text_Hidden.Text = account.Password;
-                        TogglePassword_CheckBox.IsChecked = false;
-                        PasswordToggle_Icon.Glyph = "\uE7B3";
-                        ToolTipService.SetToolTip(TogglePassword_Button, "Show Password");
-                    }
-                    else
-                    {                                       
-                        Password_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Pin
-                    if (account.Pin != null && account.Pin != string.Empty)
-                    {
-                        Pin_Container.Visibility = Visibility.Visible;
-                        Pin_Text.Text = new string('●', account.Pin.Length);
-                        Pin_Text_Hidden.Text = account.Pin;
-                        TogglePin_CheckBox.IsChecked = false;
-                        PinToggle_Icon.Glyph = "\uE7B3";
-                        ToolTipService.SetToolTip(TogglePin_Button, "Show Pin");
-                    }
-                    else
-                    {
-                        Pin_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Date of Birth
-                    if (account.DateOfBirth != null && account.DateOfBirth != string.Empty)
-                    {                    
-                        DOB_Container.Visibility = Visibility.Visible;
-                        DOB_Text.Text = account.DateOfBirth;
-                    }
-                    else
-                    {                    
-                        DOB_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Notes
-                    if (account.Notes != null && account.Notes != string.Empty)
-                    {                                       
-                        Notes_Container.Visibility = Visibility.Visible;
-                        Notes_Text.Text = account.Notes;
-                    }
-                    else
-                    {                                       
-                        Notes_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Recovery Email
-                    if (account.RecoveryEmail != null && account.RecoveryEmail != string.Empty)
-                    {                                       
-                        RecoveryEmail_Container.Visibility = Visibility.Visible;
-                        RecoveryEmail_Text.Text = account.RecoveryEmail;
-                    }
-                    else
-                    {             
-                        RecoveryEmail_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Recovery Phone Number
-                    if (account.RecoveryPhoneNumber != null && account.RecoveryPhoneNumber != string.Empty)
-                    {                                                          
-                        RecoveryPhoneNumber_Container.Visibility = Visibility.Visible;
-                        RecoveryPhoneNumber_Text.Text = account.RecoveryPhoneNumber;
-                    }
-                    else
-                    {                                                          
-                        RecoveryPhoneNumber_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // QR Code
-                    if ((account.QrCode != null && account.QrCode != string.Empty) || (account.Secret != null && account.Secret != string.Empty))
-                    {
-                        Authenticator_Container.Visibility = Visibility.Visible;
-
-                        if(account.Secret != null)
-                        {
-                            currentSecretKey = account.Secret;
-
-                            // Timer to update the OTP and ProgressRing value
-                            timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
-                        }
-                    }
-                    else
-                    {
-                        currentSecretKey = "";
-                        Authenticator_Container.Visibility = Visibility.Collapsed;
-                    }
-
-                    // Backup Codes
-                    BackupCodeDL.LoadBackupCodesFromDatabase();
-                    var backupCodes = BackupCodeDL.GetBackupCodesByAccountId(id);
-                    if (backupCodes.Count > 0)
-                    {                    
-                        BackupCodes_Container.Visibility = Visibility.Visible;
-                        foreach (var backupCode in backupCodes)
-                        {
-                            AddBackupCodeinContainer(backupCode.Code ?? "", backupCode.IsUsed ?? 0);
-                        }
-                    }
-                    else
-                    {                    
-                        BackupCodes_Container.Visibility = Visibility.Collapsed;
-                    }
-
+                    RenderUserInterface(account);
                 }
                 else
                 {
@@ -357,9 +196,10 @@ public sealed partial class AccountsPage : Page
 
         AccountsListView.Children.Add(dynamicStackPanel);
     }
+    
     private string oldOTP = "";
 
-    // Method to update OTP
+    // Method to update OTP (View Account Page - Authenticator)
     private void UpdateOTP(string secret)
     {
         var totp = new Totp(Base32Encoding.ToBytes(secret), step: 30, mode: OtpHashMode.Sha1, totpSize: 6, timeCorrection: TimeCorrection.UncorrectedInstance);
@@ -391,6 +231,7 @@ public sealed partial class AccountsPage : Page
         
     }
 
+    // Method to set the progress ring value (View Account Page)
     private void SetProgressRingValue(int remainingSeconds)
     {
         // Calculate the progress ring value based on remaining seconds
@@ -402,7 +243,7 @@ public sealed partial class AccountsPage : Page
         });
     }
 
-    // Timer callback method
+    // Timer callback method (View Account Page - Authenticator Timer)
     private void TimerCallback(object? state)
     {
         if(currentSecretKey != null && currentSecretKey != "")
@@ -411,18 +252,175 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-    private void ProgressTimerCallback(object? state)
-    {
-        DispatcherQueue.TryEnqueue(() =>
-        {
-            OTP_Ring.Value -= 1;
-            if (OTP_Ring.Value == 0)
-            {
-                OTP_Ring.Value = 100;
-            }
-        });
-    }
 
+    private void RenderUserInterface(Account account)
+    {
+
+        // Domain
+        if (account.Domain != null && account.Domain != string.Empty)
+        {
+            Domain_Container.Visibility = Visibility.Visible;
+            Domain_Text.Text = account.Domain;
+        }
+        else
+        {
+            Domain_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Name
+        if (account.Name != null && account.Name != string.Empty)
+        {
+            Name_Container.Visibility = Visibility.Visible;
+            Name_Text.Text = account.Name;
+        }
+        else
+        {
+            Name_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Email
+        if (account.Email != null && account.Email != string.Empty)
+        {
+            Email_Container.Visibility = Visibility.Visible;
+            Email_Text.Text = account.Email;
+        }
+        else
+        {
+            Email_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Username
+        if (account.Username != null && account.Username != string.Empty)
+        {
+            Username_Container.Visibility = Visibility.Visible;
+            Username_Text.Text = account.Username;
+        }
+        else
+        {
+            Username_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Phone Number
+        if (account.PhoneNumber != null && account.PhoneNumber != string.Empty)
+        {
+            PhoneNumber_Container.Visibility = Visibility.Visible;
+            PhoneNumber_Text.Text = account.PhoneNumber;
+        }
+        else
+        {
+            PhoneNumber_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Password
+        if (account.Password != null && account.Password != string.Empty)
+        {
+            Password_Container.Visibility = Visibility.Visible;
+            Password_Text.Text = new string('●', account.Password.Length);
+            Password_Text_Hidden.Text = account.Password;
+            TogglePassword_CheckBox.IsChecked = false;
+            PasswordToggle_Icon.Glyph = "\uE7B3";
+            ToolTipService.SetToolTip(TogglePassword_Button, "Show Password");
+        }
+        else
+        {
+            Password_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Pin
+        if (account.Pin != null && account.Pin != string.Empty)
+        {
+            Pin_Container.Visibility = Visibility.Visible;
+            Pin_Text.Text = new string('●', account.Pin.Length);
+            Pin_Text_Hidden.Text = account.Pin;
+            TogglePin_CheckBox.IsChecked = false;
+            PinToggle_Icon.Glyph = "\uE7B3";
+            ToolTipService.SetToolTip(TogglePin_Button, "Show Pin");
+        }
+        else
+        {
+            Pin_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Date of Birth
+        if (account.DateOfBirth != null && account.DateOfBirth != string.Empty)
+        {
+            DOB_Container.Visibility = Visibility.Visible;
+            DOB_Text.Text = account.DateOfBirth;
+        }
+        else
+        {
+            DOB_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Notes
+        if (account.Notes != null && account.Notes != string.Empty)
+        {
+            Notes_Container.Visibility = Visibility.Visible;
+            Notes_Text.Text = account.Notes;
+        }
+        else
+        {
+            Notes_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Recovery Email
+        if (account.RecoveryEmail != null && account.RecoveryEmail != string.Empty)
+        {
+            RecoveryEmail_Container.Visibility = Visibility.Visible;
+            RecoveryEmail_Text.Text = account.RecoveryEmail;
+        }
+        else
+        {
+            RecoveryEmail_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Recovery Phone Number
+        if (account.RecoveryPhoneNumber != null && account.RecoveryPhoneNumber != string.Empty)
+        {
+            RecoveryPhoneNumber_Container.Visibility = Visibility.Visible;
+            RecoveryPhoneNumber_Text.Text = account.RecoveryPhoneNumber;
+        }
+        else
+        {
+            RecoveryPhoneNumber_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // QR Code
+        if ((account.QrCode != null && account.QrCode != string.Empty) || (account.Secret != null && account.Secret != string.Empty))
+        {
+            Authenticator_Container.Visibility = Visibility.Visible;
+
+            if (account.Secret != null)
+            {
+                currentSecretKey = account.Secret;
+
+                // Timer to update the OTP and ProgressRing value
+                timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
+            }
+        }
+        else
+        {
+            currentSecretKey = "";
+            Authenticator_Container.Visibility = Visibility.Collapsed;
+        }
+
+        // Backup Codes
+        var backupCodes = BackupCodeDL.GetBackupCodesByAccountId(account.Id ?? 0);
+        if (backupCodes.Count > 0)
+        {
+            BackupCodes_Grids.Children.Clear();
+            BackupCodes_Container.Visibility = Visibility.Visible;
+            foreach (var backupCode in backupCodes)
+            {
+                AddBackupCodeinContainer(backupCode.Code ?? "", backupCode.IsUsed ?? 0);
+            }
+        }
+        else
+        {
+            BackupCodes_Container.Visibility = Visibility.Collapsed;
+        }
+
+    }
 
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -442,11 +440,16 @@ public sealed partial class AccountsPage : Page
     }
 
 
+    // Add Account Button (Left Sidebar)
     private void AddAccount_Button_Click(object sender, RoutedEventArgs e)
     {
         ViewAccount_Grid.Visibility = Visibility.Collapsed;
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
         AddAccountContainer_Grid.Visibility = Visibility.Visible;
+
+        ClearFields();
+        Update_Button.Visibility = Visibility.Collapsed;
+        Save_Button.Visibility = Visibility.Visible;
 
         foreach (var rb in radioButtons.Items.Cast<RadioButton>())
         {
@@ -553,10 +556,12 @@ public sealed partial class AccountsPage : Page
         QrCode_TextBox.Text = string.Empty;
         SecretKey_TextBox.Text = string.Empty;
         Notes_TextBox.Text = string.Empty;
+
+        RemoveAllBackupCodesTextbox();
     }
 
     // Add Backup Code Field (Add Account Page)
-    private void AddBackupCode_Button_Click(object _, RoutedEventArgs e)
+    private void AddBackupCode_Button_Click(object? _, RoutedEventArgs? e)
     {
         backupCodeCount += 1;
 
@@ -604,6 +609,18 @@ public sealed partial class AccountsPage : Page
             AddBackupCode_Button.Visibility = (backupCodeCount >= 16) ? Visibility.Collapsed : Visibility.Visible;
             RemoveBackupCode_Button.Visibility = (backupCodeCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
         }
+    }
+
+    private void RemoveAllBackupCodesTextbox()
+    {
+        for(var i = BackupCodes_StackPanel.Children.Count - 1; i >= 1; i--)
+        {
+            BackupCodes_StackPanel.Children.RemoveAt(i);
+        }
+        backupCodeCount = 1;
+        AddBackupCode_Button.Visibility = Visibility.Visible;
+        RemoveBackupCode_Button.Visibility = Visibility.Collapsed;
+        BackupCode1_TextBox.Text = string.Empty;
     }
     
     // Password Generator (Add Account Page)
@@ -921,7 +938,6 @@ public sealed partial class AccountsPage : Page
 
     }
 
-
     // Refresh Accounts List View
     public void RefreshAccountsListView()
     {
@@ -947,7 +963,7 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-
+    // Copy Authenticator Button (View Account Page)
     private void CopyOTP_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -955,6 +971,7 @@ public sealed partial class AccountsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+    // Show QR Code Button (View Account Page)
     private async void AuthenticatorQR_Button_Click(object sender, RoutedEventArgs e)
     {
         var scrollViewer = new ScrollViewer
@@ -1008,34 +1025,53 @@ public sealed partial class AccountsPage : Page
 
     }
 
+    // Add Backup Code Field (View Account Page)
     private void AddBackupCodeinContainer(string backupCode, int isUsed)
     {
         var grid = new Grid
         {
+            Margin = new Thickness(0, 10, 0, 0),
         };
 
         // Create ColumnDefinitions for the Grid
         grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // For Backup Code Text
-        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For Backup Code isUsed Checkbox
-        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto}); // For Backup Code Copy Button
+        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For Backup Code isUsed Checkbox & Backup Code Copy Button
 
         // Backup Code TextBlock
-        var textBlock = new TextBlock
+        var textBlock = new RichTextBlock
         {
-        
-            Text = backupCode,
-            Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
-            FontSize = 17,
-            Margin = new Thickness(0, 0, 0, 0)
+            Opacity = 0.9,
+            FontSize = 14,
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = Microsoft.UI.Text.FontWeights.Bold,
+            Margin = new Thickness(0, 0, 0, 0),
+            Blocks =
+            {
+                new Paragraph
+                {
+                    Inlines =
+                    {
+                        new Run
+                        {
+                            Text = backupCode,
+                        }
+                    }
+                }
+            }
+        };
+
+        var stackPanel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal
         };
 
         // Backup Code isUsed CheckBox
         var checkBox = new CheckBox
         {
             IsChecked = (isUsed == 1),
-            IsEnabled = false,
-            Margin = new Thickness(0, 0, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Right
+            IsEnabled = true,
+            Padding = new Thickness(0),
+            MinWidth = 0
         };
 
         // Copy Backup Code Button
@@ -1044,12 +1080,13 @@ public sealed partial class AccountsPage : Page
             Content = new FontIcon
             {           
                 Glyph = "\uE8C8",
-                FontSize = 15
+                FontSize = 17
             },
-            Margin = new Thickness(10, 0, 0, 0),
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Height = 32,
+            Margin = new Thickness(15, 0, 20, 0),
+            BorderThickness = new Thickness(0),
+            Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"],
+            Height = 35,
+            Width = 45,
             Command = new RelayCommand(() =>
             {      
                 var dataPackage = new DataPackage();
@@ -1062,20 +1099,133 @@ public sealed partial class AccountsPage : Page
         ToolTipService.SetToolTip(copyButton, "Copy Backup Code");
         ToolTipService.SetPlacement(copyButton, PlacementMode.Bottom);
 
+        stackPanel.Children.Add(checkBox);
+        stackPanel.Children.Add(copyButton);
 
         // Set Grid.Column for each element
         Grid.SetColumn(textBlock, 0);
-        Grid.SetColumn(checkBox, 1);
-        Grid.SetColumn(copyButton, 2);
+        Grid.SetColumn(stackPanel, 1);
 
         // Add the TextBlock, CheckBox, and Button to the Grid
         grid.Children.Add(textBlock);
 
-        grid.Children.Add(checkBox);
+        grid.Children.Add(stackPanel);
 
-        grid.Children.Add(copyButton);
+
 
         BackupCodes_Grids.Children.Add(grid);
+
+    }
+
+    // Modify Account Button (View Account Page)
+    private void Modify_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        ViewAccount_Grid.Visibility = Visibility.Collapsed;
+        AddAccountContainer_Grid.Visibility = Visibility.Visible;
+
+        Save_Button.Visibility = Visibility.Collapsed;
+        Update_Button.Visibility = Visibility.Visible;
+
+        var account = AccountDL.GetAccountById(currentAccountId);
+
+        if (account == null)
+        {        
+            return;
+        }
+
+        AccountType_ComboBox.SelectedValue = account.Type;
+        Title_TextBox.Text = account.Title;
+        Domain_TextBox.Text = account.Domain;
+        Name_TextBox.Text = account.Name;
+        Email_TextBox.Text = account.Email;
+        Username_TextBox.Text = account.Username;
+        PhoneNumber_TextBox.Text = account.PhoneNumber;
+        Password_TextBox.Password = account.Password;
+        Pin_TextBox.Password = account.Pin;
+        DateOfBirth_TextBox.Text = account.DateOfBirth;
+        RecoveryEmail_TextBox.Text = account.RecoveryEmail;
+        RecoveryPhoneNumber_TextBox.Text = account.RecoveryPhoneNumber;
+        QrCode_TextBox.Text = account.QrCode;
+        SecretKey_TextBox.Text = account.Secret;
+        Notes_TextBox.Text = account.Notes;
+
+        // backup codes
+        var backupCodes = BackupCodeDL.GetBackupCodesByAccountId(currentAccountId);
+        if (backupCodes != null)
+        {
+            var index = 0;
+            if (backupCodes.Count > 0)
+            {
+                RemoveAllBackupCodesTextbox();
+                foreach (var backupCode in backupCodes)
+                {
+                    if (index == 0)
+                    {
+                        BackupCode1_TextBox.Text = backupCode.Code;
+                        index++;
+                        continue;
+                    }
+                    else
+                    {
+                        AddBackupCode_Button_Click(null, null);
+                        var backupCodeTextBox = (TextBox)BackupCodes_StackPanel.Children[index];
+                        backupCodeTextBox.Text = backupCode.Code;
+                    }
+
+                }
+            }
+        }
+
+        BackupCodes_Grids.Children.Clear();
+
+    }
+
+    private void Update_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
+        ViewAccount_Grid.Visibility = Visibility.Visible;
+
+        var accountType = AccountType_ComboBox.SelectedValue.ToString();
+        var title = Title_TextBox.Text;
+        var domain = Domain_TextBox.Text;
+        var name = Name_TextBox.Text;
+        var email = Email_TextBox.Text;
+        var username = Username_TextBox.Text;
+        var phoneNumber = PhoneNumber_TextBox.Text;
+        var password = Password_TextBox.Password;
+        var pin = Pin_TextBox.Password;
+        var dateOfBirth = DateOfBirth_TextBox.Text;
+        var notes = Notes_TextBox.Text;
+        var recoveryEmail = RecoveryEmail_TextBox.Text;
+        var recoveryPhoneNumber = RecoveryPhoneNumber_TextBox.Text;
+        var qrCode = QrCode_TextBox.Text;
+        var secretKey = SecretKey_TextBox.Text;
+
+        var account = new Account
+        (
+            Id: currentAccountId,
+            Type: accountType ?? "Custom",
+            Title: title,
+            Domain: domain,
+            Name: name,
+            Email: email,
+            Username: username,
+            PhoneNumber: phoneNumber,
+            Password: password,
+            Pin: pin,
+            DateOfBirth: dateOfBirth,
+            RecoveryEmail: recoveryEmail,
+            RecoveryPhoneNumber: recoveryPhoneNumber,
+            QrCode: qrCode,
+            Secret: secretKey,
+            Notes: notes
+        );
+
+        AccountDL.UpdateAccount(account);
+        AccountDB.UpdateAccount(account);
+        RenderUserInterface(account);
 
     }
 }
