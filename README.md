@@ -1,6 +1,43 @@
 # Cyber-Vault-Desktop
 
-Cyber Vault Desktop is an offline password manager designed exclusively for Windows desktop users. This lightweight application, built with WinUI3, utilizes an SQLite database for secure local storage of account credentials, credit card information, and features a built-in authenticator for two-factor authentication (2FA).
+Cyber Vault Desktop is an offline password manager designed exclusively for Windows desktop users. This lightweight application, built with WinUI3, utilizes an SQLite database for secure local storage of account credentials, credit card information, secure notes & documents and features a built-in authenticator for two-factor authentication (2FA).
+
+<details>
+  <summary><b>Project Screenshots</b></summary>
+    <br>
+    
+  [![Login Page](https://i.imgur.com/EiUAqwk.png)](https://i.imgur.com/EiUAqwk.png)
+
+  <p align="center">
+  <b>Login Page</b>
+    </p>
+
+<br>
+    
+  [![View Account Page](https://i.imgur.com/99YUPRI.png)](https://i.imgur.com/99YUPRI.png)
+
+  <p align="center">
+  <b>View Account Page</b>
+    </p>
+
+<br>
+    
+  [![Add Account Page](https://i.imgur.com/fzlgEsC.png)](https://i.imgur.com/fzlgEsC.png)
+
+  <p align="center">
+  <b>Add Account Page</b>
+    </p>
+
+<br>
+    
+  [![Password Generator](https://i.imgur.com/HQ0kt9q.png)](https://i.imgur.com/HQ0kt9q.png)
+
+  <p align="center">
+  <b>Password Generator</b>
+    </p>
+
+</details>
+
 
 ## Features
 
