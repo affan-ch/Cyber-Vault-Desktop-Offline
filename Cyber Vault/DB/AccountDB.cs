@@ -142,11 +142,12 @@ internal class AccountDB
         };
        
         using var reader = command.ExecuteReader();
-       
         reader.Read();
+
         try
         {
             var maxId = int.Parse(reader[0].ToString() ?? "0");
+            connection.Close();
             return maxId;
         }
         catch

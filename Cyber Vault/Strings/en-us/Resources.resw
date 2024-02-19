@@ -156,4 +156,7 @@
   <data name="Shell_Accounts.Content" xml:space="preserve">
     <value>Accounts</value>
   </data>
+  <data name="Shell_CreditCards.Content" xml:space="preserve">
+    <value>Credit Cards</value>
+  </data>
 </root>

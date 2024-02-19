@@ -66,6 +66,26 @@ internal class DatabaseHelper
         DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );";
 
+    private static readonly string CreateCreditCardTableQuery = @"CREATE TABLE IF NOT EXISTS [CreditCard] (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        CardHolderName TEXT,
+        CardNumber TEXT NOT NULL,
+        ExpiryMonth TEXT NOT NULL,
+        ExpiryYear TEXT NOT NULL,
+        CVV TEXT NOT NULL,
+        Pin TEXT,
+        CardIssuer TEXT,
+        CardType TEXT,
+        BillingAddress TEXT,
+        City TEXT,
+        State TEXT,
+        ZipCode TEXT,
+        Country TEXT,
+        Notes TEXT,
+        DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+
     public static void CreateDatabase()
     {
         if (!Directory.Exists(DatabaseFolderPath))
@@ -95,6 +115,9 @@ internal class DatabaseHelper
 
         using var CreateMasterKeyTableCommand = new SQLiteCommand(CreateMasterKeyTableQuery, connection);
         CreateMasterKeyTableCommand.ExecuteNonQuery();
+
+        using var CreateCreditCardTableCommand = new SQLiteCommand(CreateCreditCardTableQuery, connection);
+        CreateCreditCardTableCommand.ExecuteNonQuery();
 
         connection.Close();
     }
