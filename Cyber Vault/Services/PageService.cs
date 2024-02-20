@@ -18,6 +18,7 @@ public class PageService : IPageService
         Configure<SettingsViewModel, SettingsPage>();
         Configure<AccountsViewModel, AccountsPage>();
         Configure<CreditCardsViewModel, CreditCardsPage>();
+        Configure<SecureNotesPlusDocumentsViewModel, SecureNotesPlusDocumentsPage>();
     }
 
     public Type GetPageType(string key)

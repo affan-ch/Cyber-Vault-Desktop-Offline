@@ -74,6 +74,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<SecureNotesPlusDocumentsViewModel>();
+            services.AddTransient<SecureNotesPlusDocumentsPage>();
             services.AddTransient<CreditCardsViewModel>();
             services.AddTransient<CreditCardsPage>();
             services.AddTransient<AccountsViewModel>();

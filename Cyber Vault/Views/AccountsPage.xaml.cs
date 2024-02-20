@@ -12,9 +12,7 @@ using Cyber_Vault.Utils;
 using System.Diagnostics;
 using QRCoder;
 using OtpNet;
-using System.Text;
 using Microsoft.UI.Xaml.Documents;
-using static QRCoder.PayloadGenerator;
 using Microsoft.UI.Text;
 
 
