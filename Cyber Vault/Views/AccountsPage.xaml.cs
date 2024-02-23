@@ -14,7 +14,6 @@ using QRCoder;
 using OtpNet;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
-using static QRCoder.PayloadGenerator;
 
 
 namespace Cyber_Vault.Views;
@@ -23,6 +22,7 @@ public sealed partial class AccountsPage : Page
 {
     private int currentAccountId = 0;
     private int backupCodeCount = 1;
+    private string oldOTP = "";
     private Timer? timer;
     private string currentSecretKey = "";
     private readonly RadioButtons radioButtons = new()
@@ -42,8 +42,8 @@ public sealed partial class AccountsPage : Page
         RefreshAccountsListView();
     }
 
-
-    private void AddAccountInListView(int id, string url, string title, string email)
+    // Add Account Tile in ListView (Left Sidebar)
+    private void AddAccountInListView(int? id, string? url, string? title, string? email)
     {
 
         // Create a new StackPanel dynamically
@@ -53,7 +53,6 @@ public sealed partial class AccountsPage : Page
             Height = 70,
             Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"],
             CornerRadius = new CornerRadius(5),
-            
         };
 
         // Create ColumnDefinitions for the Grid
@@ -98,6 +97,15 @@ public sealed partial class AccountsPage : Page
         radioButtons.Items.Add(radioButton);
 
         // Create an Image and set its properties
+        if(url != null && url != string.Empty)
+        {
+            url = $"https://www.google.com/s2/favicons?domain={url}&sz=128";
+        }
+        else
+        {
+            url = "https://www.unsplash.com";
+        }    
+        
         var image = new Image
         {
             Margin = new Thickness(12, 10, 10, 10),
@@ -116,7 +124,7 @@ public sealed partial class AccountsPage : Page
         // Title TextBlock
         var textBlock1 = new TextBlock
         {
-            Text = title,
+            Text = title ?? "Custom",
             Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
             FontSize = 17
         };
@@ -124,7 +132,7 @@ public sealed partial class AccountsPage : Page
         // Email TextBlock
         var textBlock2 = new TextBlock
         {
-            Text = email,
+            Text = email ?? "",
             Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
             FontSize = 12,
             Opacity = 0.9
@@ -162,7 +170,7 @@ public sealed partial class AccountsPage : Page
                 {
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
-                    currentAccountId = id;
+                    currentAccountId = id ?? 0;
                     OTP_Ring.Value = 100;
                     timer?.Dispose();
                     accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
@@ -179,7 +187,7 @@ public sealed partial class AccountsPage : Page
                     AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
                     ViewAccount_Grid.Visibility = Visibility.Visible;
 
-                    var account = AccountDL.GetAccountById(id);
+                    var account = AccountDL.GetAccountById(id ?? 0);
 
                     if (account == null)
                     {
@@ -198,9 +206,7 @@ public sealed partial class AccountsPage : Page
         AccountsListView.Children.Add(accountContainer);
     }
 
-
     // Method to update OTP (View Account Page - Authenticator)
-    private string oldOTP = "";
     private void UpdateOTP(string secret)
     {
         var totp = new Totp(Base32Encoding.ToBytes(secret), step: 30, mode: OtpHashMode.Sha1, totpSize: 6, timeCorrection: TimeCorrection.UncorrectedInstance);
@@ -468,7 +474,7 @@ public sealed partial class AccountsPage : Page
 
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
-        AddAccountInListView(account.Id ?? 0, $"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title ?? "Custom Account", account.Email ?? "");
+        AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
 
         var backupCodes = GetInputBackupCodes();
         backupCodes.ForEach(bc => bc.AccountId = account.Id);
@@ -899,7 +905,7 @@ public sealed partial class AccountsPage : Page
         
             foreach (var account in accounts)
             {
-                AddAccountInListView(account.Id ?? 0, $"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title!, account.Email!);
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
             }
         }
     }
@@ -1209,11 +1215,6 @@ public sealed partial class AccountsPage : Page
                 Domain = "snapchat.com";
                 Title = "Snapchat";
             }
-            else if (AccountType == "GitHub")
-            {
-                Domain = "github.com";
-                Title = "GitHub";
-            }
             else
             {
                 MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Please select an account type.");
@@ -1390,5 +1391,131 @@ public sealed partial class AccountsPage : Page
         RenderUserInterface(account);
     }
 
+    // Apply Accounts Filter (Left Sidebar)
+    private void ApplyFilter(string filterType)
+    {    
+        AccountsListView.Children.Clear();
+        radioButtons.Items.Clear();
+        currentAccountId = 0;
+        currentSecretKey = "";
+        backupCodeCount = 1;
+        oldOTP = "";
+        timer?.Dispose();
+        ViewAccount_Grid.Visibility = Visibility.Collapsed;
+        ErrorContainer_Grid.Visibility = Visibility.Visible;
+        AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
+
+        var accounts = filterType switch
+        {
+            "Google" or "Microsoft" or "Facebook" or "Instagram" or "Twitter" or "Snapchat" or "LinkedIn" or "Custom" => AccountDL.GetAccountsByType(filterType),
+            "Clear" => AccountDL.GetAccounts(),
+            "Authenticator" => AccountDL.GetAccounts().Where(a => !string.IsNullOrEmpty(a.QrCode) || !string.IsNullOrEmpty(a.Secret)).ToList(),
+            "Newest_DateAdded" => AccountDL.GetAccounts().OrderByDescending(a => a.DateAdded).ToList(),
+            "Oldest_DateAdded" => AccountDL.GetAccounts().OrderBy(a => a.DateAdded).ToList(),
+            "Newest_DateModified" => AccountDL.GetAccounts().OrderByDescending(a => a.DateModified).ToList(),
+            "Oldest_DateModified" => AccountDL.GetAccounts().OrderBy(a => a.DateModified).ToList(),
+            _ => AccountDL.GetAccounts(),
+        };
+
+        if (accounts.Count == 0)
+        {        
+            Accounts_ScrollViewer.Visibility = Visibility.Collapsed;
+            NoAccounts_Grid.Visibility = Visibility.Visible;
+        }
+        else
+        {        
+            Accounts_ScrollViewer.Visibility = Visibility.Visible;
+            NoAccounts_Grid.Visibility = Visibility.Collapsed;
+        }
+
+        foreach (var account in accounts)
+        {
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+        }
+    }
+
+    // Google Filter Button (Left Sidebar)
+    private void Google_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Google");
+    }
+
+    // Microsoft Filter Button (Left Sidebar)
+    private void Microsoft_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Microsoft");
+    }
+
+    // Facebook Filter Button (Left Sidebar)
+    private void Facebook_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Facebook");
+    }
+
+    // Instagram Filter Button (Left Sidebar)
+    private void Instagram_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Instagram");
+    }
+
+    // Twitter Filter Button (Left Sidebar)
+    private void Twitter_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Twitter");
+    }
+
+    // Snapchat Filter Button (Left Sidebar)
+    private void Snapchat_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Snapchat");
+    }
+
+    // LinkedIn Filter Button (Left Sidebar)
+    private void LinkedIn_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("LinkedIn");
+    }
+
+    // Custom Filter Button (Left Sidebar)
+    private void Custom_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Custom");
+    }
+
+    // Newest Date Added Filter Button (Left Sidebar)
+    private void Newest_DateAdded_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Newest_DateAdded");
+    }
+
+    // Oldest Date Added Filter Button (Left Sidebar)
+    private void Oldest_DateAdded_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Oldest_DateAdded");
+    }
+
+    // Newest Date Modified Filter Button (Left Sidebar)
+    private void Newest_DateModified_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Newest_DateModified");
+    }
+
+    // Oldest Date Modified Filter Button (Left Sidebar)
+    private void Oldest_DateModified_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Oldest_DateModified");
+    }
+
+    // Authenticator Filter Button (Left Sidebar)
+    private void Authenticator_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Authenticator");
+    }
+
+    // Clear Filter Button (Left Sidebar)
+    private void Clear_Filter_Click(object sender, RoutedEventArgs e)
+    {
+        ApplyFilter("Clear");
+    }
 
 }

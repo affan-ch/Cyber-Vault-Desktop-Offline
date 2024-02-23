@@ -38,7 +38,12 @@
 
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
 							<!-- Filter Button -->
-                            <Button x:Name="Filter_Button" Background="Transparent" BorderThickness="0" Height="40">
+                            <Button x:Name="Filter_Button" 
+                                    Background="Transparent"
+                                    ToolTipService.ToolTip="Filter Accounts"
+                                    ToolTipService.Placement="Bottom"
+                                    BorderThickness="0" 
+                                    Height="40">
                                
                                 <Button.Content>
                                     <FontIcon Glyph="&#xE71C;" FontSize="17"/>
@@ -46,46 +51,135 @@
                                 
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="All">
+                                        <!-- Account Type -->
+                                        <MenuFlyoutSubItem Text="Account Type">
+                                            <MenuFlyoutSubItem.Icon>
+                                                <FontIcon Glyph="&#xE774;"/>
+                                            </MenuFlyoutSubItem.Icon>
+                                            
+                                            <!-- Google Filter -->
+                                            <MenuFlyoutItem x:Name="Google_Filter" Text="Google" Click="Google_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="G" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <!-- Microsoft Filter -->
+                                            <MenuFlyoutItem x:Name="Microsoft_Filter" Text="Microsoft" Click="Microsoft_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="M" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <!-- Facebook Filter -->
+                                            <MenuFlyoutItem x:Name="Facebook_Filter" Text="Facebook" Click="Facebook_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="F" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <!-- Instagram Filter -->
+                                            <MenuFlyoutItem x:Name="Instagram_Filter" Text="Instagram" Click="Instagram_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="R" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <!-- Twitter Filter -->
+                                            <MenuFlyoutItem x:Name="Twitter_Filter" Text="Twitter" Click="Twitter_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="T" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <!-- Snapchat Filter -->
+                                            <MenuFlyoutItem x:Name="Snapchat_Filter" Text="Snapchat" Click="Snapchat_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="S" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!-- LinkedIn Filter -->
+                                            <MenuFlyoutItem x:Name="LinkedIn_Filter" Text="LinkedIn" Click="LinkedIn_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSeparator/>
+                                            
+                                            <!-- Custom Filter -->
+                                            <MenuFlyoutItem x:Name="Custom_Filter" Text="Custom" Click="Custom_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="U" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyoutSubItem>
+
+                                        <!-- Date Added -->
+                                        <MenuFlyoutSubItem Text="Date Added">
+                                            <MenuFlyoutSubItem.Icon>
+                                                <FontIcon Glyph="&#xED0E;" />
+                                            </MenuFlyoutSubItem.Icon>
+                                            
+                                            <!-- Newest First (Date Added) -->
+                                            <MenuFlyoutItem x:Name="Newest_DateAdded_Filter" Text="Newest First" Click="Newest_DateAdded_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="N" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <MenuFlyoutSeparator/>
+                                            
+                                            <!-- Oldest First (Date Added) -->
+                                            <MenuFlyoutItem x:Name="Oldest_DateAdded_Filter" Text="Oldest First" Click="Oldest_DateAdded_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="O" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyoutSubItem>
+
+                                        <!-- Date Modified -->
+                                        <MenuFlyoutSubItem Text="Date Modified">
+                                            <MenuFlyoutSubItem.Icon>
+                                                <FontIcon Glyph="&#xEC92;" />
+                                            </MenuFlyoutSubItem.Icon>
+                                            
+                                            <!-- Newest First (Date Modified) -->
+                                            <MenuFlyoutItem x:Name="Newest_DateModified_Filter" Text="Newest First" Click="Newest_DateModified_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="K" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            
+                                            <MenuFlyoutSeparator/>
+                                            
+                                            <!-- Oldest First (Date Modified) -->
+                                            <MenuFlyoutItem x:Name="Oldest_DateModified_Filter" Text="Oldest First" Click="Oldest_DateModified_Filter_Click">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="E" Modifiers="Control"/>
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyoutSubItem>
+                                        
+                                        <!-- Authenticator -->
+                                        <MenuFlyoutItem x:Name="Authenticator_Filter" Text="Authenticator" Click="Authenticator_Filter_Click">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE8D7;"/>
+                                            </MenuFlyoutItem.Icon>
                                             <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="U" Modifiers="Control"/>
+                                                <KeyboardAccelerator Key="P" Modifiers="Control"/>
                                             </MenuFlyoutItem.KeyboardAccelerators>
                                         </MenuFlyoutItem>
+                                        
                                         <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Text="Google">
+                                        
+                                        <!-- Clear Filter -->
+                                        <MenuFlyoutItem x:Name="Clear_Filter" Text="Clear Filter" Click="Clear_Filter_Click">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xECC9;" />
+                                            </MenuFlyoutItem.Icon>
                                             <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="G" Modifiers="Control"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="Microsoft">
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="M" Modifiers="Control"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="Facebook">
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="K" Modifiers="Control"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="Instagram">
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="R" Modifiers="Control"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="Snapchat">
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="N" Modifiers="Control"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="GitHub">
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="H" Modifiers="Control"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Text="Custom">
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="T" Modifiers="Control"/>
+                                                <KeyboardAccelerator Key="D" Modifiers="Control"/>
                                             </MenuFlyoutItem.KeyboardAccelerators>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -97,6 +191,8 @@
                                     Click="AddAccount_Button_Click"
                                     Background="Transparent"
                                     BorderThickness="0"
+                                    ToolTipService.ToolTip="Add Account"
+                                    ToolTipService.Placement="Bottom"
                                     Height="40" >
                                 <FontIcon Glyph="&#xF164;" FontSize="19" />
                             </Button>
@@ -151,7 +247,7 @@
                             <ComboBox 
                                 x:Name="AccountType_ComboBox" 
                                 PlaceholderText="Pick an Account Type" 
-                                SelectedIndex="8" 
+                                SelectedIndex="7" 
                                 Margin="20,0,0,0"
                                 SelectionChanged="ComboBox_SelectionChanged">
                                 <x:String>Google</x:String>
@@ -160,7 +256,6 @@
                                 <x:String>Instagram</x:String>
                                 <x:String>Twitter</x:String>
                                 <x:String>Snapchat</x:String>
-                                <x:String>GitHub</x:String>
                                 <x:String>LinkedIn</x:String>
                                 <x:String>Custom</x:String>
 
