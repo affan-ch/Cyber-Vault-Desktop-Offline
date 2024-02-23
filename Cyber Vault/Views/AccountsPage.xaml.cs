@@ -42,11 +42,12 @@ public sealed partial class AccountsPage : Page
         RefreshAccountsListView();
     }
 
+
     private void AddAccountInListView(int id, string url, string title, string email)
     {
 
         // Create a new StackPanel dynamically
-        var dynamicStackPanel = new Grid
+        var accountContainer = new Grid
         {
             Margin = new Thickness(0, 1, 20, 5),
             Height = 70,
@@ -56,20 +57,20 @@ public sealed partial class AccountsPage : Page
         };
 
         // Create ColumnDefinitions for the Grid
-        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For image
-        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // For inner stack panel
-        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For spacer
-        dynamicStackPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For font icon
+        accountContainer.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For image
+        accountContainer.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // For inner stack panel
+        accountContainer.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For spacer
+        accountContainer.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For font icon
 
 
-        dynamicStackPanel.PointerEntered += (sender, e) =>
+        accountContainer.PointerEntered += (sender, e) =>
         {
-            dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+            accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
         };
 
-        dynamicStackPanel.PointerExited += (sender, e) =>
+        accountContainer.PointerExited += (sender, e) =>
         {
-             dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+             accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
         };
 
         var radioButton = new RadioButton
@@ -81,23 +82,23 @@ public sealed partial class AccountsPage : Page
 
         radioButton.Unchecked += (sender, e) =>
         {
-            dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+            accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
             
-            dynamicStackPanel.PointerEntered += (sender, e) =>
+            accountContainer.PointerEntered += (sender, e) =>
             {
-                dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
             };
 
-            dynamicStackPanel.PointerExited += (sender, e) =>
+            accountContainer.PointerExited += (sender, e) =>
             {
-                dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+                accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
             };
         };
 
         radioButtons.Items.Add(radioButton);
 
         // Create an Image and set its properties
-        var image = new Microsoft.UI.Xaml.Controls.Image
+        var image = new Image
         {
             Margin = new Thickness(12, 10, 10, 10),
             Source = new BitmapImage(new Uri(url)),
@@ -149,11 +150,11 @@ public sealed partial class AccountsPage : Page
         Grid.SetColumn(fontIcon, 3);
 
         // Add the Image, inner StackPanel, and FontIcon to the dynamic StackPanel
-        dynamicStackPanel.Children.Add(image);
-        dynamicStackPanel.Children.Add(innerStackPanel);
-        dynamicStackPanel.Children.Add(fontIcon);
+        accountContainer.Children.Add(image);
+        accountContainer.Children.Add(innerStackPanel);
+        accountContainer.Children.Add(fontIcon);
 
-        dynamicStackPanel.PointerPressed += (sender, e) =>
+        accountContainer.PointerPressed += (sender, e) =>
         {
             foreach (var rb in radioButtons.Items.Cast<RadioButton>())
             {
@@ -164,14 +165,14 @@ public sealed partial class AccountsPage : Page
                     currentAccountId = id;
                     OTP_Ring.Value = 100;
                     timer?.Dispose();
-                    dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
-                    dynamicStackPanel.PointerEntered += (sender, e) =>
+                    accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                    accountContainer.PointerEntered += (sender, e) =>
                     {
-                        dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                        accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     };
-                    dynamicStackPanel.PointerExited += (sender, e) =>
+                    accountContainer.PointerExited += (sender, e) =>
                     {                    
-                        dynamicStackPanel.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
+                        accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     };
 
                     ErrorContainer_Grid.Visibility = Visibility.Collapsed;
@@ -194,12 +195,12 @@ public sealed partial class AccountsPage : Page
             }
         };
 
-        AccountsListView.Children.Add(dynamicStackPanel);
+        AccountsListView.Children.Add(accountContainer);
     }
-    
-    private string oldOTP = "";
+
 
     // Method to update OTP (View Account Page - Authenticator)
+    private string oldOTP = "";
     private void UpdateOTP(string secret)
     {
         var totp = new Totp(Base32Encoding.ToBytes(secret), step: 30, mode: OtpHashMode.Sha1, totpSize: 6, timeCorrection: TimeCorrection.UncorrectedInstance);
@@ -227,8 +228,6 @@ public sealed partial class AccountsPage : Page
         {
             SetProgressRingValue(remainingSeconds);
         }
-
-        
     }
 
     // Method to set the progress ring value (View Account Page)
@@ -252,7 +251,7 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-
+    // Fill Values in the Account Fields (View Account Page)
     private void RenderUserInterface(Account account)
     {
 
@@ -422,6 +421,7 @@ public sealed partial class AccountsPage : Page
 
     }
 
+    // Account Type ComboBox Selection Changed
     private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (Title_TextBox != null && Domain_TextBox != null)
@@ -438,7 +438,6 @@ public sealed partial class AccountsPage : Page
             }
         } 
     }
-
 
     // Add Account Button (Left Sidebar)
     private void AddAccount_Button_Click(object sender, RoutedEventArgs e)
@@ -457,6 +456,7 @@ public sealed partial class AccountsPage : Page
         }
     }
 
+    // Save Account Button (Add Account Page)
     private void Save_Button_Click(object sender, RoutedEventArgs e)
     {
         var account = GetInputAccount();
@@ -850,6 +850,7 @@ public sealed partial class AccountsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+    // Delete Account Button (View Account Page)
     private async void Delete_Button_Click(object _, RoutedEventArgs e)
     {
         var dialog = new ContentDialog
@@ -1144,6 +1145,7 @@ public sealed partial class AccountsPage : Page
 
     }
 
+    // Get Input Account (Add Account Page)
     private Account? GetInputAccount()
     {
         var AccountType = AccountType_ComboBox.SelectedValue.ToString();
@@ -1268,6 +1270,7 @@ public sealed partial class AccountsPage : Page
         return account;
     }
 
+    // Get Input Backup Codes (Add Account Page)
     private List<BackupCode> GetInputBackupCodes()
     {
         var backupCodes = new List<BackupCode>();
@@ -1358,7 +1361,7 @@ public sealed partial class AccountsPage : Page
 
     }
 
-    // Update Account Button (Update Account Page)
+    // Update Account Button (Update(Add) Account Page)
     private void Update_Button_Click(object sender, RoutedEventArgs e)
     {
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
