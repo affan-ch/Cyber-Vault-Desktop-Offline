@@ -43,7 +43,7 @@ public sealed partial class AccountsPage : Page
     }
 
     // Add Account Tile in ListView (Left Sidebar)
-    private void AddAccountInListView(int? id, string? url, string? title, string? email)
+    private void AddAccountInListView(int? id, string? url, string? title, string? subtitle)
     {
 
         // Create a new StackPanel dynamically
@@ -132,7 +132,7 @@ public sealed partial class AccountsPage : Page
         // Email TextBlock
         var textBlock2 = new TextBlock
         {
-            Text = email ?? "",
+            Text = subtitle ?? "",
             Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
             FontSize = 12,
             Opacity = 0.9
@@ -474,7 +474,22 @@ public sealed partial class AccountsPage : Page
 
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
-        AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+        if (!string.IsNullOrEmpty(account.Email))
+        {
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+        }
+        else if (!string.IsNullOrEmpty(account.Username))
+        {
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
+        }
+        else if (!string.IsNullOrEmpty(account.PhoneNumber))
+        {
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
+        }
+        else
+        {
+            AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
+        }
 
         var backupCodes = GetInputBackupCodes();
         backupCodes.ForEach(bc => bc.AccountId = account.Id);
@@ -905,7 +920,22 @@ public sealed partial class AccountsPage : Page
         
             foreach (var account in accounts)
             {
-                AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+                if (!string.IsNullOrEmpty(account.Email))
+                {
+                    AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+                }
+                else if (!string.IsNullOrEmpty(account.Username))
+                {
+                    AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
+                }
+                else if (!string.IsNullOrEmpty(account.PhoneNumber))
+                {
+                    AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
+                }
+                else
+                {
+                    AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
+                }
             }
         }
     }
@@ -1236,13 +1266,16 @@ public sealed partial class AccountsPage : Page
             return null;
         }
 
-        if (!Email.Contains('@') || Email.Contains(' ') || Email.Length < 5)
+        if(Email.Length > 0)
         {
-            MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Invalid Email Address.");
-            return null;
+            if (!Email.Contains('@') || Email.Contains(' ') || Email.Length < 5)
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Invalid Email Address.");
+                return null;
+            }
         }
 
-        if (Password.Length < 7)
+        if (Password.Length < 7 && Password.Length > 0)
         {
             MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Password must be at least 7 characters long.");
             return null;
@@ -1430,7 +1463,22 @@ public sealed partial class AccountsPage : Page
 
         foreach (var account in accounts)
         {
-            AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+            if (!string.IsNullOrEmpty(account.Email))
+            {
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+            }
+            else if (!string.IsNullOrEmpty(account.Username))
+            {
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
+            }
+            else if (!string.IsNullOrEmpty(account.PhoneNumber))
+            {
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
+            }
+            else
+            {
+                AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
+            }
         }
     }
 
@@ -1516,6 +1564,76 @@ public sealed partial class AccountsPage : Page
     private void Clear_Filter_Click(object sender, RoutedEventArgs e)
     {
         ApplyFilter("Clear");
+    }
+
+    // Search Bar KeyDown Event
+    private void SearchBar_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        if(SearchBar.Text == string.Empty)
+        {
+            RefreshAccountsListView();
+        }
+        if (e.Key == Windows.System.VirtualKey.Enter)
+        {
+            var searchQuery = SearchBar.Text;
+
+            if (searchQuery != string.Empty)
+            {
+                if(searchQuery.Length < 3)
+                {                
+                    MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Search query must be at least 3 characters long.");
+                    return;
+                }
+
+                var accounts = AccountDL.GetAccounts()
+                    .Where(a =>
+                        (a.Domain != null && a.Domain.ToLower().Contains(searchQuery.ToLower())) ||
+                        (a.Title != null && a.Title.ToLower().Contains(searchQuery.ToLower())) ||
+                        (!string.IsNullOrEmpty(a.Email) && a.Email.ToLower().Contains(searchQuery.ToLower())) ||
+                        (!string.IsNullOrEmpty(a.Username) && a.Username.ToLower().Contains(searchQuery.ToLower())) ||
+                        (!string.IsNullOrEmpty(a.PhoneNumber) && a.PhoneNumber.ToLower().Contains(searchQuery.ToLower()))
+                )
+                .ToList();
+
+                if (accounts.Count > 0)
+                {
+                    AccountsListView.Children.Clear();
+                    radioButtons.Items.Clear();
+                    currentAccountId = 0;
+                    currentSecretKey = "";
+                    backupCodeCount = 1;
+                    oldOTP = "";
+                    timer?.Dispose();
+                    ViewAccount_Grid.Visibility = Visibility.Collapsed;
+                    ErrorContainer_Grid.Visibility = Visibility.Visible;
+                    AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
+                
+                    foreach (var account in accounts)
+                    {
+                        if (!string.IsNullOrEmpty(account.Email))
+                        {
+                            AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
+                        }
+                        else if (!string.IsNullOrEmpty(account.Username))
+                        {
+                            AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
+                        }
+                        else if (!string.IsNullOrEmpty(account.PhoneNumber))
+                        {
+                            AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
+                        }
+                        else
+                        {
+                            AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageDialogHelper.ShowMessageDialog(XamlRoot, "No Results", "No accounts found matching the search query.");
+                }
+            }
+        }
     }
 
 }
