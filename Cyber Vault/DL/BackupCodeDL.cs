@@ -43,6 +43,11 @@ internal class BackupCodeDL
         return backupCodes.Where(b => b.AccountId == accountId).ToList();
     }
 
+    // Delete Backup Codes by Account Id
+    public static void DeleteBackupCodesByAccountId(int accountId)
+    {
+        backupCodes.RemoveAll(b => b.AccountId == accountId);
+    }
 
 
     // Load Backup Codes Into List from SQLite Database

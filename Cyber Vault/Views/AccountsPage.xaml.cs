@@ -14,6 +14,7 @@ using QRCoder;
 using OtpNet;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
+using static QRCoder.PayloadGenerator;
 
 
 namespace Cyber_Vault.Views;
@@ -458,84 +459,24 @@ public sealed partial class AccountsPage : Page
 
     private void Save_Button_Click(object sender, RoutedEventArgs e)
     {
-        var AccountType = AccountType_ComboBox.SelectedValue.ToString();
-        var Title = Title_TextBox.Text;
-        var Domain = Domain_TextBox.Text;
-        var Name = Name_TextBox.Text;
-        var Email = Email_TextBox.Text;
-        var Username = Username_TextBox.Text;
-        var PhoneNumber = PhoneNumber_TextBox.Text;
-        var Password = Password_TextBox.Password;
-        var Pin = Pin_TextBox.Password;
-        var DateOfBirth = DateOfBirth_TextBox.Text;
-        var RecoveryEmail = RecoveryEmail_TextBox.Text;
-        var RecoveryPhoneNumber = RecoveryPhoneNumber_TextBox.Text;
-        var QrCode = QrCode_TextBox.Text;
-        var SecretKey = SecretKey_TextBox.Text;
-        var Notes = Notes_TextBox.Text;
+        var account = GetInputAccount();
 
-        if (AccountType == "Custom")
-        {
-            if (Title == string.Empty || Domain == string.Empty)
-            {    
-                // TODO: Show error message
-                return;
-            }
+        if(account == null)
+        {        
+            return;
         }
-        else
-        {
-            
-        }
-
-        var account = new Account
-        (
-            Id: AccountDB.GetMaxId() + 1,
-            Type: AccountType ?? "",
-            Title: Title ?? "",
-            Domain: Domain ?? "",
-            Name: Name ?? "",
-            Email: Email ?? "",
-            Username: Username ?? "",
-            PhoneNumber: PhoneNumber ?? "",
-            Password: Password ?? "",
-            Pin: Pin ?? "",
-            DateOfBirth: DateOfBirth ?? "",
-            RecoveryEmail: RecoveryEmail ?? "",
-            RecoveryPhoneNumber: RecoveryPhoneNumber ?? "",
-            QrCode: QrCode ?? "",
-            Secret: SecretKey ?? "",
-            Notes: Notes ?? ""
-        );
 
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
         AddAccountInListView(account.Id ?? 0, $"https://www.google.com/s2/favicons?domain={account.Domain}&sz=128", account.Title ?? "Custom Account", account.Email ?? "");
 
-        var backupCodes = new List<BackupCode>();
-        foreach (var child in BackupCodes_StackPanel.Children)
-        {
-            if (child is TextBox backupCode)
-            {
-                if(backupCode.Text == string.Empty)
-                {
-                    continue;
-                }
-            
-                var backupCodeBL = new BackupCode
-                (
-                    AccountId: AccountDB.GetMaxId(),
-                    Code: backupCode.Text
-                );
-            
-                BackupCodeDL.AddBackupCode(backupCodeBL);
-                backupCodes.Add(backupCodeBL);
-            }
-        }
+        var backupCodes = GetInputBackupCodes();
+        backupCodes.ForEach(bc => bc.AccountId = account.Id);
+        backupCodes.ForEach(bc => BackupCodeDL.AddBackupCode(bc));
         BackupCodeDB.StoreBackupCodes(backupCodes);
 
-
-        // TODO: Show success message
         ClearFields();
+        MessageDialogHelper.ShowMessageDialog(XamlRoot, "Success", "Account added successfully!");
     }
 
     // Clear All Fields (Add Account Page)
@@ -1203,6 +1144,156 @@ public sealed partial class AccountsPage : Page
 
     }
 
+    private Account? GetInputAccount()
+    {
+        var AccountType = AccountType_ComboBox.SelectedValue.ToString();
+        var Title = Title_TextBox.Text;
+        var Domain = Domain_TextBox.Text;
+        var Name = Name_TextBox.Text;
+        var Email = Email_TextBox.Text;
+        var Username = Username_TextBox.Text;
+        var PhoneNumber = PhoneNumber_TextBox.Text;
+        var Password = Password_TextBox.Password;
+        var Pin = Pin_TextBox.Password;
+        var DateOfBirth = DateOfBirth_TextBox.Text;
+        var RecoveryEmail = RecoveryEmail_TextBox.Text;
+        var RecoveryPhoneNumber = RecoveryPhoneNumber_TextBox.Text;
+        var QrCode = QrCode_TextBox.Text;
+        var SecretKey = SecretKey_TextBox.Text;
+        var Notes = Notes_TextBox.Text;
+
+        if (AccountType == "Custom")
+        {
+            if (Title == string.Empty || Domain == string.Empty)
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Title and Domain are required fields.");
+                return null;
+            }
+        }
+        else
+        {
+            if (AccountType == "Google")
+            {
+                Domain = "google.com";
+                Title = "Google";
+            }
+            else if (AccountType == "Microsoft")
+            {
+                Domain = "microsoft.com";
+                Title = "Microsoft";
+            }
+            else if (AccountType == "Facebook")
+            {
+                Domain = "facebook.com";
+                Title = "Facebook";
+            }
+            else if (AccountType == "Twitter")
+            {
+                Domain = "twitter.com";
+                Title = "Twitter";
+            }
+            else if (AccountType == "Instagram")
+            {
+                Domain = "instagram.com";
+                Title = "Instagram";
+            }
+            else if (AccountType == "LinkedIn")
+            {
+                Domain = "linkedin.com";
+                Title = "LinkedIn";
+            }
+            else if (AccountType == "Snapchat")
+            {
+                Domain = "snapchat.com";
+                Title = "Snapchat";
+            }
+            else if (AccountType == "GitHub")
+            {
+                Domain = "github.com";
+                Title = "GitHub";
+            }
+            else
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Please select an account type.");
+                return null;
+            }
+        }
+
+        Debug.WriteLine($"{Title}, {Domain}");
+
+        if (Email == string.Empty && Username == string.Empty && PhoneNumber == string.Empty)
+        {
+            MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "At least one of the following fields is required: \nEmail, Username, or Phone Number.");
+            return null;
+        }
+
+        if (Password == string.Empty && Pin == string.Empty)
+        {
+            MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "At least one of the following fields is required: \nPassword or Pin.");
+            return null;
+        }
+
+        if (!Email.Contains('@') || Email.Contains(' ') || Email.Length < 5)
+        {
+            MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Invalid Email Address.");
+            return null;
+        }
+
+        if (Password.Length < 7)
+        {
+            MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Password must be at least 7 characters long.");
+            return null;
+        }
+
+        var account = new Account
+        (
+            Id: AccountDB.GetMaxId() + 1,
+            Type: AccountType ?? "",
+            Title: Title ?? "",
+            Domain: Domain ?? "",
+            Name: Name ?? "",
+            Email: Email ?? "",
+            Username: Username ?? "",
+            PhoneNumber: PhoneNumber ?? "",
+            Password: Password ?? "",
+            Pin: Pin ?? "",
+            DateOfBirth: DateOfBirth ?? "",
+            RecoveryEmail: RecoveryEmail ?? "",
+            RecoveryPhoneNumber: RecoveryPhoneNumber ?? "",
+            QrCode: QrCode ?? "",
+            Secret: SecretKey ?? "",
+            Notes: Notes ?? ""
+        );
+
+        return account;
+    }
+
+    private List<BackupCode> GetInputBackupCodes()
+    {
+        var backupCodes = new List<BackupCode>();
+    
+        foreach (var child in BackupCodes_StackPanel.Children)
+        {
+            if (child is TextBox backupCode)
+            {
+                if(backupCode.Text == string.Empty)
+                {
+                    continue;
+                }
+            
+                var backupCodeBL = new BackupCode
+                (
+                    AccountId: AccountDB.GetMaxId(),
+                    Code: backupCode.Text
+                );
+            
+                backupCodes.Add(backupCodeBL);
+            }
+        }
+
+        return backupCodes;
+    }
+
     // Modify Account Button (View Account Page)
     private void Modify_Button_Click(object sender, RoutedEventArgs e)
     {
@@ -1274,46 +1365,26 @@ public sealed partial class AccountsPage : Page
         AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
         ViewAccount_Grid.Visibility = Visibility.Visible;
 
-        var accountType = AccountType_ComboBox.SelectedValue.ToString();
-        var title = Title_TextBox.Text;
-        var domain = Domain_TextBox.Text;
-        var name = Name_TextBox.Text;
-        var email = Email_TextBox.Text;
-        var username = Username_TextBox.Text;
-        var phoneNumber = PhoneNumber_TextBox.Text;
-        var password = Password_TextBox.Password;
-        var pin = Pin_TextBox.Password;
-        var dateOfBirth = DateOfBirth_TextBox.Text;
-        var notes = Notes_TextBox.Text;
-        var recoveryEmail = RecoveryEmail_TextBox.Text;
-        var recoveryPhoneNumber = RecoveryPhoneNumber_TextBox.Text;
-        var qrCode = QrCode_TextBox.Text;
-        var secretKey = SecretKey_TextBox.Text;
+        var account = GetInputAccount();
 
-        var account = new Account
-        (
-            Id: currentAccountId,
-            Type: accountType ?? "Custom",
-            Title: title,
-            Domain: domain,
-            Name: name,
-            Email: email,
-            Username: username,
-            PhoneNumber: phoneNumber,
-            Password: password,
-            Pin: pin,
-            DateOfBirth: dateOfBirth,
-            RecoveryEmail: recoveryEmail,
-            RecoveryPhoneNumber: recoveryPhoneNumber,
-            QrCode: qrCode,
-            Secret: secretKey,
-            Notes: notes
-        );
+        if (account == null)
+        {        
+            return;
+        }
+
+        account.Id = currentAccountId;
 
         AccountDL.UpdateAccount(account);
         AccountDB.UpdateAccount(account);
-        RenderUserInterface(account);
 
+        var backupCodes = GetInputBackupCodes();
+        backupCodes.ForEach(bc => bc.AccountId = account.Id);
+        BackupCodeDL.DeleteBackupCodesByAccountId(account.Id ?? 0);
+        backupCodes.ForEach(bc => BackupCodeDL.AddBackupCode(bc));
+        BackupCodeDB.DeleteBackupCodesByAccountId(account.Id ?? 0);
+        BackupCodeDB.StoreBackupCodes(backupCodes);
+
+        RenderUserInterface(account);
     }
 
 

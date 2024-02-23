@@ -151,15 +151,17 @@
                             <ComboBox 
                                 x:Name="AccountType_ComboBox" 
                                 PlaceholderText="Pick an Account Type" 
-                                SelectedIndex="6" 
+                                SelectedIndex="8" 
                                 Margin="20,0,0,0"
                                 SelectionChanged="ComboBox_SelectionChanged">
                                 <x:String>Google</x:String>
                                 <x:String>Microsoft</x:String>
                                 <x:String>Facebook</x:String>
                                 <x:String>Instagram</x:String>
+                                <x:String>Twitter</x:String>
                                 <x:String>Snapchat</x:String>
                                 <x:String>GitHub</x:String>
+                                <x:String>LinkedIn</x:String>
                                 <x:String>Custom</x:String>
 
                                 <ComboBox.Header>

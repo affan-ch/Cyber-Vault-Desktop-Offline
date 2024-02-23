@@ -42,5 +42,22 @@ internal class BackupCodeDB
 
         connection.Close();
     }
+
+    // DeleteBackupCodesByAccountId
+    public static void DeleteBackupCodesByAccountId(int accountId)
+    {
+        using var connection = new SQLiteConnection(DatabaseHelper.ConnectionString);
+        connection.Open();
+    
+        using var command = new SQLiteCommand(connection)
+        {     
+            CommandText = "DELETE FROM BackupCode WHERE AccountId = @AccountId"
+        };
+    
+        command.Parameters.AddWithValue("@AccountId", accountId);
+        command.ExecuteNonQuery();
+    
+        connection.Close();
+    }
 }
 
