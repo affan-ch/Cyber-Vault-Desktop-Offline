@@ -1,6 +1,21 @@
 # Cyber-Vault-Desktop
 
+[![](https://tokei.rs/b1/github/affan-ch/Cyber-Vault-Desktop-Offline)](https://github.com/affan-ch/Cyber-Vault-Desktop-Offline)
+[![](https://tokei.rs/b1/github/affan-ch/Cyber-Vault-Desktop-Offline?category=files)](https://github.com/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub repo size](https://img.shields.io/github/repo-size/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub last commit](https://img.shields.io/github/last-commit/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub Release Date](https://img.shields.io/github/release-date/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub License](https://img.shields.io/github/license/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub Repo stars](https://img.shields.io/github/stars/affan-ch/Cyber-Vault-Desktop-Offline)
+![GitHub forks](https://img.shields.io/github/forks/affan-ch/Cyber-Vault-Desktop-Offline)
+
+
 Cyber Vault Desktop is an offline password manager designed exclusively for Windows desktop users. This lightweight application, built with WinUI3, utilizes an SQLite database for secure local storage of account credentials, credit card information, secure notes & documents and features a built-in authenticator for two-factor authentication (2FA).
+
+
 
 <details>
   <summary><b>Project Screenshots</b></summary>
