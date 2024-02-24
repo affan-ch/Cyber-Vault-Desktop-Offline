@@ -41,6 +41,31 @@ public sealed partial class MainWindow : WindowEx
     }
 
     [RelayCommand]
+    public async void Documentation()
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/affan-ch/Cyber-Vault-Desktop-Offline?tab=readme-ov-file#cyber-vault-desktop"));
+    }
+
+    [RelayCommand]
+    public async void Sponsor()
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.patreon.com/join/affan-ch"));
+    }
+
+    [RelayCommand]
+    public async void Report()
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/affan-ch/Cyber-Vault-Desktop-Offline/issues/new/choose"));
+    }
+
+    [RelayCommand]
+    public async void Contact()
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("mailto:support@codehub.pk"));
+    }
+
+
+    [RelayCommand]
     public async void ShowHideWindow()
     {
         var window = App.MainWindow;

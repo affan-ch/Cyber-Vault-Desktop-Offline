@@ -24,6 +24,11 @@
             <MenuFlyout AreOpenCloseAnimationsEnabled="False">
                 <MenuFlyoutItem Command="{x:Bind ShowHideWindowCommand}" Text="Show/Hide Window" />
                 <MenuFlyoutSeparator />
+                <MenuFlyoutItem Command="{x:Bind SponsorCommand}" Text="Sponsor"/>
+                <MenuFlyoutItem Command="{x:Bind ReportCommand}" Text="Report Bug"/>
+                <MenuFlyoutItem Command="{x:Bind DocumentationCommand}" Text="Documentation"/>
+                <MenuFlyoutItem Command="{x:Bind ContactCommand}" Text="Contact Support" />
+                <MenuFlyoutSeparator />
                 <MenuFlyoutItem Command="{x:Bind ExitApplicationCommand}" Text="Exit" />
             </MenuFlyout>
         </tb:TaskbarIcon.ContextFlyout>
