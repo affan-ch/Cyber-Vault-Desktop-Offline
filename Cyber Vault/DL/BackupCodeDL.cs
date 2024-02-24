@@ -20,10 +20,13 @@ internal class BackupCodeDL
     // Update Backup Code
     public static void UpdateBackupCode(BackupCode backupCode)
     {
-        var index = backupCodes.FindIndex(b => b.Id == backupCode.Id);
-        backupCodes[index] = backupCode;
+        var index = backupCodes.FindIndex(b => b.AccountId == backupCode.AccountId && b.Code == backupCode.Code);
+        if (index != -1)
+        {
+            backupCodes.RemoveAt(index);
+            backupCodes.Add(backupCode);
+        }
     }
-
 
     // Delete Backup Code
     public static void DeleteBackupCode(BackupCode backupCode)

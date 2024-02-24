@@ -38,6 +38,13 @@ internal class BackupCode
         get; set;
     }
 
+    public BackupCode(int? AccountId, string? Code, int? IsUsed)
+    {
+        this.AccountId = AccountId;
+        this.Code = Code;
+        this.IsUsed = IsUsed;
+    }
+
     public BackupCode(int? Id, int? AccountId, string? Code, int? IsUsed, string? DateAdded, string? DateUsed, string? DateModified)
     {
         this.Id = Id;
@@ -64,4 +71,6 @@ internal class BackupCode
         this.AccountId = AccountId;
         this.Code = Code;
     }
+
+
 }

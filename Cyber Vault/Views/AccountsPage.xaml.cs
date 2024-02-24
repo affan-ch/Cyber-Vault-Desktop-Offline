@@ -417,7 +417,7 @@ public sealed partial class AccountsPage : Page
             BackupCodes_Container.Visibility = Visibility.Visible;
             foreach (var backupCode in backupCodes)
             {
-                AddBackupCodeinContainer(backupCode.Code ?? "", backupCode.IsUsed ?? 0);
+                AddBackupCodeinContainer(backupCode.Code ?? "", backupCode.IsUsed ?? 0, account.Id ?? 0);
             }
         }
         else
@@ -892,6 +892,9 @@ public sealed partial class AccountsPage : Page
             AccountDB.DeleteAccount(currentAccountId);
             AccountDL.DeleteAccount(currentAccountId);
 
+            BackupCodeDL.DeleteBackupCodesByAccountId(currentAccountId);
+            BackupCodeDB.DeleteBackupCodesByAccountId(currentAccountId);
+
             ViewAccount_Grid.Visibility = Visibility.Collapsed;
             ErrorContainer_Grid.Visibility = Visibility.Visible;
 
@@ -1090,7 +1093,7 @@ public sealed partial class AccountsPage : Page
     }
 
     // Add Backup Code Field (View Account Page)
-    private void AddBackupCodeinContainer(string backupCode, int isUsed)
+    private void AddBackupCodeinContainer(string backupCodeValue, int isUsed, int accountId)
     {
         var grid = new Grid
         {
@@ -1117,7 +1120,7 @@ public sealed partial class AccountsPage : Page
                     {
                         new Run
                         {
-                            Text = backupCode,
+                            Text = backupCodeValue,
                         }
                     }
                 }
@@ -1138,6 +1141,31 @@ public sealed partial class AccountsPage : Page
             MinWidth = 0
         };
 
+        ToolTipService.SetToolTip(checkBox, isUsed == 1 ? "Mark as Unused" : "Mark as Used");
+        ToolTipService.SetPlacement(checkBox, PlacementMode.Bottom);
+
+        checkBox.Checked += (sender, e) =>
+        {
+            // get the backup code object from account Id
+            var updatedBackupCode = new BackupCode(accountId, backupCodeValue, 1);
+            
+            BackupCodeDL.UpdateBackupCode(updatedBackupCode);
+            BackupCodeDB.UpdateBackupCodeStatus(accountId, backupCodeValue, 1);
+
+            ToolTipService.SetToolTip(checkBox, "Mark as Unused");
+        };
+
+        checkBox.Unchecked += (sender, e) =>
+        {
+            // get the backup code object from account Id
+            var updatedBackupCode = new BackupCode(accountId, backupCodeValue, 0);
+
+            BackupCodeDL.UpdateBackupCode(updatedBackupCode);
+            BackupCodeDB.UpdateBackupCodeStatus(accountId, backupCodeValue, 0);
+
+            ToolTipService.SetToolTip(checkBox, "Mark as Used");
+        };
+
         // Copy Backup Code Button
         var copyButton = new Button
         {
@@ -1154,7 +1182,7 @@ public sealed partial class AccountsPage : Page
             Command = new RelayCommand(() =>
             {      
                 var dataPackage = new DataPackage();
-                dataPackage.SetText(backupCode);
+                dataPackage.SetText(backupCodeValue);
                 Clipboard.SetContent(dataPackage);
             })
         };
