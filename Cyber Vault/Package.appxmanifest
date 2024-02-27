@@ -11,15 +11,15 @@
   IgnorableNamespaces="uap rescap genTemplate">
 
   <Identity
-    Name="e1fb6004-1353-4d5d-9eba-3c75ed2d39f0"
-    Publisher="CN=affan"
+    Name="24392ITFusionLabs.30206DBC7B37"
+    Publisher="CN=300AEB39-68AA-453D-BB6A-028D164FDEA0"
     Version="1.0.0.0" />
     
-  <mp:PhoneIdentity PhoneProductId="e1fb6004-1353-4d5d-9eba-3c75ed2d39f0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e0bd974a-2b3f-4509-92f0-df0735ea7aa6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
   <Properties>
     <DisplayName>Cyber Vault</DisplayName>
-    <PublisherDisplayName>affan</PublisherDisplayName>
+    <PublisherDisplayName>IT Fusion Labs</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

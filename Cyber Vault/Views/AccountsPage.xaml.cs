@@ -14,6 +14,8 @@ using QRCoder;
 using OtpNet;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
+using Microsoft.UI.Xaml.Input;
+using static QRCoder.PayloadGenerator;
 
 
 namespace Cyber_Vault.Views;
@@ -1595,7 +1597,7 @@ public sealed partial class AccountsPage : Page
     }
 
     // Search Bar KeyDown Event
-    private void SearchBar_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    private void SearchBar_KeyDown(object sender, KeyRoutedEventArgs e)
     {
         if(SearchBar.Text == string.Empty)
         {
@@ -1664,4 +1666,355 @@ public sealed partial class AccountsPage : Page
         }
     }
 
+    [Obsolete]
+    private async void AuthenticatorConfigure_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var Container_ScrollViewer = new ScrollViewer
+        {        
+            Name = "Container_ScrollViewer",
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            Margin = new Thickness(0, 0, 0, 10),
+            Width = 400,
+            Height = 300
+        };
+
+        var Container_StackPanel = new StackPanel
+        { 
+            Orientation = Orientation.Vertical
+        };
+
+        var Type_ComboBox = new ComboBox
+        {        
+            Name = "Type_ComboBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Type",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE735",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "Select Type",
+            Items = { "TOTP", "HOTP" },
+            SelectedIndex = 0,
+            Width = 200
+        };
+
+        var Label_TextBox = new TextBox
+        {
+            Name = "Label_TextBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Label",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE734",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "affan@gmail.com",
+        };
+
+        var Issuer_TextBox = new TextBox
+        {        
+            Name = "Issuer_TextBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Issuer",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE734",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "Google",
+        };
+
+        var SecretKey_TextBox = new TextBox
+        {        
+            Name = "SecretKey_TextBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Secret Key",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE735",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "JBSWY3DPEHPK3PXPLA",
+        };
+
+        var Digits_TextBox = new TextBox
+        {               
+            Name = "Digits_TextBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Digits",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE734",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "6",
+        };
+
+        var Algorithm_ComboBox = new ComboBox
+        {               
+            Name = "Algorithm_ComboBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Algorithm",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE734",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "Select Algorithm",
+            Items = { "SHA1", "SHA256", "SHA512" },
+            SelectedIndex = 0,
+            Width = 200
+        };
+
+        var Period_TextBox = new TextBox
+        {                      
+            Name = "Period_TextBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Period",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE734",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "30",
+        };
+
+        var Counter_TextBox = new TextBox
+        {                             
+            Name = "Counter_TextBox",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "Counter",
+                        Margin = new Thickness(0, 0, 5, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\uE734",
+                        FontSize = 13,
+                    }
+                }
+            },
+            Margin = new Thickness(0, 0, 0, 15),
+            PlaceholderText = "0",
+            Visibility = Visibility.Collapsed
+        };
+
+        Container_StackPanel.Children.Add(Type_ComboBox);
+        Container_StackPanel.Children.Add(Label_TextBox);
+        Container_StackPanel.Children.Add(Issuer_TextBox);
+        Container_StackPanel.Children.Add(SecretKey_TextBox);
+        Container_StackPanel.Children.Add(Digits_TextBox);
+        Container_StackPanel.Children.Add(Algorithm_ComboBox);
+        Container_StackPanel.Children.Add(Period_TextBox);
+        Container_StackPanel.Children.Add(Counter_TextBox);
+        Container_ScrollViewer.Content = Container_StackPanel;
+
+        Type_ComboBox.SelectionChanged += (sender, e) =>
+        {
+            var selectedType = Type_ComboBox.SelectedValue.ToString();
+            if (selectedType == "TOTP")
+            {
+                Period_TextBox.Visibility = Visibility.Visible;
+                Counter_TextBox.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Period_TextBox.Visibility = Visibility.Collapsed;
+                Counter_TextBox.Visibility = Visibility.Visible;
+            }
+        };
+
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = "Configure Authenticator",
+            PrimaryButtonText = "Generate QR Code Link",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = Container_ScrollViewer
+        };
+
+        var result = await dialog.ShowAsync();
+
+        if (result.ToString() == "Primary")
+        {
+            if (string.IsNullOrEmpty(SecretKey_TextBox.Text))
+            {
+                return;
+            }
+            //var generator = new OneTimePassword()
+            //{
+            //    Secret = SecretKey_TextBox.Text,
+            //    Issuer = Issuer_TextBox.Text,
+            //    Label = Label_TextBox.Text,
+            //    Type =  Type_ComboBox.SelectedValue.ToString() == "TOTP" ? OneTimePassword.OneTimePasswordAuthType.TOTP : OneTimePassword.OneTimePasswordAuthType.HOTP,
+            //};
+
+            // Parse digits
+            var digits = 0;
+            if (!int.TryParse(Digits_TextBox.Text, out digits))
+            {
+                digits = 6; // Default value
+            }
+
+            // Parse period (only for TOTP)
+            var period = 0;
+            if (Type_ComboBox.SelectedValue.ToString() == "TOTP" && !int.TryParse(Period_TextBox.Text, out period))
+            {
+                period = 30; // Default value
+            }
+
+            // Parse counter (only for HOTP)
+            var counter = 0;
+            if (Type_ComboBox.SelectedValue.ToString() == "HOTP" && !int.TryParse(Counter_TextBox.Text, out counter))
+            {
+                counter = 0; // Default value
+            }
+
+            var uriString = new OtpUri(
+                schema: Type_ComboBox.SelectedValue.ToString() == "TOTP" ? OtpType.Totp : OtpType.Hotp,
+                secret: SecretKey_TextBox.Text,
+                user: Label_TextBox.Text,
+                issuer: Issuer_TextBox.Text,
+                algorithm: Algorithm_ComboBox.SelectedValue.ToString() == "SHA1" ? OtpHashMode.Sha1 : Algorithm_ComboBox.SelectedValue.ToString() == "SHA256" ? OtpHashMode.Sha256 : OtpHashMode.Sha512,
+                digits: digits,
+                period: Type_ComboBox.SelectedValue.ToString() == "TOTP" ? period : 30,
+                counter: Type_ComboBox.SelectedValue.ToString() == "HOTP" ? counter : 0
+            );
+            
+
+            //if (!string.IsNullOrEmpty(Digits_TextBox.Text))
+            //{
+            //    try
+            //    {
+            //        generator.digits = int.Parse(Digits_TextBox.Text);
+            //    }
+            //    catch
+            //    {
+            //        generator.Digits = 6;
+            //    }
+            //}
+
+            //if (Algorithm_ComboBox.SelectedValue.ToString() == "SHA1")
+            //{
+            //    generator.Algorithm = OneTimePassword.OoneTimePasswordAuthAlgorithm.SHA1;
+            //}
+            //else if (Algorithm_ComboBox.SelectedValue.ToString() == "SHA256")
+            //{
+            //    generator.Algorithm = OneTimePassword.OoneTimePasswordAuthAlgorithm.SHA512;
+            //}
+            //else
+            //{
+            //    generator.Algorithm = OneTimePassword.OoneTimePasswordAuthAlgorithm.SHA512;
+            //}
+
+            //if(Type_ComboBox.SelectedValue.ToString() == "TOTP")
+            //{
+            //    try
+            //    {
+            //        generator.Period = int.Parse(Period_TextBox.Text);
+            //    }
+            //    catch
+            //    {                
+            //        generator.Period = 30;
+            //    }
+            //}
+            //else
+            //{
+            //    generator.Counter = int.Parse(Counter_TextBox.Text);
+            //}
+
+
+            //var qrCode = generator.ToString();
+
+            QrCode_TextBox.Text = uriString.ToString();
+
+        }
+    }
 }

@@ -9,5 +9,9 @@
     <AppIconSource>D:\Old Window\desktop\cyber-vault-icon.png</AppIconSource>
     <SplashScreenSource>D:\Old Window\desktop\cyber-vault-icon.png</SplashScreenSource>
     <PackageLogoSource>D:\Old Window\desktop\cyber-vault-icon.png</PackageLogoSource>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
   </PropertyGroup>
 </Project>

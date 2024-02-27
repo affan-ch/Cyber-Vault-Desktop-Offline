@@ -537,24 +537,46 @@
                                    Margin="20,10,0,15"/>
                             </Grid>
 
-                            <!-- 2FA QR Code -->
-                            <TextBox x:Name="QrCode_TextBox"
-                                PlaceholderText="otpauth://totp/?secret=" 
-                                IsSpellCheckEnabled="False"
-                                Margin="20,0,13,0"
-                                TextWrapping="Wrap" AcceptsReturn="True"
-                                AutomationProperties.Name="multi-line TextBox">
-                                <TextBox.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter 2FA QR Code Text" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
-                                    </StackPanel>
-                                </TextBox.Header>
-                            </TextBox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
+                                <!-- 2FA QR Code -->
+                                <TextBox x:Name="QrCode_TextBox"
+                                    PlaceholderText="otpauth://totp/?secret=" 
+                                    IsSpellCheckEnabled="False"
+                                    Margin="20,0,13,0"
+                                    Grid.Column="0"
+                                    TextWrapping="Wrap" AcceptsReturn="True"
+                                    AutomationProperties.Name="multi-line TextBox">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Enter 2FA QR Code Text" Margin="0,0,4,0"/>
+                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!-- Authenticator Configure Button -->
+                                <Button x:Name="AuthenticatorConfigure_Button"
+                                    Click="AuthenticatorConfigure_Button_Click"
+                                    Grid.Column="1" 
+                                    Margin="0,0,20,0" 
+                                    VerticalAlignment="Bottom" 
+                                    ToolTipService.ToolTip="Authenticator Configurations"
+                                    ToolTipService.Placement="Top">
+                                    <FontIcon Glyph="&#xE8A7;" />
+                                </Button>
+                            </Grid>
+                            
+
+                   
                             <!-- 2FA Secret Key -->
                             <TextBox x:Name="SecretKey_TextBox"
                                 IsSpellCheckEnabled="False"
+                                Visibility="Collapsed"
                                 PlaceholderText="mhmtfiqlvg2ve63jwk4gq2o" 
                                 Margin="{StaticResource AccountsPageRightTextBoxMargin}">
                                 <TextBox.Header>
