@@ -97,7 +97,6 @@ internal class AccountDL
                     RecoveryEmail: EncryptionHelper.Decrypt(reader["RecoveryEmail"].ToString() ?? "", username + password),
                     RecoveryPhoneNumber: EncryptionHelper.Decrypt(reader["RecoveryPhoneNumber"].ToString() ?? "", username + password),
                     QrCode: EncryptionHelper.Decrypt(reader["QrCode"].ToString() ?? "", username + password),
-                    Secret: EncryptionHelper.Decrypt(reader["Secret"].ToString() ?? "", username + password),
                     Notes: EncryptionHelper.Decrypt(reader["Notes"].ToString() ?? "", username + password),
                     DateAdded: reader["DateAdded"].ToString() ?? "",
                     DateModified: reader["DateModified"].ToString() ?? ""

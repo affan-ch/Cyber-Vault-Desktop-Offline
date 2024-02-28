@@ -15,7 +15,6 @@ using OtpNet;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Input;
-using static QRCoder.PayloadGenerator;
 
 
 namespace Cyber_Vault.Views;
@@ -26,7 +25,7 @@ public sealed partial class AccountsPage : Page
     private int backupCodeCount = 1;
     private string oldOTP = "";
     private Timer? timer;
-    private string currentSecretKey = "";
+    private Authenticator? currentAuthenticator;
     private readonly RadioButtons radioButtons = new()
     {
         Visibility = Visibility.Collapsed
@@ -47,6 +46,7 @@ public sealed partial class AccountsPage : Page
     // Add Account Tile in ListView (Left Sidebar)
     private void AddAccountInListView(int? id, string? url, string? title, string? subtitle)
     {
+        NoAccounts_Grid.Visibility = Visibility.Collapsed;
 
         // Create a new StackPanel dynamically
         var accountContainer = new Grid
@@ -209,40 +209,81 @@ public sealed partial class AccountsPage : Page
     }
 
     // Method to update OTP (View Account Page - Authenticator)
-    private void UpdateOTP(string secret)
+    private void UpdateOTP(Authenticator authenticator)
     {
-        var totp = new Totp(Base32Encoding.ToBytes(secret), step: 30, mode: OtpHashMode.Sha1, totpSize: 6, timeCorrection: TimeCorrection.UncorrectedInstance);
-        var otp = totp.ComputeTotp(DateTime.UtcNow);
-        var remainingSeconds = totp.RemainingSeconds(DateTime.UtcNow);
+        var period = authenticator.Period;
+        if (string.IsNullOrEmpty(period))
+        {
+            period = "30";
+        }
 
-        if (oldOTP == "")
+        var counter = authenticator.Counter;
+        if (string.IsNullOrEmpty(counter))
         {
-            oldOTP = otp;
-            SetProgressRingValue(remainingSeconds);
-            DispatcherQueue.TryEnqueue(() =>
+            counter = "0";
+        }
+
+        var algo = authenticator.Algorithm;
+        if (string.IsNullOrEmpty(algo))
+        {
+            algo = "SHA1";
+        }
+        algo = algo.ToUpper();
+
+        var digits = authenticator.Digits;
+        if (string.IsNullOrEmpty(digits))
+        {
+            digits = "6";
+        }
+
+        if (authenticator.Type!.ToUpper() == "TOTP")
+        {
+            var obj = new Totp(
+                secretKey: Base32Encoding.ToBytes(authenticator.Secret),
+                step: int.Parse(period),
+                mode: algo == "SHA1" ? OtpHashMode.Sha1 : algo == "SHA256" ? OtpHashMode.Sha256 : OtpHashMode.Sha512,
+                totpSize: int.Parse(digits),
+                timeCorrection: TimeCorrection.UncorrectedInstance
+            );
+
+            var otp = obj.ComputeTotp(DateTime.UtcNow);
+            var remainingSeconds = obj.RemainingSeconds(DateTime.UtcNow);
+
+            if (oldOTP == "")
             {
-                Authenticator_Text.Text = otp;
-            });
-        }
-        else if (oldOTP != otp)
-        {
-            DispatcherQueue.TryEnqueue(() =>
+                oldOTP = otp;
+                SetProgressRingValue(remainingSeconds, period);
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    Authenticator_Text.Text = otp;
+                });
+            }
+            else if (oldOTP != otp)
             {
-                Authenticator_Text.Text = otp;
-            });
-            SetProgressRingValue(remainingSeconds);
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    Authenticator_Text.Text = otp;
+                });
+                SetProgressRingValue(remainingSeconds, period);
+            }
+            else if (oldOTP == otp)
+            {
+                SetProgressRingValue(remainingSeconds, period);
+            }
+
         }
-        else if (oldOTP == otp)
-        {
-            SetProgressRingValue(remainingSeconds);
+        else
+        {        
+            return;
         }
+
     }
 
     // Method to set the progress ring value (View Account Page)
-    private void SetProgressRingValue(int remainingSeconds)
+    private void SetProgressRingValue(int remainingSeconds, string period)
     {
         // Calculate the progress ring value based on remaining seconds
-        var progressValue = (remainingSeconds / 30.0) * 100.0;
+        var progressValue = (remainingSeconds / double.Parse(period)) * 100.0;
 
         // Set the progress ring value
         DispatcherQueue.TryEnqueue(() => {
@@ -253,9 +294,9 @@ public sealed partial class AccountsPage : Page
     // Timer callback method (View Account Page - Authenticator Timer)
     private void TimerCallback(object? state)
     {
-        if(currentSecretKey != null && currentSecretKey != "")
+        if(currentAuthenticator != null)
         {
-            UpdateOTP(currentSecretKey);
+            UpdateOTP(currentAuthenticator);
         }
     }
 
@@ -393,21 +434,39 @@ public sealed partial class AccountsPage : Page
         }
 
         // QR Code
-        if ((account.QrCode != null && account.QrCode != string.Empty) || (account.Secret != null && account.Secret != string.Empty))
+        if ((account.QrCode != null && account.QrCode != string.Empty))
         {
             Authenticator_Container.Visibility = Visibility.Visible;
 
-            if (account.Secret != null)
+            var authenticator = ParseUri(account.QrCode);
+            
+            if(authenticator != null)
             {
-                currentSecretKey = account.Secret;
+                if (!string.IsNullOrEmpty(authenticator.Secret) && !string.IsNullOrEmpty(authenticator.Type))
+                {
+                    currentAuthenticator = authenticator;
 
-                // Timer to update the OTP and ProgressRing value
-                timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
+                    if(authenticator.Type.ToUpper() == "TOTP")
+                    {
+                        OTP_Ring.Visibility = Visibility.Visible;
+                        HOTP_Generate_Button.Visibility = Visibility.Collapsed;
+
+                        // Timer to update the OTP and ProgressRing value
+                        timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
+                    }
+                    else if(authenticator.Type.ToUpper() == "HOTP")
+                    {
+                        OTP_Ring.Visibility = Visibility.Collapsed;
+                        HOTP_Generate_Button.Visibility = Visibility.Visible;
+                        Authenticator_Text.Text = new string('●', int.Parse(authenticator.Digits ?? "6"));
+                    }
+                    
+                }
             }
         }
         else
         {
-            currentSecretKey = "";
+            currentAuthenticator = null;
             Authenticator_Container.Visibility = Visibility.Collapsed;
         }
 
@@ -517,7 +576,6 @@ public sealed partial class AccountsPage : Page
         RecoveryEmail_TextBox.Text = string.Empty;
         RecoveryPhoneNumber_TextBox.Text = string.Empty;
         QrCode_TextBox.Text = string.Empty;
-        SecretKey_TextBox.Text = string.Empty;
         Notes_TextBox.Text = string.Empty;
 
         RemoveAllBackupCodesTextbox();
@@ -959,6 +1017,8 @@ public sealed partial class AccountsPage : Page
         var scrollViewer = new ScrollViewer
         {
             Name = "AuthenticatorDialog_ScrollViewer",
+            Width = 350,
+            Height = 375
         };
 
         var dialog = new ContentDialog
@@ -975,6 +1035,7 @@ public sealed partial class AccountsPage : Page
         {
             Name = "AuthenticatorDialog_StackPanel",
             Orientation = Orientation.Vertical,
+            Margin = new Thickness(10, 1, 10, 1),
         };
 
         scrollViewer.Content = stackPanel;
@@ -1029,67 +1090,293 @@ public sealed partial class AccountsPage : Page
 
         stackPanel.Children.Add(copyQrCodeButton);
 
+        var authenticator = ParseUri(account.QrCode ?? "");
 
-
-
-        var issuerIndex = account.QrCode!.IndexOf("&issuer=");
-
-        if (issuerIndex != -1)
+        if(authenticator != null)
         {
-            // Extract the substring containing the issuer parameter
-            var issuerSubstring = account.QrCode!.Substring(issuerIndex + "&issuer=".Length);
-
-            // Find the index of the next parameter delimiter
-            var nextDelimiterIndex = issuerSubstring.IndexOf('&');
-
-            // Extract the issuer value
-            var issuerValue = nextDelimiterIndex != -1 ? issuerSubstring[..nextDelimiterIndex] : issuerSubstring;
-
-            var issuer = Uri.UnescapeDataString(issuerValue);
-
-            var IssuerLabel = new TextBlock
+            if (!string.IsNullOrEmpty(authenticator.Type))
             {
-                Text = "Issuer",
-                Margin = new Thickness(0, 15, 0, 0),
-                Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
-                FontSize = 17
-            };
+                var TypeLabel = new TextBlock
+                {
+                    Text = "Auth Type",
+                    Margin = new Thickness(0, 15, 0, 0),
+                    Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                    FontSize = 17
+                };
 
-            var IssuerText = new TextBlock
+                var TypeText = new RichTextBlock
+                {
+                    Margin = new Thickness(0, 10, 0, 0),
+                    FontSize = 13,
+                    FontWeight = FontWeights.Bold,
+                    Opacity = 0.9,
+                    Blocks =
+                    {
+                        new Paragraph
+                        {
+                            Inlines =
+                            {
+                                new Run
+                                {
+                                    Text = authenticator.Type.ToUpper(),
+                                }
+                            }
+                        }
+                    }
+                };
+
+                stackPanel.Children.Add(TypeLabel);
+                stackPanel.Children.Add(TypeText);
+            }
+
+            if (!string.IsNullOrEmpty(authenticator.Label))
             {
-                Text = issuer,
-                Margin = new Thickness(0, 10, 0, 0),
-                FontSize = 13,
-                FontWeight = FontWeights.Bold,
-                Opacity = 0.9
-            };
+                var Label = new TextBlock
+                {
+                    Text = "Label",
+                    Margin = new Thickness(0, 15, 0, 0),
+                    Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                    FontSize = 17
+                };
 
-            stackPanel.Children.Add(IssuerLabel);
-            stackPanel.Children.Add(IssuerText);
+                var LabelText = new RichTextBlock
+                {
+                    Margin = new Thickness(0, 10, 0, 0),
+                    FontSize = 13,
+                    FontWeight = FontWeights.Bold,
+                    Opacity = 0.9,
+                    Blocks =
+                    {
+                        new Paragraph
+                        {
+                            Inlines =
+                            {
+                                new Run
+                                {
+                                    Text = authenticator.Label,
+                                }
+                            }
+                        }
+                    }
+                };
+
+                stackPanel.Children.Add(Label);
+                stackPanel.Children.Add(LabelText);
+            }
+
+            if (!string.IsNullOrEmpty(authenticator.Issuer))
+            {
+                var IssuerLabel = new TextBlock
+                {
+                    Text = "Issuer",
+                    Margin = new Thickness(0, 15, 0, 0),
+                    Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                    FontSize = 17
+                };
+
+                var IssuerText = new RichTextBlock
+                {
+                    Margin = new Thickness(0, 10, 0, 0),
+                    FontSize = 13,
+                    FontWeight = FontWeights.Bold,
+                    Opacity = 0.9,
+                    Blocks =
+                    {
+                        new Paragraph
+                        {
+                            Inlines =
+                            {
+                                new Run
+                                {
+                                    Text = authenticator.Issuer,
+                                }
+                            }
+                        }
+                    }
+                };
+
+                stackPanel.Children.Add(IssuerLabel);
+                stackPanel.Children.Add(IssuerText);
+            }
+
+            if (!string.IsNullOrEmpty(authenticator.Secret))
+            {
+                var SecretLabel = new TextBlock
+                {
+                    Text = "Secret",
+                    Margin = new Thickness(0, 15, 0, 0),
+                    Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                    FontSize = 17
+                };
+
+                var SecretText = new RichTextBlock
+                {
+                    Margin = new Thickness(0, 10, 0, 0),
+                    FontSize = 13,
+                    FontWeight = FontWeights.Bold,
+                    Opacity = 0.9,
+                    Blocks =
+                    {
+                        new Paragraph
+                        {
+                            Inlines =
+                            {
+                                new Run
+                                {
+                                    Text = authenticator.Secret.ToUpper(),
+                                }
+                            }
+                        }
+                    }
+                };
+
+                stackPanel.Children.Add(SecretLabel);
+                stackPanel.Children.Add(SecretText);
+            }
+
+            if (!string.IsNullOrEmpty(authenticator.Algorithm))
+            {
+                var AlgorithmLabel = new TextBlock
+                {
+                    Text = "Algorithm",
+                    Margin = new Thickness(0, 15, 0, 0),
+                    Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                    FontSize = 17
+                };
+
+                var AlgorithmText = new RichTextBlock 
+                { 
+                    Margin = new Thickness(0, 10, 0, 0),
+                    FontSize = 13,
+                    FontWeight = FontWeights.Bold,
+                    Opacity = 0.9,
+                    Blocks = 
+                    { 
+                        new Paragraph 
+                        { 
+                            Inlines = 
+                            { 
+                                new Run 
+                                { 
+                                    Text = authenticator.Algorithm.ToUpper() 
+                                } 
+                            } 
+                        } 
+                    } 
+                };
+
+                stackPanel.Children.Add(AlgorithmLabel);
+                stackPanel.Children.Add(AlgorithmText);
+            }
+
+            if (!string.IsNullOrEmpty(authenticator.Digits))
+            {
+                var DigitsLabel = new TextBlock
+                {
+                    Text = "Digits",
+                    Margin = new Thickness(0, 15, 0, 0),
+                    Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                    FontSize = 17
+                };
+
+                var DigitsText = new RichTextBlock
+                {
+                    Margin = new Thickness(0, 10, 0, 0),
+                    FontSize = 13,
+                    FontWeight = FontWeights.Bold,
+                    Opacity = 0.9,
+                    Blocks =
+                    {
+                        new Paragraph
+                        {
+                            Inlines =
+                            {
+                                new Run
+                                {
+                                    Text = authenticator.Digits,
+                                }
+                            }
+                        }
+                    }
+                };
+
+                stackPanel.Children.Add(DigitsLabel);
+                stackPanel.Children.Add(DigitsText);
+            }
+
+            if (!string.IsNullOrEmpty(authenticator.Type))
+            {
+                if(authenticator.Type.ToUpper() == "TOTP")
+                {
+                    var PeriodLabel = new TextBlock
+                    {
+                        Text = "Period",
+                        Margin = new Thickness(0, 15, 0, 0),
+                        Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                        FontSize = 17
+                    };
+
+                    var PeriodText = new RichTextBlock
+                    {
+                        Margin = new Thickness(0, 10, 0, 0),
+                        FontSize = 13,
+                        FontWeight = FontWeights.Bold,
+                        Opacity = 0.9,
+                        Blocks =
+                        {
+                            new Paragraph
+                            {
+                                Inlines =
+                                {
+                                    new Run
+                                    {
+                                        Text = authenticator.Period,
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    stackPanel.Children.Add(PeriodLabel);
+                    stackPanel.Children.Add(PeriodText);
+                }
+                else if(authenticator.Type.ToUpper() == "HOTP")
+                {
+                    var CounterLabel = new TextBlock
+                    {
+                        Text = "Counter",
+                        Margin = new Thickness(0, 15, 0, 0),
+                        Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
+                        FontSize = 17
+                    };
+
+                    var CounterText = new RichTextBlock
+                    {
+                        Margin = new Thickness(0, 10, 0, 0),
+                        FontSize = 13,
+                        FontWeight = FontWeights.Bold,
+                        Opacity = 0.9,
+                        Blocks =
+                        {
+                            new Paragraph
+                            {
+                                Inlines =
+                                {
+                                    new Run
+                                    {
+                                        Text = authenticator.Counter,
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    stackPanel.Children.Add(CounterLabel);
+                    stackPanel.Children.Add(CounterText);
+                }
+            }
         }
-
-
-        var SecretLabel = new TextBlock
-        {
-            Text = "Secret",
-            Margin = new Thickness(0, 15, 0, 0),
-            Style = (Style)Application.Current.Resources["BodyStrongTextBlockStyle"],
-            FontSize = 17
-        };
-
-        var SecretText = new TextBlock
-        {
-            Text = account.Secret?.ToUpper(),
-            Margin = new Thickness(0,10,0,0),
-            FontSize = 13,
-            FontWeight = FontWeights.Bold,
-            Opacity = 0.9
-        };
-
-        stackPanel.Children.Add(SecretLabel);
-        stackPanel.Children.Add(SecretText);
-
-
+     
         await dialog.ShowAsync();
 
     }
@@ -1227,7 +1514,6 @@ public sealed partial class AccountsPage : Page
         var RecoveryEmail = RecoveryEmail_TextBox.Text;
         var RecoveryPhoneNumber = RecoveryPhoneNumber_TextBox.Text;
         var QrCode = QrCode_TextBox.Text;
-        var SecretKey = SecretKey_TextBox.Text;
         var Notes = Notes_TextBox.Text;
 
         if (AccountType == "Custom")
@@ -1327,7 +1613,6 @@ public sealed partial class AccountsPage : Page
             RecoveryEmail: RecoveryEmail ?? "",
             RecoveryPhoneNumber: RecoveryPhoneNumber ?? "",
             QrCode: QrCode ?? "",
-            Secret: SecretKey ?? "",
             Notes: Notes ?? ""
         );
 
@@ -1391,7 +1676,6 @@ public sealed partial class AccountsPage : Page
         RecoveryEmail_TextBox.Text = account.RecoveryEmail;
         RecoveryPhoneNumber_TextBox.Text = account.RecoveryPhoneNumber;
         QrCode_TextBox.Text = account.QrCode;
-        SecretKey_TextBox.Text = account.Secret;
         Notes_TextBox.Text = account.Notes;
 
         // backup codes
@@ -1460,7 +1744,7 @@ public sealed partial class AccountsPage : Page
         AccountsListView.Children.Clear();
         radioButtons.Items.Clear();
         currentAccountId = 0;
-        currentSecretKey = "";
+        currentAuthenticator = null; 
         backupCodeCount = 1;
         oldOTP = "";
         timer?.Dispose();
@@ -1472,7 +1756,7 @@ public sealed partial class AccountsPage : Page
         {
             "Google" or "Microsoft" or "Facebook" or "Instagram" or "Twitter" or "Snapchat" or "LinkedIn" or "Custom" => AccountDL.GetAccountsByType(filterType),
             "Clear" => AccountDL.GetAccounts(),
-            "Authenticator" => AccountDL.GetAccounts().Where(a => !string.IsNullOrEmpty(a.QrCode) || !string.IsNullOrEmpty(a.Secret)).ToList(),
+            "Authenticator" => AccountDL.GetAccounts().Where(a => !string.IsNullOrEmpty(a.QrCode)).ToList(),
             "Newest_DateAdded" => AccountDL.GetAccounts().OrderByDescending(a => a.DateAdded).ToList(),
             "Oldest_DateAdded" => AccountDL.GetAccounts().OrderBy(a => a.DateAdded).ToList(),
             "Newest_DateModified" => AccountDL.GetAccounts().OrderByDescending(a => a.DateModified).ToList(),
@@ -1630,7 +1914,7 @@ public sealed partial class AccountsPage : Page
                     AccountsListView.Children.Clear();
                     radioButtons.Items.Clear();
                     currentAccountId = 0;
-                    currentSecretKey = "";
+                    currentAuthenticator = null;
                     backupCodeCount = 1;
                     oldOTP = "";
                     timer?.Dispose();
@@ -1666,7 +1950,8 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-    [Obsolete]
+
+    // Authenticator Configure Button (Add Account Page)
     private async void AuthenticatorConfigure_Button_Click(object sender, RoutedEventArgs e)
     {
         var Container_ScrollViewer = new ScrollViewer
@@ -1680,8 +1965,9 @@ public sealed partial class AccountsPage : Page
         };
 
         var Container_StackPanel = new StackPanel
-        { 
-            Orientation = Orientation.Vertical
+        {
+            Orientation = Orientation.Vertical,
+            Margin = new Thickness(10, 1, 10, 1)
         };
 
         var Type_ComboBox = new ComboBox
@@ -1908,6 +2194,27 @@ public sealed partial class AccountsPage : Page
             }
         };
 
+        var authenticator = ParseUri(QrCode_TextBox.Text);
+        if (authenticator != null)
+        {
+            if(authenticator.Type!.ToUpper() == "TOTP")
+            {            
+                Type_ComboBox.SelectedValue = "TOTP";
+                Period_TextBox.Text = authenticator.Period;
+            }
+            else
+            {            
+                Type_ComboBox.SelectedValue = "HOTP";
+                Counter_TextBox.Text = authenticator.Counter;
+            }
+
+            Label_TextBox.Text = authenticator.Label;
+            Issuer_TextBox.Text = authenticator.Issuer;
+            SecretKey_TextBox.Text = authenticator.Secret;
+            Digits_TextBox.Text = authenticator.Digits;
+            Algorithm_ComboBox.SelectedValue = authenticator.Algorithm!.ToUpper();
+        }
+
 
         var dialog = new ContentDialog
         {
@@ -1928,13 +2235,6 @@ public sealed partial class AccountsPage : Page
             {
                 return;
             }
-            //var generator = new OneTimePassword()
-            //{
-            //    Secret = SecretKey_TextBox.Text,
-            //    Issuer = Issuer_TextBox.Text,
-            //    Label = Label_TextBox.Text,
-            //    Type =  Type_ComboBox.SelectedValue.ToString() == "TOTP" ? OneTimePassword.OneTimePasswordAuthType.TOTP : OneTimePassword.OneTimePasswordAuthType.HOTP,
-            //};
 
             // Parse digits
             var digits = 0;
@@ -1967,54 +2267,104 @@ public sealed partial class AccountsPage : Page
                 period: Type_ComboBox.SelectedValue.ToString() == "TOTP" ? period : 30,
                 counter: Type_ComboBox.SelectedValue.ToString() == "HOTP" ? counter : 0
             );
-            
-
-            //if (!string.IsNullOrEmpty(Digits_TextBox.Text))
-            //{
-            //    try
-            //    {
-            //        generator.digits = int.Parse(Digits_TextBox.Text);
-            //    }
-            //    catch
-            //    {
-            //        generator.Digits = 6;
-            //    }
-            //}
-
-            //if (Algorithm_ComboBox.SelectedValue.ToString() == "SHA1")
-            //{
-            //    generator.Algorithm = OneTimePassword.OoneTimePasswordAuthAlgorithm.SHA1;
-            //}
-            //else if (Algorithm_ComboBox.SelectedValue.ToString() == "SHA256")
-            //{
-            //    generator.Algorithm = OneTimePassword.OoneTimePasswordAuthAlgorithm.SHA512;
-            //}
-            //else
-            //{
-            //    generator.Algorithm = OneTimePassword.OoneTimePasswordAuthAlgorithm.SHA512;
-            //}
-
-            //if(Type_ComboBox.SelectedValue.ToString() == "TOTP")
-            //{
-            //    try
-            //    {
-            //        generator.Period = int.Parse(Period_TextBox.Text);
-            //    }
-            //    catch
-            //    {                
-            //        generator.Period = 30;
-            //    }
-            //}
-            //else
-            //{
-            //    generator.Counter = int.Parse(Counter_TextBox.Text);
-            //}
-
-
-            //var qrCode = generator.ToString();
 
             QrCode_TextBox.Text = uriString.ToString();
-
         }
     }
+
+    private static Authenticator? ParseUri(string url)
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return null;
+        }
+
+        var uri = new Uri(url);
+
+        var scheme = uri.Scheme.ToLower();
+        if (scheme != "otpauth")
+        {
+            return null;
+        }
+
+        var type = uri.Host.ToLower();
+        if(type != "totp" && type != "hotp")
+        {        
+            return null;
+        }
+
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+
+        if (string.IsNullOrEmpty(query.Get("secret")))
+        {
+            return null;
+        }
+
+        string? label;
+        try
+        {
+            var parts = uri.AbsolutePath.Trim('/').Split(':');
+            label = Uri.UnescapeDataString(parts[1]);
+        }
+        catch (IndexOutOfRangeException)
+        {
+            label = "";
+        }
+
+        var authenticator = new Authenticator
+        {
+            Type = type,
+            Label = label,
+            Secret = query.Get("secret"),
+            Issuer = query.Get("issuer"),
+            Algorithm = query.Get("algorithm"),
+            Digits = query.Get("digits"),
+            Period = query.Get("period"),
+            Counter = query.Get("counter")
+        };
+
+        return authenticator;
+    }
+
+    private void HOTP_Generate_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var authenticator = currentAuthenticator;
+
+        if (authenticator != null)
+        {
+            if (authenticator.Type!.ToUpper() == "HOTP")
+            {
+                var counter = authenticator.Counter;
+                if (string.IsNullOrEmpty(counter))
+                {
+                    counter = "0";
+                }
+
+                var algo = authenticator.Algorithm;
+                if (string.IsNullOrEmpty(algo))
+                {
+                    algo = "SHA1";
+                }
+                algo = algo.ToUpper();
+
+                var digits = authenticator.Digits;
+                if (string.IsNullOrEmpty(digits))
+                {
+                    digits = "6";
+                }
+
+                var obj = new Hotp(
+                    secretKey: Base32Encoding.ToBytes(authenticator.Secret),
+                    mode: algo == "SHA1" ? OtpHashMode.Sha1 : algo == "SHA256" ? OtpHashMode.Sha256 : OtpHashMode.Sha512,
+                    hotpSize: int.Parse(digits)
+                );
+
+                var otp = obj.ComputeHOTP(long.Parse(counter));
+                Authenticator_Text.Text = otp;
+                currentAuthenticator!.Counter = (int.Parse(counter) + 1).ToString();
+            }
+        }
+        
+    }
+
 }

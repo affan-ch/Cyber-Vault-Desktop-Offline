@@ -3,7 +3,6 @@ using System.Data.SQLite;
 using System.Runtime.InteropServices;
 using Cyber_Vault.BL;
 using Cyber_Vault.Utils;
-using Microsoft.UI.Xaml;
 
 namespace Cyber_Vault.DB;
 
@@ -17,8 +16,8 @@ internal class AccountDB
 
         using var command = new SQLiteCommand(connection)
         {
-            CommandText = @"INSERT INTO Account (Type, Title, Domain, Name, Email, Username, PhoneNumber, Password, Pin, DateOfBirth, RecoveryEmail, RecoveryPhoneNumber, QrCode, Secret, Notes)
-            VALUES (@Type, @Title, @Domain, @Name, @Email, @Username, @PhoneNumber, @Password, @Pin, @DateOfBirth, @RecoveryEmail, @RecoveryPhoneNumber, @QrCode, @Secret, @Notes)"
+            CommandText = @"INSERT INTO Account (Type, Title, Domain, Name, Email, Username, PhoneNumber, Password, Pin, DateOfBirth, RecoveryEmail, RecoveryPhoneNumber, QrCode, Notes)
+            VALUES (@Type, @Title, @Domain, @Name, @Email, @Username, @PhoneNumber, @Password, @Pin, @DateOfBirth, @RecoveryEmail, @RecoveryPhoneNumber, @QrCode, @Notes)"
         };
 
 
@@ -44,7 +43,6 @@ internal class AccountDB
             command.Parameters.AddWithValue("@RecoveryEmail", EncryptionHelper.Encrypt(account.RecoveryEmail ?? "", username + password));
             command.Parameters.AddWithValue("@RecoveryPhoneNumber", EncryptionHelper.Encrypt(account.RecoveryPhoneNumber ?? "", username + password));
             command.Parameters.AddWithValue("@QrCode", EncryptionHelper.Encrypt(account.QrCode ?? "", username + password));
-            command.Parameters.AddWithValue("@Secret", EncryptionHelper.Encrypt(account.Secret ?? "", username + password));
             command.Parameters.AddWithValue("@Notes", EncryptionHelper.Encrypt(account.Notes ?? "", username + password));
 
             command.ExecuteNonQuery();
@@ -69,7 +67,7 @@ internal class AccountDB
     
         using var command = new SQLiteCommand(connection)
         {
-           CommandText = @"UPDATE Account SET Type = @Type, Title = @Title, Domain = @Domain, Name = @Name, Email = @Email, Username = @Username, PhoneNumber = @PhoneNumber, Password = @Password, Pin = @Pin, DateOfBirth = @DateOfBirth, RecoveryEmail = @RecoveryEmail, RecoveryPhoneNumber = @RecoveryPhoneNumber, QrCode = @QrCode, Secret = @Secret, Notes = @Notes WHERE Id = @Id"
+           CommandText = @"UPDATE Account SET Type = @Type, Title = @Title, Domain = @Domain, Name = @Name, Email = @Email, Username = @Username, PhoneNumber = @PhoneNumber, Password = @Password, Pin = @Pin, DateOfBirth = @DateOfBirth, RecoveryEmail = @RecoveryEmail, RecoveryPhoneNumber = @RecoveryPhoneNumber, QrCode = @QrCode, Notes = @Notes WHERE Id = @Id"
         };
 
         var UsernamePtr = IntPtr.Zero;
@@ -95,7 +93,6 @@ internal class AccountDB
             command.Parameters.AddWithValue("@RecoveryEmail", EncryptionHelper.Encrypt(account.RecoveryEmail ?? "", username + password));
             command.Parameters.AddWithValue("@RecoveryPhoneNumber", EncryptionHelper.Encrypt(account.RecoveryPhoneNumber ?? "", username + password));
             command.Parameters.AddWithValue("@QrCode", EncryptionHelper.Encrypt(account.QrCode ?? "", username + password));
-            command.Parameters.AddWithValue("@Secret", EncryptionHelper.Encrypt(account.Secret ?? "", username + password));
             command.Parameters.AddWithValue("@Notes", EncryptionHelper.Encrypt(account.Notes ?? "", username + password));
 
         }

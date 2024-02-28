@@ -26,7 +26,6 @@ internal class DatabaseHelper
         RecoveryEmail TEXT,
         RecoveryPhoneNumber TEXT,
         QrCode TEXT,
-        Secret TEXT,
         Notes TEXT,
         DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -73,11 +73,6 @@ internal class Account
         get; set; 
     }
 
-    public string? Secret
-    {
-        get; set; 
-    }
-
     public string? Notes
     {
         get; set; 
@@ -95,7 +90,7 @@ internal class Account
 
     public Account(int Id, string Type, string Title, string Domain, string Name, string Email,
         string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes, string DateAdded, string DateModified)
+        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Notes, string DateAdded, string DateModified)
     {
         this.Id = Id;
         this.Type = Type;
@@ -111,7 +106,6 @@ internal class Account
         this.RecoveryEmail = RecoveryEmail;
         this.RecoveryPhoneNumber = RecoveryPhoneNumber;
         this.QrCode = QrCode;
-        this.Secret = Secret;
         this.Notes = Notes;
         this.DateAdded = DateAdded;
         this.DateModified = DateModified;
@@ -119,7 +113,7 @@ internal class Account
 
     public Account(int Id, string Type, string Title, string Domain, string Name, string Email,
         string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)
+        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Notes)
     {
         this.Id = Id;
         this.Type = Type;
@@ -135,13 +129,12 @@ internal class Account
         this.RecoveryEmail = RecoveryEmail;
         this.RecoveryPhoneNumber = RecoveryPhoneNumber;
         this.QrCode = QrCode;
-        this.Secret = Secret;
         this.Notes = Notes;
     }
 
     public Account(string Type, string Title, string Domain, string Name, string Email,
         string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Secret, string Notes)
+        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Notes)
     {
         this.Type = Type;
         this.Title = Title;
@@ -156,7 +149,6 @@ internal class Account
         this.RecoveryEmail = RecoveryEmail;
         this.RecoveryPhoneNumber = RecoveryPhoneNumber;
         this.QrCode = QrCode;
-        this.Secret = Secret;
         this.Notes = Notes;
     }
 }
