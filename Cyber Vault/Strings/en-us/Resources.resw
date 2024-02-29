@@ -159,7 +159,10 @@
   <data name="Shell_CreditCards.Content" xml:space="preserve">
     <value>Credit Cards</value>
   </data>
-  <data name="Shell_SecureNotesPlusDocuments.Content" xml:space="preserve">
-    <value>Secure Notes &amp; Documents</value>
+  <data name="Shell_SecureNotes.Content" xml:space="preserve">
+    <value>Secure Notes</value>
+  </data>
+  <data name="Shell_Documents.Content" xml:space="preserve">
+    <value>Documents</value>
   </data>
 </root>

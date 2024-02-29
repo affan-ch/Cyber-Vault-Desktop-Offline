@@ -2,9 +2,9 @@
 
 namespace Cyber_Vault.ViewModels;
 
-public partial class HomeViewModel : ObservableRecipient
+public partial class DocumentsViewModel : ObservableRecipient
 {
-    public HomeViewModel()
+    public DocumentsViewModel()
     {
     }
 }

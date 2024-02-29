@@ -1950,7 +1950,6 @@ public sealed partial class AccountsPage : Page
         }
     }
 
-
     // Authenticator Configure Button (Add Account Page)
     private async void AuthenticatorConfigure_Button_Click(object sender, RoutedEventArgs e)
     {

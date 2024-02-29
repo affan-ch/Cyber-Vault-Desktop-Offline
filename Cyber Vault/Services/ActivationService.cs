@@ -40,7 +40,7 @@ public class ActivationService : IActivationService
         // Activate the MainWindow.
         App.MainWindow.Activate();
         
-        UIElement? _login = App.GetService<HomePage>();
+        UIElement? _login = App.GetService<LockScreenPage>();
         App.MainWindow.Content = _login ?? new Frame();
 
         // Execute tasks after activation.

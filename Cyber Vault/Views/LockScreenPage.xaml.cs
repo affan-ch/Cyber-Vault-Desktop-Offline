@@ -11,17 +11,17 @@ using System.Security;
 
 namespace Cyber_Vault.Views;
 
-public sealed partial class HomePage : Page
+public sealed partial class LockScreenPage : Page
 {
 
-    public HomeViewModel ViewModel
+    public LockScreenViewModel ViewModel
     {
         get;
     }
 
-    public HomePage()
+    public LockScreenPage()
     {
-        ViewModel = App.GetService<HomeViewModel>();
+        ViewModel = App.GetService<LockScreenViewModel>();
         InitializeComponent();
 
         App.MainWindow.ExtendsContentIntoTitleBar = true;

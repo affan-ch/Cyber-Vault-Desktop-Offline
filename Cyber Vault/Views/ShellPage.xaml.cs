@@ -99,7 +99,7 @@ public sealed partial class ShellPage : Page
             CredentialsManager.DeletePasswordFromMemory();
             AccountDL.ClearAccounts();
 
-            UIElement? _login = App.GetService<HomePage>();
+            UIElement? _login = App.GetService<LockScreenPage>();
             App.MainWindow.Content = _login ?? new Frame();
 
             await ActivationService.StartupAsync();

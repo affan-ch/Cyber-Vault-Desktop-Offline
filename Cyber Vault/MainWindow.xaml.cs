@@ -80,7 +80,7 @@ public sealed partial class MainWindow : WindowEx
             CredentialsManager.DeletePasswordFromMemory();
 
             // On Minimize to System Tray --> Logout
-            UIElement? _login = App.GetService<HomePage>();
+            UIElement? _login = App.GetService<LockScreenPage>();
             App.MainWindow.Content = _login ?? new Frame();
             await ActivationService.StartupAsync();
 

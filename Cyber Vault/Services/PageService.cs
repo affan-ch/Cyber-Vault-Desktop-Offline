@@ -14,11 +14,12 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<HomeViewModel, HomePage>();
+        Configure<LockScreenViewModel, LockScreenPage>();
         Configure<SettingsViewModel, SettingsPage>();
         Configure<AccountsViewModel, AccountsPage>();
         Configure<CreditCardsViewModel, CreditCardsPage>();
-        Configure<SecureNotesPlusDocumentsViewModel, SecureNotesPlusDocumentsPage>();
+        Configure<SecureNotesViewModel, SecureNotesPage>();
+        Configure<DocumentsViewModel, DocumentsPage>();
     }
 
     public Type GetPageType(string key)

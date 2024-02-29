@@ -73,18 +73,20 @@ public partial class App : Application
             // Core Services
             services.AddSingleton<IFileService, FileService>();
 
-            // Views and ViewModels
-            services.AddTransient<SecureNotesPlusDocumentsViewModel>();
-            services.AddTransient<SecureNotesPlusDocumentsPage>();
             services.AddTransient<CreditCardsViewModel>();
             services.AddTransient<CreditCardsPage>();
             services.AddTransient<AccountsViewModel>();
             services.AddTransient<AccountsPage>();
 
+            services.AddTransient<SecureNotesViewModel>();
+            services.AddTransient<SecureNotesPage>();
+            services.AddTransient<DocumentsViewModel>();
+            services.AddTransient<DocumentsPage>();
+
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
-            services.AddTransient<HomeViewModel>();
-            services.AddTransient<HomePage>();
+            services.AddTransient<LockScreenViewModel>();
+            services.AddTransient<LockScreenPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
 
@@ -119,7 +121,7 @@ public partial class App : Application
                 AccountDL.ClearAccounts();
 
                 // On Minimize to System Tray --> Logout
-                UIElement? _login = App.GetService<HomePage>();
+                UIElement? _login = App.GetService<LockScreenPage>();
                 App.MainWindow.Content = _login ?? new Frame();
                 await ActivationService.StartupAsync();
 

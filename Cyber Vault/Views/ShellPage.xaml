@@ -49,9 +49,15 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C7;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_SecureNotesPlusDocuments" helpers:NavigationHelper.NavigateTo="Cyber_Vault.ViewModels.SecureNotesPlusDocumentsViewModel">
+
+                <NavigationViewItem x:Uid="Shell_SecureNotes" helpers:NavigationHelper.NavigateTo="Cyber_Vault.ViewModels.SecureNotesViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE70B;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_Documents" helpers:NavigationHelper.NavigateTo="Cyber_Vault.ViewModels.DocumentsViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
