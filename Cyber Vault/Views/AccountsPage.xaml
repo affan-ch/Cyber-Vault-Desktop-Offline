@@ -302,18 +302,41 @@
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Domain -->
-                                <TextBox x:Name="Domain_TextBox"
-                                    PlaceholderText="twitter.com" 
-                                    IsSpellCheckEnabled="False"
-                                    Margin="20,20,20,10">
-                                    <TextBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Domain" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE735;" FontSize="13"/>
-                                        </StackPanel>
-                                    </TextBox.Header>
-                                </TextBox>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Domain -->
+                                    <TextBox x:Name="Domain_TextBox"
+                                        PlaceholderText="twitter.com" 
+                                        IsSpellCheckEnabled="False"
+                                        Grid.Column="0"
+                                        Margin="20,20,10,0">
+                                        <TextBox.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Enter Domain" Margin="0,0,4,0"/>
+                                                <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                            </StackPanel>
+                                        </TextBox.Header>
+                                    </TextBox>
+
+                                    <!-- Select Thumbnail Button -->
+                                    <Button x:Name="SelectThumbnail_Button"
+                                        Click="SelectThumbnail_Button_Click"
+                                        Grid.Column="1" 
+                                        Margin="0,0,20,0" 
+                                        VerticalAlignment="Bottom" 
+                                        ToolTipService.ToolTip="Select Account Thumbnail"
+                                        ToolTipService.Placement="Top">
+                                        <FontIcon Glyph="&#xE8A7;" />
+                                    </Button>
+
+                                </Grid>
+
+                                
 
                                 <!-- Name -->
                                 <TextBox x:Name="Name_TextBox"

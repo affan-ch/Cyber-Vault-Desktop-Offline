@@ -15,6 +15,8 @@ using OtpNet;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Input;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 
 namespace Cyber_Vault.Views;
@@ -2366,4 +2368,14 @@ public sealed partial class AccountsPage : Page
         
     }
 
+    private void SelectThumbnail_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var window = new AccountThumbSelect();
+        window.Show();
+
+        GotFocus += (sender, e) =>
+        {
+            window.Close();
+        };
+    }
 }
