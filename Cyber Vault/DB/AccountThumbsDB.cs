@@ -1,9 +1,6 @@
-﻿using System.Data.SQLite;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Cyber_Vault.Utils;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System;
+using System.Drawing;
 
 namespace Cyber_Vault.DB;
 
@@ -20,160 +17,68 @@ internal class AccountThumbsDB
     public static bool IsThumbExist(string domain)
     {
         var thumbExists = false;
-        using (var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString))
-        {
-            connection.Open();
-            domain = domain.ToLower();
-
-            using var command = new SQLiteCommand(connection);
-            command.CommandText = "SELECT * FROM AccountThumbnails WHERE Domain = @Domain";
-            command.Parameters.AddWithValue("@Domain", domain);
-
-            using var reader = command.ExecuteReader();
-            thumbExists = reader.Read();
-
-            connection.Close();
+        var ThumbsFolderPath = DatabaseHelper.ThumbsFolderPath;
+        var thumbPath = Path.Combine(ThumbsFolderPath, $"{domain.ToLower()}.png");
+        if (File.Exists(thumbPath))
+        {        
+            thumbExists = true;
         }
         return thumbExists;
     }
 
 
-    // Store Thumb in DB
-    public static async Task StoreThumbAsync(string domain, string uri, ThumbType type)
+    // Store Thumb
+    public static async void StoreThumb(string domain, string uri, ThumbType type)
     {
         if(string.IsNullOrEmpty(domain) || string.IsNullOrEmpty(uri))
         {               
             return;
         }
-        byte[]? imageBytes = null;
-        if(type == ThumbType.Local)
-        {        
-            imageBytes = GetImageBytesFromFile(uri);
-        }
-        else if(type == ThumbType.Remote)
-        {        
-            Debug.WriteLine("Downloading image from: " + uri);
-            imageBytes = (await DownloadImage(uri).ConfigureAwait(false));
-            Debug.WriteLine("Image Downloaded");
-        }
 
-        if (imageBytes == null)
+        var ThumbsFolderPath = DatabaseHelper.ThumbsFolderPath;
+        var ThumbPath = Path.Combine(ThumbsFolderPath, $"{domain.ToLower()}.png");
+
+        if (File.Exists(ThumbPath))
         {
-            Debug.WriteLine("Image bytes are null");
-            return;
+            File.Delete(ThumbPath);
         }
 
-        using var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString);
-        connection.Open();
-        domain = domain.ToLower();
-        using var command = new SQLiteCommand(connection);
-        command.CommandText = "INSERT INTO AccountThumbnails (Domain, Image) VALUES (@Domain, @Image)";
-        command.Parameters.AddWithValue("@Domain", domain);
-        command.Parameters.AddWithValue("@Image", imageBytes);
+        if (type == ThumbType.Local)
+        {
+            File.Copy(uri, ThumbPath, true);
+        }
+        else if (type == ThumbType.Remote)
+        {
+            using var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(uri);
 
-        command.ExecuteNonQuery();
-
-        connection.Close();
-    }
-
-
-    // Get Image Bytes by Domain from DB
-    public static byte[]? GetImageBytes(string domain)
-    {
-        byte[]? imageBytes = null;
-        using (var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString))
-        {   
-            connection.Open();
-        
-            using var command = new SQLiteCommand(connection);
-            command.CommandText = "SELECT Image FROM AccountThumbnails WHERE Domain = @Domain";
-            command.Parameters.AddWithValue("@Domain", domain);
-        
-            using var reader = command.ExecuteReader();
-            if (reader.Read())
+            if (response.IsSuccessStatusCode)
             {
-                imageBytes = (byte[])reader["Image"];
+                using var stream = await response.Content.ReadAsStreamAsync();
+                using var bitmap = new Bitmap(stream);
+
+                bitmap.Save(ThumbPath, System.Drawing.Imaging.ImageFormat.Png);
             }
-
-            connection.Close();
+            else
+            {
+                Debug.WriteLine($"Failed to download image. Status code: {response.StatusCode}");
+            }
         }
-        return imageBytes;
     }
 
 
-    // Get Image Bytes by API GET Request 
-    public static async Task<byte[]?> DownloadImage(string url)
-    {
-        try
+    // Get Thumb Path
+    public static string? GetThumbPath(string domain)
+    {    
+        var ThumbsFolderPath = DatabaseHelper.ThumbsFolderPath;
+        var ThumbPath = Path.Combine(ThumbsFolderPath, $"{domain.ToLower()}.png");
+
+        if (!File.Exists(ThumbPath))
         {
-            using var webClient = new HttpClient();
-            var imageBytes = await webClient.GetByteArrayAsync(url).ConfigureAwait(false);
-            return imageBytes;
-        }
-        catch (HttpRequestException ex)
-        {
-            Debug.WriteLine($"Error downloading image: {ex.Message}");
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"An unexpected error occurred: {ex.Message}");
+            return null;
         }
 
-        return null;
+        return ThumbPath;
     }
-
-
-    // Get Image Bytes from Local File Location
-    public static byte[]? GetImageBytesFromFile(string filePath)
-    {
-        try
-        {
-            return File.ReadAllBytes(filePath);
-        }
-        catch (Exception ex)
-        {
-        
-            Debug.WriteLine($"An unexpected error occurred: {ex.Message}");
-        }
-        return null;
-    }
-
-
-    // Update Thumb in DB
-    public static async Task UpdateThumbAsync(string domain, string uri, ThumbType type)
-    {
-        if(string.IsNullOrEmpty(domain) || string.IsNullOrEmpty(uri))
-        {        
-            return;
-        }
-
-        byte[]? imageBytes = null;
-        if(type == ThumbType.Local)
-        {               
-            imageBytes = GetImageBytesFromFile(uri);
-        }
-        else if(type == ThumbType.Remote)
-        {               
-            imageBytes = (await DownloadImage(uri).ConfigureAwait(false));
-        }
-
-        if (imageBytes == null)
-        {        
-            return;
-        }
-
-        using var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString);
-        connection.Open();
-        domain = domain.ToLower();
-        using var command = new SQLiteCommand(connection);
-        command.CommandText = "UPDATE AccountThumbnails SET Image = @Image WHERE Domain = @Domain";
-        command.Parameters.AddWithValue("@Domain", domain);
-        command.Parameters.AddWithValue("@Image", imageBytes);
-
-        command.ExecuteNonQuery();
-
-        connection.Close();
-    }
-
 
 }

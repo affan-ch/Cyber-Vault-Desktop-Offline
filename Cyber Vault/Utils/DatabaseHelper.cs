@@ -5,14 +5,13 @@ namespace Cyber_Vault.Utils;
 
 internal class DatabaseHelper
 {
-    private static readonly string DatabaseFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Cyber Vault");
     private static readonly string AppDataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyber Vault");
+    
+    public static readonly string ThumbsFolderPath = Path.Combine(AppDataFolderPath, "Thumbs");
 
-    private static readonly string DatabaseFilePath = Path.Combine(DatabaseFolderPath, "CyberVault.db");
-    private static readonly string ThumbsDatabaseFilePath = Path.Combine(AppDataFolderPath, "Thumbs.db");
+    private static readonly string DatabaseFilePath = Path.Combine(AppDataFolderPath, "CyberVault.db");
 
     public static readonly string ConnectionString = $"Data Source={DatabaseFilePath};Version=3;";
-    public static readonly string ThumbsDBConnectionString = $"Data Source={ThumbsDatabaseFilePath};Version=3;";
 
     private static readonly string CreateAccountTableQuery = @"CREATE TABLE IF NOT EXISTS [Account] (
         Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -88,22 +87,8 @@ internal class DatabaseHelper
         DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );";
 
-    private static readonly string AccountThumbnailsTableQuery = @"CREATE TABLE IF NOT EXISTS [AccountThumbnails] (
-        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-        Domain TEXT NOT NULL UNIQUE,
-        Image BLOB NOT NULL
-    );";
-
     public static void CreateDatabase()
     {
-
-        if (!Directory.Exists(DatabaseFolderPath))
-        {
-            var directoryInfo = Directory.CreateDirectory(DatabaseFolderPath);
-            directoryInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden | FileAttributes.System;
-            Debug.WriteLine("Settings folder created");
-        }
-
         using var connection = new SQLiteConnection(ConnectionString);
         connection.Open();
         
@@ -136,14 +121,13 @@ internal class DatabaseHelper
             directoryInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden | FileAttributes.System;
             Debug.WriteLine("App Data folder created");
         }
-        Debug.WriteLine(AppDataFolderPath);
-        using var thumbsConnection = new SQLiteConnection(ThumbsDBConnectionString);
-        thumbsConnection.Open();
-        
-        using var AccountThumbnailsTableCommand = new SQLiteCommand(AccountThumbnailsTableQuery, thumbsConnection);
-        AccountThumbnailsTableCommand.ExecuteNonQuery();
 
-        thumbsConnection.Close();
+        if (!Directory.Exists(ThumbsFolderPath))
+        {        
+            Directory.CreateDirectory(ThumbsFolderPath);
+            Debug.WriteLine("Thumbs folder created");
+        }
+
     }
 
 

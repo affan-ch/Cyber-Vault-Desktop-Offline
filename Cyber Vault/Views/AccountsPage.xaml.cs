@@ -46,9 +46,11 @@ public sealed partial class AccountsPage : Page
     }
 
     // Add Account Tile in ListView (Left Sidebar)
-    private async Task AddAccountInListViewAsync(int? id, string? url, string? title, string? subtitle)
+    private void AddAccountInListView(int? id, string? url, string? title, string? subtitle)
     {
         NoAccounts_Grid.Visibility = Visibility.Collapsed;
+        AccountsListView.Visibility = Visibility.Visible;
+        Accounts_ScrollViewer.Visibility = Visibility.Visible;
 
         // Create a new StackPanel dynamically
         var accountContainer = new Grid
@@ -123,19 +125,11 @@ public sealed partial class AccountsPage : Page
         {
             if (!string.IsNullOrEmpty(account.Domain))
             {
-                if (AccountThumbsDB.IsThumbExist(account.Domain))
+                var ThumbPath = AccountThumbsDB.GetThumbPath(account.Domain);
+                if (!string.IsNullOrEmpty(ThumbPath))
                 {
-                    var bytes = AccountThumbsDB.GetImageBytes(account.Domain);
-
-                    if (bytes != null)
-                    {
-                        using var stream = new MemoryStream(bytes);
-                        var bitmapImage = new BitmapImage();
-                        bitmapImage.DecodePixelWidth = 512;
-                        await bitmapImage.SetSourceAsync(stream.AsRandomAccessStream());
-                        image.Source = new BitmapImage(new Uri("C:\\Users\\affan\\Videos\\256.png"));
-                    }
-                }
+                    image.Source = new BitmapImage(new Uri(ThumbPath));
+                }   
             }
         }
 
@@ -520,11 +514,13 @@ public sealed partial class AccountsPage : Page
             {
                 Title_TextBox.Visibility = Visibility.Visible;
                 Domain_TextBox.Visibility = Visibility.Visible;
+                SelectThumbnail_Button.Visibility = Visibility.Visible;
             }
             else
             {
                 Title_TextBox.Visibility = Visibility.Collapsed;
                 Domain_TextBox.Visibility = Visibility.Collapsed;
+                SelectThumbnail_Button.Visibility = Visibility.Collapsed;
             }
         } 
     }
@@ -556,23 +552,32 @@ public sealed partial class AccountsPage : Page
             return;
         }
 
+        if (!string.IsNullOrEmpty(account.Domain))
+        {
+            if(!AccountThumbsDB.IsThumbExist(account.Domain))
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Please add a thumb for this domain!");
+                return;
+            }
+        }
+
         AccountDL.AddAccount(account);
         AccountDB.StoreAccount(account);
         if (!string.IsNullOrEmpty(account.Email))
         {
-            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Email);
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
         }
         else if (!string.IsNullOrEmpty(account.Username))
         {
-            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Username);
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
         }
         else if (!string.IsNullOrEmpty(account.PhoneNumber))
         {
-            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.PhoneNumber);
+            AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
         }
         else
         {
-            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, string.Empty);
+            AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
         }
 
         var backupCodes = GetInputBackupCodes();
@@ -1008,19 +1013,19 @@ public sealed partial class AccountsPage : Page
             {
                 if (!string.IsNullOrEmpty(account.Email))
                 {
-                    AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Email);
+                    AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
                 }
                 else if (!string.IsNullOrEmpty(account.Username))
                 {
-                    AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Username);
+                    AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
                 }
                 else if (!string.IsNullOrEmpty(account.PhoneNumber))
                 {
-                    AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.PhoneNumber);
+                    AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
                 }
                 else
                 {
-                    AddAccountInListViewAsync(account.Id, account.Domain, account.Title, string.Empty);
+                    AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
                 }
             }
         }
@@ -1802,19 +1807,19 @@ public sealed partial class AccountsPage : Page
         {
             if (!string.IsNullOrEmpty(account.Email))
             {
-                AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Email);
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
             }
             else if (!string.IsNullOrEmpty(account.Username))
             {
-                AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Username);
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
             }
             else if (!string.IsNullOrEmpty(account.PhoneNumber))
             {
-                AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.PhoneNumber);
+                AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
             }
             else
             {
-                AddAccountInListViewAsync(account.Id, account.Domain, account.Title, string.Empty);
+                AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
             }
         }
     }
@@ -1949,19 +1954,19 @@ public sealed partial class AccountsPage : Page
                     {
                         if (!string.IsNullOrEmpty(account.Email))
                         {
-                            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Email);
+                            AddAccountInListView(account.Id, account.Domain, account.Title, account.Email);
                         }
                         else if (!string.IsNullOrEmpty(account.Username))
                         {
-                            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.Username);
+                            AddAccountInListView(account.Id, account.Domain, account.Title, account.Username);
                         }
                         else if (!string.IsNullOrEmpty(account.PhoneNumber))
                         {
-                            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, account.PhoneNumber);
+                            AddAccountInListView(account.Id, account.Domain, account.Title, account.PhoneNumber);
                         }
                         else
                         {
-                            AddAccountInListViewAsync(account.Id, account.Domain, account.Title, string.Empty);
+                            AddAccountInListView(account.Id, account.Domain, account.Title, string.Empty);
                         }
                     }
                 }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Cyber_Vault.BL;
 using Cyber_Vault.DB;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -22,29 +23,27 @@ public sealed partial class AccountThumbSelect : WindowEx
             {
                 if (AccountThumbsDB.IsThumbExist(value))
                 {
+                    MessageDisplay_TextBlock.Visibility = Visibility.Visible;
                     MessageDisplay_TextBlock.Text = "A thumbnail for this domain already exists \nand will be replaced if you save a new one.";
                     Fetch_Button_Click(null, null);
                     Fetch_Button.Visibility = Visibility.Collapsed;
-                    LoadPreviewImageAsync(value);
+
+                    var ThumbPath = AccountThumbsDB.GetThumbPath(value);
+                    if (!string.IsNullOrEmpty(ThumbPath))
+                    {
+                        Preview_Image.Source = new BitmapImage(new Uri(ThumbPath));
+                    }
+                }
+                else
+                {                
+                    MessageDisplay_TextBlock.Visibility = Visibility.Collapsed;
+                    Fetch_Button.Visibility = Visibility.Visible;
                 }
 
             }
         }
     }
 
-    private async void LoadPreviewImageAsync(string domain)
-    {
-        var bytes = AccountThumbsDB.GetImageBytes(domain);
-
-        if (bytes != null)
-        {
-            using var stream = new MemoryStream(bytes);
-            var bitmapImage = new BitmapImage();
-            bitmapImage.DecodePixelWidth = 512;
-            await bitmapImage.SetSourceAsync(stream.AsRandomAccessStream());
-            Preview_Image.Source = bitmapImage;
-        }
-    }
 
 
     public AccountThumbSelect()
@@ -54,10 +53,10 @@ public sealed partial class AccountThumbSelect : WindowEx
         IsTitleBarVisible = true;
         ExtendsContentIntoTitleBar = true;
         IsResizable = false;
-        Height = 470;
-        Width = 360;
-        MaxHeight = 470;
-        MaxWidth = 360;
+        Height = 510;
+        Width = 380;
+        MaxHeight = 510;
+        MaxWidth = 380;
         IsMaximizable = false;
         IsMinimizable = false;
         IsShownInSwitchers = false;
@@ -81,6 +80,16 @@ public sealed partial class AccountThumbSelect : WindowEx
         if(string.IsNullOrEmpty(Domain_TextBox.Text))
         {        
             return;
+        }
+
+        if(AccountThumbsDB.IsThumbExist(Domain_TextBox.Text))
+        {
+            MessageDisplay_TextBlock.Visibility = Visibility.Visible;
+            MessageDisplay_TextBlock.Text = "A thumbnail for this domain already exists \nand will be replaced if you save a new one.";
+        }
+        else
+        {        
+            MessageDisplay_TextBlock.Visibility = Visibility.Collapsed;
         }
 
         var url1 = $"https://www.google.com/s2/favicons?domain={Domain_TextBox.Text}&sz=256";
@@ -269,8 +278,13 @@ public sealed partial class AccountThumbSelect : WindowEx
     {
         if(Domain_TextBox.Text.Length == 0)
         {        
-            MessageDisplay_TextBlock.Text = "* Please enter a domain name.";
+            MessageDisplay_TextBlock.Visibility = Visibility.Visible;
+            MessageDisplay_TextBlock.Text = "Please enter a domain name.";
             return;
+        }
+        else
+        {
+            MessageDisplay_TextBlock.Visibility = Visibility.Collapsed;
         }
 
         if (CheckBox1.IsChecked == false && 
@@ -279,8 +293,13 @@ public sealed partial class AccountThumbSelect : WindowEx
             CheckBox4.IsChecked == false && 
             Browse_CheckBox.IsChecked == false)
         {   
-            MessageDisplay_TextBlock.Text = "* Please select a thumbnail or browse for one.";
+            MessageDisplay_TextBlock.Visibility = Visibility.Visible;
+            MessageDisplay_TextBlock.Text = "Please select a thumbnail or browse for one.";
             return;
+        }
+        else
+        {        
+            MessageDisplay_TextBlock.Visibility = Visibility.Collapsed;
         }
 
         var url1 = $"https://www.google.com/s2/favicons?domain={Domain_TextBox.Text}&sz=256";
@@ -293,71 +312,28 @@ public sealed partial class AccountThumbSelect : WindowEx
 
         if(CheckBox1.IsChecked == true)
         {
-            var isExist = AccountThumbsDB.IsThumbExist(Domain_TextBox.Text);
-
-            if(isExist)
-            {
-                _ = AccountThumbsDB.UpdateThumbAsync(Domain_TextBox.Text, url1, AccountThumbsDB.ThumbType.Remote);
-            }
-            else
-            {
-                _ = AccountThumbsDB.StoreThumbAsync(Domain_TextBox.Text, url1, AccountThumbsDB.ThumbType.Remote);
-            }
+            AccountThumbsDB.StoreThumb(Domain_TextBox.Text, url1, AccountThumbsDB.ThumbType.Remote);
         }
         else if(CheckBox2.IsChecked == true)
-        {        
-            var isExist = AccountThumbsDB.IsThumbExist(Domain_TextBox.Text);
-        
-            if(isExist)
-            {
-                _ = AccountThumbsDB.UpdateThumbAsync(Domain_TextBox.Text, url2, AccountThumbsDB.ThumbType.Remote);
-            }
-            else
-            {
-                _ = AccountThumbsDB.StoreThumbAsync(Domain_TextBox.Text, url2, AccountThumbsDB.ThumbType.Remote);
-            }
+        {
+            AccountThumbsDB.StoreThumb(Domain_TextBox.Text, url2, AccountThumbsDB.ThumbType.Remote);
         }
         else if(CheckBox3.IsChecked == true)
-        {        
-            var isExist = AccountThumbsDB.IsThumbExist(Domain_TextBox.Text);
-        
-            if(isExist)
-            {
-                _ = AccountThumbsDB.UpdateThumbAsync(Domain_TextBox.Text, url3, AccountThumbsDB.ThumbType.Remote);
-            }
-            else
-            {
-                _ = AccountThumbsDB.StoreThumbAsync(Domain_TextBox.Text, url3, AccountThumbsDB.ThumbType.Remote);
-            }
+        {
+            AccountThumbsDB.StoreThumb(Domain_TextBox.Text, url3, AccountThumbsDB.ThumbType.Remote);
         }
         else if(CheckBox4.IsChecked == true)
         {
-            var isExist = AccountThumbsDB.IsThumbExist(Domain_TextBox.Text);
-        
-            if(isExist)
-            {
-                _ = AccountThumbsDB.UpdateThumbAsync(Domain_TextBox.Text, url4, AccountThumbsDB.ThumbType.Remote);
-            }
-            else
-            {
-                _ = AccountThumbsDB.StoreThumbAsync(Domain_TextBox.Text, url4, AccountThumbsDB.ThumbType.Remote);
-            }
+            AccountThumbsDB.StoreThumb(Domain_TextBox.Text, url4, AccountThumbsDB.ThumbType.Remote);
         }
         else if(Browse_CheckBox.IsChecked == true)
         {
-            var isExist = AccountThumbsDB.IsThumbExist(Domain_TextBox.Text);
-        
-            if(isExist)
-            {
-                _ = AccountThumbsDB.UpdateThumbAsync(Domain_TextBox.Text, Browse_FilePath.Text, AccountThumbsDB.ThumbType.Local);
-            }
-            else
-            {
-                _ = AccountThumbsDB.StoreThumbAsync(Domain_TextBox.Text, Browse_FilePath.Text, AccountThumbsDB.ThumbType.Local);
-            }
+            AccountThumbsDB.StoreThumb(Domain_TextBox.Text, Browse_FilePath.Text, AccountThumbsDB.ThumbType.Local);
         }
 
         Save_Button.IsEnabled = true;
         Save_Button.Content = "Save Thumbnail";
+
+        Close();
     }
 }

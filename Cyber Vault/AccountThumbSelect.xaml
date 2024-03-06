@@ -13,8 +13,8 @@
         VerticalScrollBarVisibility="Auto" 
         HorizontalScrollBarVisibility="Hidden" 
         Margin="0,0,0,10"
-        Width="330"
-        Height="410"
+        Width="350"
+        Height="460"
     >
         <Grid Margin="10,1,10,1">
             <Grid.RowDefinitions>
@@ -220,6 +220,7 @@
                        Foreground="red"
                        HorizontalAlignment="Center"
                        Margin="0,10,0,0"
+                       Visibility="Collapsed"
             />
 
             <!-- Save Thumbnail Button -->
