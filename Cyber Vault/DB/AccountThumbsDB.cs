@@ -1,7 +1,9 @@
 ﻿using System.Data.SQLite;
 using System.Diagnostics;
 using Cyber_Vault.Utils;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 
 namespace Cyber_Vault.DB;
 
@@ -21,6 +23,7 @@ internal class AccountThumbsDB
         using (var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString))
         {
             connection.Open();
+            domain = domain.ToLower();
 
             using var command = new SQLiteCommand(connection);
             command.CommandText = "SELECT * FROM AccountThumbnails WHERE Domain = @Domain";
@@ -36,8 +39,12 @@ internal class AccountThumbsDB
 
 
     // Store Thumb in DB
-    public static void StoreThumb(string domain, string uri, ThumbType type)
+    public static async Task StoreThumbAsync(string domain, string uri, ThumbType type)
     {
+        if(string.IsNullOrEmpty(domain) || string.IsNullOrEmpty(uri))
+        {               
+            return;
+        }
         byte[]? imageBytes = null;
         if(type == ThumbType.Local)
         {        
@@ -45,17 +52,20 @@ internal class AccountThumbsDB
         }
         else if(type == ThumbType.Remote)
         {        
-            imageBytes = DownloadImage(uri).Result;
+            Debug.WriteLine("Downloading image from: " + uri);
+            imageBytes = (await DownloadImage(uri).ConfigureAwait(false));
+            Debug.WriteLine("Image Downloaded");
         }
 
         if (imageBytes == null)
         {
+            Debug.WriteLine("Image bytes are null");
             return;
         }
 
         using var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString);
         connection.Open();
-
+        domain = domain.ToLower();
         using var command = new SQLiteCommand(connection);
         command.CommandText = "INSERT INTO AccountThumbnails (Domain, Image) VALUES (@Domain, @Image)";
         command.Parameters.AddWithValue("@Domain", domain);
@@ -97,7 +107,7 @@ internal class AccountThumbsDB
         try
         {
             using var webClient = new HttpClient();
-            var imageBytes = await webClient.GetByteArrayAsync(url);
+            var imageBytes = await webClient.GetByteArrayAsync(url).ConfigureAwait(false);
             return imageBytes;
         }
         catch (HttpRequestException ex)
@@ -129,35 +139,14 @@ internal class AccountThumbsDB
     }
 
 
-    // Get Image by Domain
-    public static async Task<BitmapImage?> GetImage(string domain)
-    {
-        var imageBytes = GetImageBytes(domain);
-        try
-        {
-            if (imageBytes != null && imageBytes.Length > 0)
-            {
-                using var stream = new MemoryStream(imageBytes);
-                var bitmapImage = new BitmapImage();
-                await bitmapImage.SetSourceAsync(stream.AsRandomAccessStream());
-                return bitmapImage;
-            }
-            else
-            {
-                return new BitmapImage(new Uri("ms-appx:///Assets/DefaultThumb.png"));
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error converting bytes to BitmapImage: {ex.Message}");
-        }
-
-        return null;
-    }
-
     // Update Thumb in DB
-    public static void UpdateThumb(string domain, string uri, ThumbType type)
+    public static async Task UpdateThumbAsync(string domain, string uri, ThumbType type)
     {
+        if(string.IsNullOrEmpty(domain) || string.IsNullOrEmpty(uri))
+        {        
+            return;
+        }
+
         byte[]? imageBytes = null;
         if(type == ThumbType.Local)
         {               
@@ -165,7 +154,7 @@ internal class AccountThumbsDB
         }
         else if(type == ThumbType.Remote)
         {               
-            imageBytes = DownloadImage(uri).Result;
+            imageBytes = (await DownloadImage(uri).ConfigureAwait(false));
         }
 
         if (imageBytes == null)
@@ -175,7 +164,7 @@ internal class AccountThumbsDB
 
         using var connection = new SQLiteConnection(DatabaseHelper.ThumbsDBConnectionString);
         connection.Open();
-
+        domain = domain.ToLower();
         using var command = new SQLiteCommand(connection);
         command.CommandText = "UPDATE AccountThumbnails SET Image = @Image WHERE Domain = @Domain";
         command.Parameters.AddWithValue("@Domain", domain);

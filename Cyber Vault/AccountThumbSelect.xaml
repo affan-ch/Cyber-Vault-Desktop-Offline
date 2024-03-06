@@ -14,7 +14,7 @@
         HorizontalScrollBarVisibility="Hidden" 
         Margin="0,0,0,10"
         Width="330"
-        Height="390"
+        Height="410"
     >
         <Grid Margin="10,1,10,1">
             <Grid.RowDefinitions>
@@ -23,6 +23,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -210,14 +211,24 @@
                           Margin="0,0,5,0"
                 />
             </Grid>
-            
+
+
+            <!-- Message Display TextBlock -->
+            <TextBlock x:Name="MessageDisplay_TextBlock" 
+                       Grid.Row="7"
+                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                       Foreground="red"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,0"
+            />
+
             <!-- Save Thumbnail Button -->
             <Button x:Name="Save_Button"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Style="{ThemeResource AccentButtonStyle}"
                     Content="Save Thumbnail"
                     Click="Save_Button_Click"
-                    Margin="0,20,0,0"
+                    Margin="0,15,0,0"
                     HorizontalAlignment="Center"
             />
 
