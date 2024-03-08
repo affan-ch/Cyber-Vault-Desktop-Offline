@@ -6,249 +6,322 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-	<Grid>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Left Sidebar -->
-        <Grid 
-            Width="320"
-            Grid.Column="0"
-        >
+        <!--  Left Sidebar  -->
+        <Grid Grid.Column="0" Width="320">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                
+
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    
-                    <!-- Header -->
-                    <Grid Grid.Row="0">
-						<Grid HorizontalAlignment="Left">
-							<TextBlock Text="Accounts" Style="{ThemeResource TitleTextBlockStyle}" />
-						</Grid>
 
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
-							<!-- Filter Button -->
-                            <Button x:Name="Filter_Button" 
-                                    Background="Transparent"
-                                    ToolTipService.ToolTip="Filter Accounts"
-                                    ToolTipService.Placement="Bottom"
-                                    BorderThickness="0" 
-                                    Height="40">
-                               
+                    <!--  Header  -->
+                    <Grid Grid.Row="0">
+                        <Grid HorizontalAlignment="Left">
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Accounts" />
+                        </Grid>
+
+                        <StackPanel
+                            Margin="0,0,15,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <!--  Filter Button  -->
+                            <Button
+                                x:Name="Filter_Button"
+                                Height="40"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTipService.Placement="Bottom"
+                                ToolTipService.ToolTip="Filter Accounts">
+
                                 <Button.Content>
-                                    <FontIcon Glyph="&#xE71C;" FontSize="17"/>
+                                    <FontIcon FontSize="17" Glyph="&#xE71C;" />
                                 </Button.Content>
-                                
+
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <!-- Account Type -->
+                                        <!--  Account Type  -->
                                         <MenuFlyoutSubItem Text="Account Type">
                                             <MenuFlyoutSubItem.Icon>
-                                                <FontIcon Glyph="&#xE774;"/>
+                                                <FontIcon Glyph="&#xE774;" />
                                             </MenuFlyoutSubItem.Icon>
-                                            
-                                            <!-- Google Filter -->
-                                            <MenuFlyoutItem x:Name="Google_Filter" Text="Google" Click="Google_Filter_Click">
+
+                                            <!--  Google Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Google_Filter"
+                                                Click="Google_Filter_Click"
+                                                Text="Google">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="G" Modifiers="Control"/>
-                                                </MenuFlyoutItem.KeyboardAccelerators>
-                                            </MenuFlyoutItem>
-                                            
-                                            <!-- Microsoft Filter -->
-                                            <MenuFlyoutItem x:Name="Microsoft_Filter" Text="Microsoft" Click="Microsoft_Filter_Click">
-                                                <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="M" Modifiers="Control"/>
-                                                </MenuFlyoutItem.KeyboardAccelerators>
-                                            </MenuFlyoutItem>
-                                            
-                                            <!-- Facebook Filter -->
-                                            <MenuFlyoutItem x:Name="Facebook_Filter" Text="Facebook" Click="Facebook_Filter_Click">
-                                                <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="F" Modifiers="Control"/>
-                                                </MenuFlyoutItem.KeyboardAccelerators>
-                                            </MenuFlyoutItem>
-                                            
-                                            <!-- Instagram Filter -->
-                                            <MenuFlyoutItem x:Name="Instagram_Filter" Text="Instagram" Click="Instagram_Filter_Click">
-                                                <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="R" Modifiers="Control"/>
-                                                </MenuFlyoutItem.KeyboardAccelerators>
-                                            </MenuFlyoutItem>
-                                            
-                                            <!-- Twitter Filter -->
-                                            <MenuFlyoutItem x:Name="Twitter_Filter" Text="Twitter" Click="Twitter_Filter_Click">
-                                                <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="T" Modifiers="Control"/>
-                                                </MenuFlyoutItem.KeyboardAccelerators>
-                                            </MenuFlyoutItem>
-                                            
-                                            <!-- Snapchat Filter -->
-                                            <MenuFlyoutItem x:Name="Snapchat_Filter" Text="Snapchat" Click="Snapchat_Filter_Click">
-                                                <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="S" Modifiers="Control"/>
+                                                    <KeyboardAccelerator Key="G" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
 
-                                            <!-- LinkedIn Filter -->
-                                            <MenuFlyoutItem x:Name="LinkedIn_Filter" Text="LinkedIn" Click="LinkedIn_Filter_Click">
+                                            <!--  Microsoft Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Microsoft_Filter"
+                                                Click="Microsoft_Filter_Click"
+                                                Text="Microsoft">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                                                    <KeyboardAccelerator Key="M" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            <MenuFlyoutSeparator/>
-                                            
-                                            <!-- Custom Filter -->
-                                            <MenuFlyoutItem x:Name="Custom_Filter" Text="Custom" Click="Custom_Filter_Click">
+
+                                            <!--  Facebook Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Facebook_Filter"
+                                                Click="Facebook_Filter_Click"
+                                                Text="Facebook">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="U" Modifiers="Control"/>
+                                                    <KeyboardAccelerator Key="F" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Instagram Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Instagram_Filter"
+                                                Click="Instagram_Filter_Click"
+                                                Text="Instagram">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="R" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Twitter Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Twitter_Filter"
+                                                Click="Twitter_Filter_Click"
+                                                Text="Twitter">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="T" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Snapchat Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Snapchat_Filter"
+                                                Click="Snapchat_Filter_Click"
+                                                Text="Snapchat">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="S" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  LinkedIn Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="LinkedIn_Filter"
+                                                Click="LinkedIn_Filter_Click"
+                                                Text="LinkedIn">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="L" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSeparator />
+
+                                            <!--  Custom Filter  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Custom_Filter"
+                                                Click="Custom_Filter_Click"
+                                                Text="Custom">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="U" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
                                         </MenuFlyoutSubItem>
 
-                                        <!-- Date Added -->
+                                        <!--  Date Added  -->
                                         <MenuFlyoutSubItem Text="Date Added">
                                             <MenuFlyoutSubItem.Icon>
                                                 <FontIcon Glyph="&#xED0E;" />
                                             </MenuFlyoutSubItem.Icon>
-                                            
-                                            <!-- Newest First (Date Added) -->
-                                            <MenuFlyoutItem x:Name="Newest_DateAdded_Filter" Text="Newest First" Click="Newest_DateAdded_Filter_Click">
+
+                                            <!--  Newest First (Date Added)  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Newest_DateAdded_Filter"
+                                                Click="Newest_DateAdded_Filter_Click"
+                                                Text="Newest First">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="N" Modifiers="Control"/>
+                                                    <KeyboardAccelerator Key="N" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
-                                            <MenuFlyoutSeparator/>
-                                            
-                                            <!-- Oldest First (Date Added) -->
-                                            <MenuFlyoutItem x:Name="Oldest_DateAdded_Filter" Text="Oldest First" Click="Oldest_DateAdded_Filter_Click">
+
+                                            <MenuFlyoutSeparator />
+
+                                            <!--  Oldest First (Date Added)  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Oldest_DateAdded_Filter"
+                                                Click="Oldest_DateAdded_Filter_Click"
+                                                Text="Oldest First">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="O" Modifiers="Control"/>
+                                                    <KeyboardAccelerator Key="O" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
                                         </MenuFlyoutSubItem>
 
-                                        <!-- Date Modified -->
+                                        <!--  Date Modified  -->
                                         <MenuFlyoutSubItem Text="Date Modified">
                                             <MenuFlyoutSubItem.Icon>
                                                 <FontIcon Glyph="&#xEC92;" />
                                             </MenuFlyoutSubItem.Icon>
-                                            
-                                            <!-- Newest First (Date Modified) -->
-                                            <MenuFlyoutItem x:Name="Newest_DateModified_Filter" Text="Newest First" Click="Newest_DateModified_Filter_Click">
+
+                                            <!--  Newest First (Date Modified)  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Newest_DateModified_Filter"
+                                                Click="Newest_DateModified_Filter_Click"
+                                                Text="Newest First">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="K" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
-                                            <MenuFlyoutSeparator/>
-                                            
-                                            <!-- Oldest First (Date Modified) -->
-                                            <MenuFlyoutItem x:Name="Oldest_DateModified_Filter" Text="Oldest First" Click="Oldest_DateModified_Filter_Click">
+
+                                            <MenuFlyoutSeparator />
+
+                                            <!--  Oldest First (Date Modified)  -->
+                                            <MenuFlyoutItem
+                                                x:Name="Oldest_DateModified_Filter"
+                                                Click="Oldest_DateModified_Filter_Click"
+                                                Text="Oldest First">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
-                                                    <KeyboardAccelerator Key="E" Modifiers="Control"/>
+                                                    <KeyboardAccelerator Key="E" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
                                         </MenuFlyoutSubItem>
-                                        
-                                        <!-- Authenticator -->
-                                        <MenuFlyoutItem x:Name="Authenticator_Filter" Text="Authenticator" Click="Authenticator_Filter_Click">
+
+                                        <!--  Authenticator  -->
+                                        <MenuFlyoutItem
+                                            x:Name="Authenticator_Filter"
+                                            Click="Authenticator_Filter_Click"
+                                            Text="Authenticator">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8D7;"/>
+                                                <FontIcon Glyph="&#xE8D7;" />
                                             </MenuFlyoutItem.Icon>
                                             <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="P" Modifiers="Control"/>
+                                                <KeyboardAccelerator Key="P" Modifiers="Control" />
                                             </MenuFlyoutItem.KeyboardAccelerators>
                                         </MenuFlyoutItem>
-                                        
-                                        <MenuFlyoutSeparator/>
-                                        
-                                        <!-- Clear Filter -->
-                                        <MenuFlyoutItem x:Name="Clear_Filter" Text="Clear Filter" Click="Clear_Filter_Click">
+
+                                        <MenuFlyoutSeparator />
+
+                                        <!--  Clear Filter  -->
+                                        <MenuFlyoutItem
+                                            x:Name="Clear_Filter"
+                                            Click="Clear_Filter_Click"
+                                            Text="Clear Filter">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xECC9;" />
                                             </MenuFlyoutItem.Icon>
                                             <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="D" Modifiers="Control"/>
+                                                <KeyboardAccelerator Key="D" Modifiers="Control" />
                                             </MenuFlyoutItem.KeyboardAccelerators>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>
 
-                            <!-- Add Account Button -->
-                            <Button x:Name="AddAccount_Button"
-                                    Click="AddAccount_Button_Click"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    ToolTipService.ToolTip="Add Account"
-                                    ToolTipService.Placement="Bottom"
-                                    Height="40" >
-                                <FontIcon Glyph="&#xF164;" FontSize="19" />
+                            <!--  Add Account Button  -->
+                            <Button
+                                x:Name="AddAccount_Button"
+                                Height="40"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="AddAccount_Button_Click"
+                                ToolTipService.Placement="Bottom"
+                                ToolTipService.ToolTip="Add Account">
+                                <FontIcon FontSize="19" Glyph="&#xF164;" />
                             </Button>
 
                         </StackPanel>
-					</Grid>
-                    
-                    <!-- Search Bar -->
-                    <AutoSuggestBox x:Name="SearchBar" KeyUp="SearchBar_KeyDown" Grid.Row="1" PlaceholderText="Search Accounts" QueryIcon="Find" Margin="0,20,20,0"/>
+                    </Grid>
 
-					<!-- Accounts ListView -->
-                    <ScrollViewer x:Name="Accounts_ScrollViewer" Grid.Row="2" Width="320" Margin="0,20,0,10" Visibility="Collapsed">
-                        <StackPanel x:Name="AccountsListView"  Orientation="Vertical">
-                           <!-- Item to be Added Dynamically by C# Code -->
+                    <!--  Search Bar  -->
+                    <AutoSuggestBox
+                        x:Name="SearchBar"
+                        Grid.Row="1"
+                        Margin="0,20,20,0"
+                        KeyUp="SearchBar_KeyDown"
+                        PlaceholderText="Search Accounts"
+                        QueryIcon="Find" />
+
+                    <!--  Accounts ListView  -->
+                    <ScrollViewer
+                        x:Name="Accounts_ScrollViewer"
+                        Grid.Row="2"
+                        Width="320"
+                        Margin="0,20,0,10"
+                        Visibility="Collapsed">
+                        <StackPanel x:Name="AccountsListView" Orientation="Vertical">
+                            <!--  Item to be Added Dynamically by C# Code  -->
                         </StackPanel>
                     </ScrollViewer>
 
-                    <Grid x:Name="NoAccounts_Grid" Grid.Row="2" Width="290" HorizontalAlignment="Left">
-                        <TextBlock Text="No Accounts !" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                   Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="19"/>
+                    <Grid
+                        x:Name="NoAccounts_Grid"
+                        Grid.Row="2"
+                        Width="290"
+                        HorizontalAlignment="Left">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="19"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="No Accounts !" />
 
                     </Grid>
 
                 </Grid>
-				<Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
-			</Grid>
+                <Border
+                    Margin="0,0,0,10"
+                    BorderBrush="#1D1D1D"
+                    BorderThickness="0,0,1,0" />
+            </Grid>
 
-		</Grid>
+        </Grid>
 
-        
-        <!-- Right Content (Add Account) -->
-        <Grid x:Name="AddAccountContainer_Grid" Grid.Column="1" Visibility="Collapsed">
+
+        <!--  Right Content (Add Account)  -->
+        <Grid
+            x:Name="AddAccountContainer_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Right First -->
+            <!--  Right First  -->
             <Grid Grid.Column="0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
                         <StackPanel Orientation="Vertical">
                             <Grid>
-                                <TextBlock Text="Account Type" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17" Margin="20,0,0,15"/>
+                                <TextBlock
+                                    Margin="20,0,0,15"
+                                    FontSize="17"
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    Text="Account Type" />
                             </Grid>
-                            <!-- Account Type -->
-                            <ComboBox 
-                                x:Name="AccountType_ComboBox" 
-                                PlaceholderText="Pick an Account Type" 
-                                SelectedIndex="7" 
+                            <!--  Account Type  -->
+                            <ComboBox
+                                x:Name="AccountType_ComboBox"
                                 Margin="20,0,0,0"
+                                PlaceholderText="Pick an Account Type"
+                                SelectedIndex="7"
                                 SelectionChanged="ComboBox_SelectionChanged">
                                 <x:String>Google</x:String>
                                 <x:String>Microsoft</x:String>
@@ -261,14 +334,17 @@
 
                                 <ComboBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Select Account Type" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Select Account Type" />
+                                        <FontIcon FontSize="13" Glyph="&#xE735;" />
                                     </StackPanel>
                                 </ComboBox.Header>
                             </ComboBox>
-                            
-                            
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+
+
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
@@ -276,188 +352,202 @@
 
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
-                            <TextBlock Text="Account Info" 
-                               Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                               FontSize="17" 
-                               Margin="20,10,0,15"/>
+                            <TextBlock
+                                Margin="20,10,0,15"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Account Info" />
                         </Grid>
-                        <ScrollViewer Margin="0,0,2,30" Grid.Row="1">
+                        <ScrollViewer Grid.Row="1" Margin="0,0,2,30">
                             <StackPanel Orientation="Vertical">
 
-                                <!-- Title -->
-                                <TextBox x:Name="Title_TextBox"
-                                    PlaceholderText="Twitter" 
+                                <!--  Title  -->
+                                <TextBox
+                                    x:Name="Title_TextBox"
+                                    Margin="20,0,20,0"
                                     IsSpellCheckEnabled="False"
-                                    Margin="20,0,20,0" >
+                                    PlaceholderText="Twitter">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Title" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Title" />
+                                            <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
 
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <!-- Domain -->
-                                    <TextBox x:Name="Domain_TextBox"
-                                        PlaceholderText="twitter.com" 
-                                        IsSpellCheckEnabled="False"
-                                        Grid.Column="0"
-                                        Margin="20,20,10,10">
-                                        <TextBox.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Enter Domain" Margin="0,0,4,0"/>
-                                                <FontIcon Glyph="&#xE735;" FontSize="13"/>
-                                            </StackPanel>
-                                        </TextBox.Header>
-                                    </TextBox>
-
-                                    <!-- Select Thumbnail Button -->
-                                    <Button x:Name="SelectThumbnail_Button"
-                                        Click="SelectThumbnail_Button_Click"
-                                        Grid.Column="1" 
-                                        Margin="0,0,20,10" 
-                                        VerticalAlignment="Bottom" 
-                                        ToolTipService.ToolTip="Select Account Thumbnail"
-                                        ToolTipService.Placement="Top">
-                                        <FontIcon Glyph="&#xE8A7;" />
-                                    </Button>
-
-                                </Grid>
-
-                                
-
-                                <!-- Name -->
-                                <TextBox x:Name="Name_TextBox"
-                                    PlaceholderText="Affan Ch." 
-                                    IsSpellCheckEnabled="False"
-                                    Margin="20,10,20,0">
-                                    <TextBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Name" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
-                                        </StackPanel>
-                                    </TextBox.Header>
-                                </TextBox>
-
-                                <!-- Email -->
-                                <TextBox x:Name="Email_TextBox"
-                                    PlaceholderText="affan@twitter.com"
-                                    IsSpellCheckEnabled="False"
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
-                                    <TextBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Email" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
-                                        </StackPanel>
-                                    </TextBox.Header>
-                                </TextBox>
-
-                                <!-- Username -->
-                                <TextBox x:Name="Username_TextBox"
-                                    PlaceholderText="affan798"
-                                    IsSpellCheckEnabled="False"
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
-                                    <TextBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Username" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
-                                        </StackPanel>
-                                    </TextBox.Header>
-                                </TextBox>
-
-                                <!-- Phone Number -->
-                                <TextBox x:Name="PhoneNumber_TextBox"
-                                     PlaceholderText="+923205404030" 
-                                    IsSpellCheckEnabled="False"
-                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
-                                    <TextBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Phone Number" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
-                                        </StackPanel>
-                                    </TextBox.Header>
-                                </TextBox>
-
-                                <!-- Password -->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    
-                                    <!-- Password TextBox -->
-                                    <PasswordBox x:Name="Password_TextBox"
-                                        PlaceholderText="pass123$" 
-                                        Grid.Column="0"
-                                        Margin="20,20,10,0" >
-                                        <PasswordBox.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Enter Password" Margin="0,0,4,0"/>
-                                                <FontIcon Glyph="&#xF0E8;" FontSize="13"/>
-                                            </StackPanel>
-                                        </PasswordBox.Header>
-                                    </PasswordBox>
 
-                                    <!-- Generate Password Button -->
-                                    <Button x:Name="GeneratePassword_Button"
-                                            Click="GeneratePassword_Button_Click"
-                                            Grid.Column="1" 
-                                            Margin="0,0,20,0" 
-                                            VerticalAlignment="Bottom" 
-                                            ToolTipService.ToolTip="Generate Password"
-                                            ToolTipService.Placement="Top">
+                                    <!--  Domain  -->
+                                    <TextBox
+                                        x:Name="Domain_TextBox"
+                                        Grid.Column="0"
+                                        Margin="20,20,10,10"
+                                        IsSpellCheckEnabled="False"
+                                        PlaceholderText="twitter.com">
+                                        <TextBox.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="0,0,4,0" Text="Enter Domain" />
+                                                <FontIcon FontSize="13" Glyph="&#xE735;" />
+                                            </StackPanel>
+                                        </TextBox.Header>
+                                    </TextBox>
+
+                                    <!--  Select Thumbnail Button  -->
+                                    <Button
+                                        x:Name="SelectThumbnail_Button"
+                                        Grid.Column="1"
+                                        Margin="0,0,20,10"
+                                        VerticalAlignment="Bottom"
+                                        Click="SelectThumbnail_Button_Click"
+                                        ToolTipService.Placement="Top"
+                                        ToolTipService.ToolTip="Select Account Thumbnail">
                                         <FontIcon Glyph="&#xE8A7;" />
                                     </Button>
+
                                 </Grid>
 
-                                <!-- Pin -->
-                                <PasswordBox x:Name="Pin_TextBox"
-                                    PlaceholderText="79860" 
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
-                                    <PasswordBox.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Pin" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E8;" FontSize="13"/>
-                                        </StackPanel>
-                                    </PasswordBox.Header>
-                                </PasswordBox>
 
-                                <!-- Date Of Birth -->
-                                <TextBox x:Name="DateOfBirth_TextBox"
-                                PlaceholderText="31-12-2001" 
-                                IsSpellCheckEnabled="False"
-                                Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+
+                                <!--  Name  -->
+                                <TextBox
+                                    x:Name="Name_TextBox"
+                                    Margin="20,10,20,0"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="Affan Ch.">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Date Of Birth" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Name" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Notes -->
-                                <TextBox x:Name="Notes_TextBox"
-                                IsSpellCheckEnabled="False"
-                                PlaceholderText="Google Photos Backup" 
-                                Margin="{StaticResource AccountsPageMidTextBoxMargin}"
-                                TextWrapping="Wrap" AcceptsReturn="True"
-                                AutomationProperties.Name="multi-line TextBox">
+                                <!--  Email  -->
+                                <TextBox
+                                    x:Name="Email_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="affan@twitter.com">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Notes" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Email" />
+                                            <FontIcon FontSize="13" Glyph="&#xF0E7;" />
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!--  Username  -->
+                                <TextBox
+                                    x:Name="Username_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="affan798">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Username" />
+                                            <FontIcon FontSize="13" Glyph="&#xF0E7;" />
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!--  Phone Number  -->
+                                <TextBox
+                                    x:Name="PhoneNumber_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="+923205404030">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Phone Number" />
+                                            <FontIcon FontSize="13" Glyph="&#xF0E7;" />
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!--  Password  -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  Password TextBox  -->
+                                    <PasswordBox
+                                        x:Name="Password_TextBox"
+                                        Grid.Column="0"
+                                        Margin="20,20,10,0"
+                                        PlaceholderText="pass123$">
+                                        <PasswordBox.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="0,0,4,0" Text="Enter Password" />
+                                                <FontIcon FontSize="13" Glyph="&#xF0E8;" />
+                                            </StackPanel>
+                                        </PasswordBox.Header>
+                                    </PasswordBox>
+
+                                    <!--  Generate Password Button  -->
+                                    <Button
+                                        x:Name="GeneratePassword_Button"
+                                        Grid.Column="1"
+                                        Margin="0,0,20,0"
+                                        VerticalAlignment="Bottom"
+                                        Click="GeneratePassword_Button_Click"
+                                        ToolTipService.Placement="Top"
+                                        ToolTipService.ToolTip="Generate Password">
+                                        <FontIcon Glyph="&#xE8A7;" />
+                                    </Button>
+                                </Grid>
+
+                                <!--  Pin  -->
+                                <PasswordBox
+                                    x:Name="Pin_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
+                                    PlaceholderText="79860">
+                                    <PasswordBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Pin" />
+                                            <FontIcon FontSize="13" Glyph="&#xF0E8;" />
+                                        </StackPanel>
+                                    </PasswordBox.Header>
+                                </PasswordBox>
+
+                                <!--  Date Of Birth  -->
+                                <TextBox
+                                    x:Name="DateOfBirth_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="31-12-2001">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Date Of Birth" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
+                                        </StackPanel>
+                                    </TextBox.Header>
+                                </TextBox>
+
+                                <!--  Notes  -->
+                                <TextBox
+                                    x:Name="Notes_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
+                                    AcceptsReturn="True"
+                                    AutomationProperties.Name="multi-line TextBox"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="Google Photos Backup"
+                                    TextWrapping="Wrap">
+                                    <TextBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,4,0" Text="Notes" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
@@ -467,97 +557,119 @@
                     </Grid>
                 </Grid>
 
-                <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
+                <Border
+                    Margin="0,0,0,10"
+                    BorderBrush="#1D1D1D"
+                    BorderThickness="0,0,1,0" />
             </Grid>
 
-            
-            <!-- Right Second -->
+
+            <!--  Right Second  -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                
+
                 <Grid Grid.Row="0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,20">
-                        
-                        <!-- Save Button -->
-                        <Button x:Name="Save_Button" Style="{StaticResource AccentButtonStyle}" Width="73" Click="Save_Button_Click">
+                    <StackPanel
+                        Height="50"
+                        Margin="0,0,0,20"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
+
+                        <!--  Save Button  -->
+                        <Button
+                            x:Name="Save_Button"
+                            Width="73"
+                            Click="Save_Button_Click"
+                            Style="{StaticResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <FontIcon 
-                                    Glyph="&#xE74E;" 
-                                    FontSize="17"/>
-                                <TextBlock 
-                                    Text="Save"  
+                                <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                                <TextBlock
                                     Margin="4,0,0,0"
-                                    Style="{ThemeResource BodyTextBlockStyle}" 
-                                    VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Text="Save" />
                             </StackPanel>
                         </Button>
 
-                        <!-- Update Button -->
-                        <Button x:Name="Update_Button" Style="{StaticResource AccentButtonStyle}" Width="90" Click="Update_Button_Click">
+                        <!--  Update Button  -->
+                        <Button
+                            x:Name="Update_Button"
+                            Width="90"
+                            Click="Update_Button_Click"
+                            Style="{StaticResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <FontIcon 
-                                    Glyph="&#xE74E;" 
-                                    FontSize="17"/>
-                                <TextBlock 
-                                    Text="Update"  
+                                <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                                <TextBlock
                                     Margin="4,0,0,0"
-                                    Style="{ThemeResource BodyTextBlockStyle}" 
-                                    VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Text="Update" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </Grid>
-                
+
                 <Grid Grid.Row="1">
                     <ScrollViewer Margin="0,0,5,20">
                         <StackPanel Orientation="Vertical">
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,0,10,0"/>
+                            <Border
+                                Margin="0,0,10,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
-                            <!-- Recovery Info -->
+                            <!--  Recovery Info  -->
                             <Grid Grid.Row="0">
-                               <TextBlock Text="Recovery Info" 
-                               Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                               FontSize="17" 
-                               Margin="20,10,0,15"/>
+                                <TextBlock
+                                    Margin="20,10,0,15"
+                                    FontSize="17"
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    Text="Recovery Info" />
                             </Grid>
-                            
-                            <!-- Recovery Email -->
-                            <TextBox x:Name="RecoveryEmail_TextBox"
+
+                            <!--  Recovery Email  -->
+                            <TextBox
+                                x:Name="RecoveryEmail_TextBox"
+                                Margin="20,0,13,0"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="affan@gmail.com" 
-                                Margin="20,0,13,0">
+                                PlaceholderText="affan@gmail.com">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Recovery Email" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Recovery Email" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
 
-                            <!-- Recovery Phone Number -->
-                            <TextBox x:Name="RecoveryPhoneNumber_TextBox"
+                            <!--  Recovery Phone Number  -->
+                            <TextBox
+                                x:Name="RecoveryPhoneNumber_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="+923205404031" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="+923205404031">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Recovery Phone No." Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Recovery Phone No." />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
 
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,10,0"/>
+                            <Border
+                                Margin="0,20,10,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
-                            <!-- Two Factor Authentication -->
+                            <!--  Two Factor Authentication  -->
                             <Grid Grid.Row="0">
-                                <TextBlock Text="Two Factor Authentication" 
-                                   Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                                   FontSize="17" 
-                                   Margin="20,10,0,15"/>
+                                <TextBlock
+                                    Margin="20,10,0,15"
+                                    FontSize="17"
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    Text="Two Factor Authentication" />
                             </Grid>
 
                             <Grid>
@@ -566,38 +678,44 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- 2FA QR Code -->
-                                <TextBox x:Name="QrCode_TextBox"
-                                    PlaceholderText="otpauth://totp/?secret=" 
-                                    IsSpellCheckEnabled="False"
-                                    Margin="20,0,13,0"
+                                <!--  2FA QR Code  -->
+                                <TextBox
+                                    x:Name="QrCode_TextBox"
                                     Grid.Column="0"
-                                    TextWrapping="Wrap" AcceptsReturn="True"
-                                    AutomationProperties.Name="multi-line TextBox">
+                                    Margin="20,0,13,0"
+                                    AcceptsReturn="True"
+                                    AutomationProperties.Name="multi-line TextBox"
+                                    IsSpellCheckEnabled="False"
+                                    PlaceholderText="otpauth://totp/?secret="
+                                    TextWrapping="Wrap">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter 2FA QR Code Text" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter 2FA QR Code Text" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Authenticator Configure Button -->
-                                <Button x:Name="AuthenticatorConfigure_Button"
+                                <!--  Authenticator Configure Button  -->
+                                <Button
+                                    x:Name="AuthenticatorConfigure_Button"
+                                    Grid.Column="1"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Click="AuthenticatorConfigure_Button_Click"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
-                                    ToolTipService.ToolTip="Authenticator Configurations"
-                                    ToolTipService.Placement="Top">
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Authenticator Configurations">
                                     <FontIcon Glyph="&#xE8A7;" />
                                 </Button>
                             </Grid>
-                           
 
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,10,0"/>
 
-                            <!-- Backup Codes Grid -->
+                            <Border
+                                Margin="0,20,10,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
+
+                            <!--  Backup Codes Grid  -->
                             <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -605,102 +723,122 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="Backup Codes"
-                                           Margin="20,0,0,0"
-                                           Grid.Column="0"
-                                           Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                           FontSize="17"/>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Margin="20,0,0,0"
+                                    FontSize="17"
+                                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                    Text="Backup Codes" />
 
-                                <StackPanel Orientation="Horizontal" Grid.Column="2">
-                                    <!-- Remove Backup Code Button -->
-                                    <Button x:Name="RemoveBackupCode_Button" 
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <!--  Remove Backup Code Button  -->
+                                    <Button
+                                        x:Name="RemoveBackupCode_Button"
+                                        Width="40"
+                                        Height="30"
+                                        Margin="0,0,3,0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
                                         Click="RemoveBackupCode_Button_Click"
-                                        Margin="0,0,3,0" 
-                                        BorderThickness="0" 
-                                        Background="Transparent" 
-                                        Height="30" 
-                                        Visibility="Collapsed"
-                                        Width="40">
-                                        <FontIcon Glyph="&#xECC9;" FontSize="17" />
+                                        Visibility="Collapsed">
+                                        <FontIcon FontSize="17" Glyph="&#xECC9;" />
                                     </Button>
 
-                                    <!-- Add Backup Code Button -->
-                                    <Button x:Name="AddBackupCode_Button" 
-                                        Click="AddBackupCode_Button_Click"
-                                        Margin="0,0,12,0" 
-                                        BorderThickness="0" 
-                                        Background="Transparent" 
-                                        Height="30" 
-                                        Width="40">
-                                        <FontIcon Glyph="&#xECC8;" FontSize="17" />
+                                    <!--  Add Backup Code Button  -->
+                                    <Button
+                                        x:Name="AddBackupCode_Button"
+                                        Width="40"
+                                        Height="30"
+                                        Margin="0,0,12,0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="AddBackupCode_Button_Click">
+                                        <FontIcon FontSize="17" Glyph="&#xECC8;" />
                                     </Button>
 
                                 </StackPanel>
-                                
+
                             </Grid>
 
                             <StackPanel x:Name="BackupCodes_StackPanel" Orientation="Vertical">
 
-                                <TextBox x:Name="BackupCode1_TextBox"
+                                <TextBox
+                                    x:Name="BackupCode1_TextBox"
+                                    Margin="20,10,13,0"
                                     IsSpellCheckEnabled="False"
-                                    PlaceholderText="123987" 
-                                    Margin="20,10,13,0">
+                                    PlaceholderText="123987">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Backup Code" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Backup Code" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
-                                
+
                             </StackPanel>
 
 
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
-                
+
             </Grid>
         </Grid>
-		
-        
-        <!-- Right Content (Select to View) -->
+
+
+        <!--  Right Content (Select to View)  -->
         <Grid x:Name="ErrorContainer_Grid" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                    <Image Source="/Assets/select.png" Width="288" Height="277" />
-                    <TextBlock Text="Select Any Account to View Here" Style="{ThemeResource TitleTextBlockStyle}"
-                               FontSize="18" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <Image
+                        Width="288"
+                        Height="277"
+                        Source="/Assets/select.png" />
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="Select Any Account to View Here" />
                 </StackPanel>
             </Grid>
         </Grid>
 
 
-        <!-- Right Content (View Account) -->
-        <Grid x:Name="ViewAccount_Grid" Grid.Column="1" Visibility="Collapsed">
+        <!--  Right Content (View Account)  -->
+        <Grid
+            x:Name="ViewAccount_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Right First (View Account) -->
+            <!--  Right First (View Account)  -->
             <Grid Grid.Column="0">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
 
-                        <!-- Domain Container -->
-                        <StackPanel x:Name="Domain_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Domain Container  -->
+                        <StackPanel
+                            x:Name="Domain_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Domain Header -->
-                            <TextBlock Text="Domain"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Domain Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Domain" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -709,259 +847,225 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Domain TextBlock -->
-                                <RichTextBlock x:Name="Domain_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Domain TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Domain_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Domain_Text" Text="microsoft.com"/>
+                                            <Run x:Name="Domain_Text" Text="microsoft.com" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Open Domain Link in Browser Button -->
-                                <Button x:Name="OpenDomainLink_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,5,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        ToolTipService.ToolTip="Open in Browser"
-                                        ToolTipService.Placement="Top"
-                                        Click="OpenDomainLink_Button_Click"
-                                >
-                                    <FontIcon Glyph="&#xE8A7;" FontSize="17"/>
-                                </Button>
-
-                                <!-- Copy Domain Button -->
-                                <Button x:Name="CopyDomain_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Open Domain Link in Browser Button  -->
+                                <Button
+                                    x:Name="OpenDomainLink_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="OpenDomainLink_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Open in Browser">
+                                    <FontIcon FontSize="17" Glyph="&#xE8A7;" />
+                                </Button>
+
+                                <!--  Copy Domain Button  -->
+                                <Button
+                                    x:Name="CopyDomain_Button"
+                                    Grid.Column="2"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyDomain_Button_Click"
-                                    ToolTipService.ToolTip="Copy Domain"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Domain">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
 
 
-                        <!-- Name Container -->
-                        <StackPanel x:Name="Name_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            
-                            <!-- Name Header -->
-                            <TextBlock Text="Name" 
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
-                            
+                        <!--  Name Container  -->
+                        <StackPanel
+                            x:Name="Name_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+
+                            <!--  Name Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Name" />
+
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Name TextBlock -->
-                                <RichTextBlock x:Name="Name_TextBlock" 
-                                        Grid.Column="0"
-                                        FontSize="14"
-                                        FontWeight="Bold"
-                                        Margin="20,15,0,0"
-                                        Opacity="0.9"
-                                >
+                                <!--  Name TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Name_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Name_Text" Text="Affan Ch."/>
+                                            <Run x:Name="Name_Text" Text="Affan Ch." />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
-                        
-                        <!-- Email Container -->
-                        <StackPanel x:Name="Email_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            <!-- Email Header -->
-                            <TextBlock Text="Email" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+
+                        <!--  Email Container  -->
+                        <StackPanel
+                            x:Name="Email_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+                            <!--  Email Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Email" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Email TextBlock -->
-                                <RichTextBlock x:Name="Email_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Email TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Email_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Email_Text" Text="affan@microsoft.com"/>
+                                            <Run x:Name="Email_Text" Text="affan@microsoft.com" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Email Button -->
-                                <Button x:Name="CopyEmail_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,20,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="CopyEmail_Button_Click"
-                                        ToolTipService.ToolTip="Copy Email"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
-                                </Button>
-                            </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
-
-                        </StackPanel>
-                        
-
-                        <!-- Username Container -->
-                        <StackPanel x:Name="Username_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            <!-- Username Header -->
-                            <TextBlock Text="Username" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Username TextBlock -->
-                                <RichTextBlock x:Name="Username_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
-                                    <Paragraph>
-                                        <Bold>
-                                            <Run x:Name="Username_Text" Text="affan297"/>
-                                        </Bold>
-                                    </Paragraph>
-                                </RichTextBlock>
-
-                                <!-- Copy Username Button -->
-                                <Button x:Name="CopyUsername_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Email Button  -->
+                                <Button
+                                    x:Name="CopyEmail_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyEmail_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Email">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
+                                </Button>
+                            </Grid>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
+
+                        </StackPanel>
+
+
+                        <!--  Username Container  -->
+                        <StackPanel
+                            x:Name="Username_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+                            <!--  Username Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Username" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Username TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Username_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Username_Text" Text="affan297" />
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!--  Copy Username Button  -->
+                                <Button
+                                    x:Name="CopyUsername_Button"
+                                    Grid.Column="1"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyUsername_Button_Click"
-                                    ToolTipService.ToolTip="Copy Username"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Username">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
 
-                        <!-- Password Container -->
-                        <StackPanel x:Name="Password_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            
-                            <!-- Password Header -->
-                            <TextBlock Text="Password"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
-                            
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                        <!--  Password Container  -->
+                        <StackPanel
+                            x:Name="Password_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
 
-                                <!-- Password TextBlock -->
-                                <TextBlock x:Name="Password_Text_Hidden" Text="pass123$" Visibility="Collapsed"/>
-                                <RichTextBlock x:Name="Password_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
-                                    <Paragraph>
-                                        <Bold>
-                                            <Run x:Name="Password_Text" Text="●●●●●●●●●●"/>
-                                        </Bold>
-                                    </Paragraph>
-                                </RichTextBlock>
-
-                                <!-- Hide/Unhide Password Button -->
-                                <CheckBox x:Name="TogglePassword_CheckBox" IsChecked="False" Visibility="Collapsed"/>
-                                <Button x:Name="TogglePassword_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,5,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="TogglePassword_Button_Click"
-                                        ToolTipService.ToolTip="Show Password"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon x:Name="PasswordToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
-                                </Button>
-
-                                <!-- Copy Password Button -->
-                                <Button x:Name="CopyPassword_Button"
-                                        Grid.Column="2" 
-                                        Margin="0,0,20,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="CopyPassword_Button_Click"
-                                        ToolTipService.ToolTip="Copy Password"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
-                                </Button>
-                            </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
-
-                        </StackPanel>
-                        
-
-                        <!-- Pin Container -->
-                        <StackPanel x:Name="Pin_Container" Orientation="Vertical" Margin="0,10,0,0">
-
-                            <!-- Pin Header -->
-                            <TextBlock Text="Pin"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Password Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Password" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -970,190 +1074,312 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Pin TextBlock -->
-                                <TextBlock x:Name="Pin_Text_Hidden" Text="03230" Visibility="Collapsed"/>
-                                <RichTextBlock x:Name="Pin_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Password TextBlock  -->
+                                <TextBlock
+                                    x:Name="Password_Text_Hidden"
+                                    Text="pass123$"
+                                    Visibility="Collapsed" />
+                                <RichTextBlock
+                                    x:Name="Password_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Pin_Text" Text="●●●●●●"/>
+                                            <Run x:Name="Password_Text" Text="●●●●●●●●●●" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Hide/Unhide Pin Button -->
-                                <CheckBox x:Name="TogglePin_CheckBox" IsChecked="False" Visibility="Collapsed"/>
-                                <Button x:Name="TogglePin_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,5,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="TogglePin_Button_Click"
-                                        ToolTipService.ToolTip="Show Pin"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon x:Name="PinToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
-                                </Button>
-
-                                <!-- Copy Pin Button -->
-                                <Button x:Name="CopyPin_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Hide/Unhide Password Button  -->
+                                <CheckBox
+                                    x:Name="TogglePassword_CheckBox"
+                                    IsChecked="False"
+                                    Visibility="Collapsed" />
+                                <Button
+                                    x:Name="TogglePassword_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="TogglePassword_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Show Password">
+                                    <FontIcon
+                                        x:Name="PasswordToggle_Icon"
+                                        FontSize="17"
+                                        Glyph="&#xE7B3;" />
+                                </Button>
+
+                                <!--  Copy Password Button  -->
+                                <Button
+                                    x:Name="CopyPassword_Button"
+                                    Grid.Column="2"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyPassword_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Password">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
+                                </Button>
+                            </Grid>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
+
+                        </StackPanel>
+
+
+                        <!--  Pin Container  -->
+                        <StackPanel
+                            x:Name="Pin_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+
+                            <!--  Pin Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Pin" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Pin TextBlock  -->
+                                <TextBlock
+                                    x:Name="Pin_Text_Hidden"
+                                    Text="03230"
+                                    Visibility="Collapsed" />
+                                <RichTextBlock
+                                    x:Name="Pin_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
+                                    <Paragraph>
+                                        <Bold>
+                                            <Run x:Name="Pin_Text" Text="●●●●●●" />
+                                        </Bold>
+                                    </Paragraph>
+                                </RichTextBlock>
+
+                                <!--  Hide/Unhide Pin Button  -->
+                                <CheckBox
+                                    x:Name="TogglePin_CheckBox"
+                                    IsChecked="False"
+                                    Visibility="Collapsed" />
+                                <Button
+                                    x:Name="TogglePin_Button"
+                                    Grid.Column="1"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="TogglePin_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Show Pin">
+                                    <FontIcon
+                                        x:Name="PinToggle_Icon"
+                                        FontSize="17"
+                                        Glyph="&#xE7B3;" />
+                                </Button>
+
+                                <!--  Copy Pin Button  -->
+                                <Button
+                                    x:Name="CopyPin_Button"
+                                    Grid.Column="2"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyPin_Button_Click"
-                                    ToolTipService.ToolTip="Copy Pin"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Pin">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
-                        
-                        <!-- Phone Number Container -->
-                        <StackPanel x:Name="PhoneNumber_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            
-                            <!-- Phone Number Header -->
-                            <TextBlock Text="Phone Number"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
-                            
+
+                        <!--  Phone Number Container  -->
+                        <StackPanel
+                            x:Name="PhoneNumber_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+
+                            <!--  Phone Number Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Phone Number" />
+
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Phone Number TextBlock -->
-                                <RichTextBlock x:Name="PhoneNumber_TextBlock" 
+                                <!--  Phone Number TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="PhoneNumber_TextBlock"
                                     Grid.Column="0"
+                                    Margin="20,15,0,0"
                                     FontSize="14"
                                     FontWeight="Bold"
-                                    Margin="20,15,0,0"
-                                    Opacity="0.9"
-                                >
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="PhoneNumber_Text" Text="+923204540590"/>
+                                            <Run x:Name="PhoneNumber_Text" Text="+923204540590" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Phone Number Button -->
-                                <Button x:Name="CopyPhoneNumber_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,20,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="CopyPhoneNumber_Button_Click"
-                                        ToolTipService.ToolTip="Copy Phone Number"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                <!--  Copy Phone Number Button  -->
+                                <Button
+                                    x:Name="CopyPhoneNumber_Button"
+                                    Grid.Column="1"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="CopyPhoneNumber_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Phone Number">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
 
-                        <!-- Date Of Birth Container -->
-                        <StackPanel x:Name="DOB_Container" Orientation="Vertical" Margin="0,10,0,0">
+                        <!--  Date Of Birth Container  -->
+                        <StackPanel
+                            x:Name="DOB_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Date of Birth Header -->
-                            <TextBlock Text="Date of Birth" 
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                                       FontSize="17" 
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Date of Birth Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Date of Birth" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Date of Birth TextBlock -->
-                                <RichTextBlock x:Name="DOB_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Date of Birth TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="DOB_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="DOB_Text" Text="14-08-2000"/>
+                                            <Run x:Name="DOB_Text" Text="14-08-2000" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
 
-                        <!-- Notes Container -->
-                        <StackPanel x:Name="Notes_Container" Orientation="Vertical" Margin="0,10,0,0">
+                        <!--  Notes Container  -->
+                        <StackPanel
+                            x:Name="Notes_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Notes Header -->
-                            <TextBlock Text="Notes" 
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                                       FontSize="17" 
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Notes Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Notes" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Notes TextBlock -->
-                                <RichTextBlock x:Name="Notes_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Notes TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Notes_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Notes_Text" Text="Google Photos Backup"/>
+                                            <Run x:Name="Notes_Text" Text="Google Photos Backup" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,15"/>
+                            <Border
+                                Margin="0,20,0,15"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
                     </StackPanel>
-                    
+
                 </ScrollViewer>
             </Grid>
 
-            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
-            <!-- Right Second (View Account) -->
+            <Border
+                Margin="0,0,0,10"
+                BorderBrush="#1D1D1D"
+                BorderThickness="0,0,1,0" />
+            <!--  Right Second (View Account)  -->
             <Grid Grid.Column="1">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
 
-                        <!-- Header Grid (Containing Delete and Modify Button) -->
+                        <!--  Header Grid (Containing Delete and Modify Button)  -->
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -1161,134 +1387,175 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,15">
+                            <StackPanel
+                                Height="50"
+                                Margin="0,0,0,15"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
 
-                                <!-- Delete Button -->
-                                <Button x:Name="Delete_Button" Width="90" Margin="0,0,10,0" Click="Delete_Button_Click">
+                                <!--  Delete Button  -->
+                                <Button
+                                    x:Name="Delete_Button"
+                                    Width="90"
+                                    Margin="0,0,10,0"
+                                    Click="Delete_Button_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <FontIcon 
-                                           Glyph="&#xE74D;" 
-                                           FontSize="17"/>
-                                        <TextBlock 
-                                           Text="Delete"  
-                                           Margin="5,0,0,0"
-                                           Style="{ThemeResource BodyTextBlockStyle}" 
-                                           VerticalAlignment="Center"/>
+                                        <FontIcon FontSize="17" Glyph="&#xE74D;" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="Delete" />
                                     </StackPanel>
                                 </Button>
 
-                                <!-- Modify Button -->
-                                <Button x:Name="Modify_Button" Style="{StaticResource AccentButtonStyle}" Width="95" Click="Modify_Button_Click">
+                                <!--  Modify Button  -->
+                                <Button
+                                    x:Name="Modify_Button"
+                                    Width="95"
+                                    Click="Modify_Button_Click"
+                                    Style="{StaticResource AccentButtonStyle}">
                                     <StackPanel Orientation="Horizontal">
-                                        <FontIcon 
-                                           Glyph="&#xE70F;" 
-                                           FontSize="17"/>
-                                        <TextBlock 
-                                           Text="Modify"  
-                                           Margin="5,0,0,0"
-                                           Style="{ThemeResource BodyTextBlockStyle}" 
-                                           VerticalAlignment="Center"/> 
+                                        <FontIcon FontSize="17" Glyph="&#xE70F;" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="Modify" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
 
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </Grid>
 
-                        <!-- Recovery Email Container -->
-                        <StackPanel x:Name="RecoveryEmail_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            <!-- Recovery Email Header -->
-                            <TextBlock Text="Recovery Email" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                        <!--  Recovery Email Container  -->
+                        <StackPanel
+                            x:Name="RecoveryEmail_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+                            <!--  Recovery Email Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Recovery Email" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Recovery Email TextBlock -->
-                                <RichTextBlock x:Name="RecoveryEmail_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Recovery Email TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="RecoveryEmail_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="RecoveryEmail_Text" Text="affan@gmail.com"/>
+                                            <Run x:Name="RecoveryEmail_Text" Text="affan@gmail.com" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Recovery Email Button -->
-                                <Button x:Name="CopyRecoveryEmail_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Recovery Email Button  -->
+                                <Button
+                                    x:Name="CopyRecoveryEmail_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyRecoveryEmail_Button_Click"
-                                    ToolTipService.ToolTip="Copy Recovery Email"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Recovery Email">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
 
-                        <!-- Recovery Phone Number Container -->
-                        <StackPanel x:Name="RecoveryPhoneNumber_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            <!-- Recovery Phone Number Header -->
-                            <TextBlock Text="Recovery Phone Number" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                        <!--  Recovery Phone Number Container  -->
+                        <StackPanel
+                            x:Name="RecoveryPhoneNumber_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+                            <!--  Recovery Phone Number Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Recovery Phone Number" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Recovery Phone Number TextBlock -->
-                                <RichTextBlock x:Name="RecoveryPhoneNumber_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Recovery Phone Number TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="RecoveryPhoneNumber_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="RecoveryPhoneNumber_Text" Text="+923090090540"/>
+                                            <Run x:Name="RecoveryPhoneNumber_Text" Text="+923090090540" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Recovery Phone Number Button -->
-                                <Button x:Name="CopyRecoveryPhoneNumber_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Recovery Phone Number Button  -->
+                                <Button
+                                    x:Name="CopyRecoveryPhoneNumber_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyRecoveryPhoneNumber_Button_Click"
-                                    ToolTipService.ToolTip="Copy Recovery Phone Number"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Recovery Phone Number">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
 
-                        <!-- Authenticator Container -->
-                        <StackPanel x:Name="Authenticator_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            <!-- Authenticator Header -->
-                            <TextBlock Text="Authenticator" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                        <!--  Authenticator Container  -->
+                        <StackPanel
+                            x:Name="Authenticator_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+                            <!--  Authenticator Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Authenticator" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -1297,85 +1564,109 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- AuthenticatorTextBlock -->
-                                <RichTextBlock x:Name="Authenticator_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  AuthenticatorTextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Authenticator_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Authenticator_Text" Text="0123456"/>
+                                            <Run x:Name="Authenticator_Text" Text="0123456" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <ProgressRing x:Name="OTP_Ring" Grid.Column="1" Width="20" Margin="0,0,12,0" Height="20" Value="100"
-                                    IsIndeterminate="False"
+                                <ProgressRing
+                                    x:Name="OTP_Ring"
+                                    Grid.Column="1"
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,0,12,0"
                                     Background="Transparent"
-                                              />
+                                    IsIndeterminate="False"
+                                    Value="100" />
 
-                                <!-- HOTP Generate Button -->
-                                <Button x:Name="HOTP_Generate_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,5,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  HOTP Generate Button  -->
+                                <Button
+                                    x:Name="HOTP_Generate_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
-                                    Visibility="Collapsed"
                                     BorderThickness="0"
                                     Click="HOTP_Generate_Button_Click"
+                                    ToolTipService.Placement="Top"
                                     ToolTipService.ToolTip="Refresh OTP"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE72C;" FontSize="17"/>
+                                    Visibility="Collapsed">
+                                    <FontIcon FontSize="17" Glyph="&#xE72C;" />
                                 </Button>
 
-                                <!-- Authenticator QR Button -->
-                                <Button x:Name="AuthenticatorQR_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,5,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Authenticator QR Button  -->
+                                <Button
+                                    x:Name="AuthenticatorQR_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="AuthenticatorQR_Button_Click"
-                                    ToolTipService.ToolTip="QR Code"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xED14;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="QR Code">
+                                    <FontIcon FontSize="17" Glyph="&#xED14;" />
                                 </Button>
 
-                                <!-- Copy OTP Button -->
-                                <Button x:Name="CopyOTP_Button"
-                                    Grid.Column="3" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy OTP Button  -->
+                                <Button
+                                    x:Name="CopyOTP_Button"
+                                    Grid.Column="3"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyOTP_Button_Click"
-                                    ToolTipService.ToolTip="Copy OTP"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy OTP">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
-                        <!-- Backup Codes Container -->
-                        <StackPanel x:Name="BackupCodes_Container" Orientation="Vertical" Margin="0,10,0,0">
-                            <!-- Backup Codes Header -->
-                            <TextBlock Text="Backup Codes" Margin="20,0,0,0" Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="17"/>
+                        <!--  Backup Codes Container  -->
+                        <StackPanel
+                            x:Name="BackupCodes_Container"
+                            Margin="0,10,0,0"
+                            Orientation="Vertical">
+                            <!--  Backup Codes Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Backup Codes" />
 
-                            <StackPanel x:Name="BackupCodes_Grids" Orientation="Vertical" Margin="20,0,0,0">
-                                <!-- To be added by C# Code -->
+                            <StackPanel
+                                x:Name="BackupCodes_Grids"
+                                Margin="20,0,0,0"
+                                Orientation="Vertical">
+                                <!--  To be added by C# Code  -->
                             </StackPanel>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,20"/>
+                            <Border
+                                Margin="0,20,0,20"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
 
                         </StackPanel>
 
@@ -1383,6 +1674,6 @@
                 </ScrollViewer>
             </Grid>
         </Grid>
-        
-	</Grid>
+
+    </Grid>
 </Page>
