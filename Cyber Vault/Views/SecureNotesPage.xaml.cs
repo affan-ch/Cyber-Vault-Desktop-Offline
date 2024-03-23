@@ -12,7 +12,6 @@ namespace Cyber_Vault.Views;
 
 public sealed partial class SecureNotesPage : Page
 {
-    private Color currentColor;
 
     public SecureNotesViewModel ViewModel
     {
@@ -27,7 +26,8 @@ public sealed partial class SecureNotesPage : Page
 
     private void AddSecureNote_Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        AddSecureNote_Grid.Visibility = Visibility.Visible;
     }
 
     private void SearchBar_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
@@ -39,13 +39,33 @@ public sealed partial class SecureNotesPage : Page
     private void TitleInfo_Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         Category_TeachingTip.IsOpen = false;
+        TagsInfo_TeachingTip.IsOpen = false;
+        CustomCategory_TeachingTip.IsOpen = false;
         Title_TeachingTip.IsOpen = true;
     }
 
     private void CategoryInfo_Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         Title_TeachingTip.IsOpen = false;
+        TagsInfo_TeachingTip.IsOpen = false;
+        CustomCategory_TeachingTip.IsOpen = false;
         Category_TeachingTip.IsOpen = true;
+    }
+
+    private void CustomCategory_Button_Click(object sender, RoutedEventArgs e)
+    {
+        Title_TeachingTip.IsOpen = false;
+        Category_TeachingTip.IsOpen = false;
+        TagsInfo_TeachingTip.IsOpen = false;
+        CustomCategory_TeachingTip.IsOpen = true;
+    }
+
+    private void TagsInfo_Button_Click(object sender, RoutedEventArgs e)
+    {
+        Title_TeachingTip.IsOpen = false;
+        Category_TeachingTip.IsOpen = false;
+        CustomCategory_TeachingTip.IsOpen = false;
+        TagsInfo_TeachingTip.IsOpen = true;
     }
 
     private void Category_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,8 +88,6 @@ public sealed partial class SecureNotesPage : Page
     }
 
 
-
-
     private void Editor_GotFocus(object sender, RoutedEventArgs e)
     {
         editor.Document.GetText(TextGetOptions.UseCrlf, out _);
@@ -89,8 +107,6 @@ public sealed partial class SecureNotesPage : Page
 
     }
 
-    private void CustomCategory_Button_Click(object sender, RoutedEventArgs e)
-    {
 
-    }
+
 }

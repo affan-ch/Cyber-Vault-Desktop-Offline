@@ -256,8 +256,11 @@
 
         </Grid>
 
-        <!--  Main Content  -->
-        <Grid Grid.Column="1">
+        <!--  Right Content (Add Secure Note)  -->
+        <Grid
+            x:Name="AddSecureNote_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -330,7 +333,6 @@
                             Grid.Column="1"
                             Height="35"
                             VerticalAlignment="Bottom"
-                            Background="Transparent"
                             BorderThickness="0"
                             Click="TitleInfo_Button_Click">
                             <Button.Content>
@@ -366,7 +368,7 @@
                             <ComboBox
                                 x:Name="Category_ComboBox"
                                 Grid.Column="0"
-                                MinWidth="380"
+                                MinWidth="391"
                                 Margin="0,0,15,0"
                                 PlaceholderText="Select Category"
                                 SelectedIndex="0"
@@ -396,7 +398,6 @@
                                 Grid.Column="1"
                                 Height="35"
                                 VerticalAlignment="Bottom"
-                                Background="Transparent"
                                 BorderThickness="0"
                                 Click="CategoryInfo_Button_Click">
                                 <Button.Content>
@@ -411,7 +412,7 @@
                             <TeachingTip
                                 x:Name="Category_TeachingTip"
                                 Title="Category Info"
-                                Subtitle="• Select a category for your secure note &#x0a;• Examples: &#x0a;&#x09; • Personal &#x0a;&#x09; • Work &#x0a;&#x09; • Finance &#x0a;&#x09; • Health &#x0a;&#x09; • Education &#x0a;&#x09; • Travel &#x0a;&#x09; • Shopping &#x0a;&#x09; • Entertainment &#x0a;&#x09; • Miscellaneous"
+                                Subtitle="• Categories help to filter notes easily &#x0a;• Select a category for your secure note &#x0a;• Examples: &#x0a;&#x09; • Personal &#x0a;&#x09; • Work &#x0a;&#x09; • Finance &#x0a;&#x09; • Health &#x0a;&#x09; • Education &#x0a;&#x09; • Travel &#x0a;&#x09; • Shopping &#x0a;&#x09; • Entertainment &#x0a;&#x09; • Miscellaneous"
                                 Target="{x:Bind CategoryInfo_Button}" />
                         </Grid>
 
@@ -446,7 +447,6 @@
                                 Grid.Column="1"
                                 Height="35"
                                 VerticalAlignment="Bottom"
-                                Background="Transparent"
                                 BorderThickness="0"
                                 Click="CustomCategory_Button_Click">
                                 <Button.Content>
@@ -461,8 +461,8 @@
                             <TeachingTip
                                 x:Name="CustomCategory_TeachingTip"
                                 Title="Custom Category Info"
-                                Subtitle="• Title must be at least 3 characters long &#x0a;• Title must not exceed 15 characters &#x0a;• Examples: &#x0a;&#x09; • Recipes &#x0a;&#x09; • Personal Finances &#x0a;&#x09; • Travel Plans &#x0a;&#x09; • Creative Ideas &#x0a;&#x09; • Fitness Goals"
-                                Target="{x:Bind TitleInfo_Button}" />
+                                Subtitle="• Category must have at least 3 characters &#x0a;• Category must not exceed 15 characters"
+                                Target="{x:Bind CustomCategory_Button}" />
                         </Grid>
                     </Grid>
 
@@ -476,6 +476,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
+                        <!--  Tag1 TextBox  -->
                         <TextBox
                             x:Name="Tag1_TextBox"
                             Grid.Column="0"
@@ -490,6 +491,7 @@
                             </TextBox.Header>
                         </TextBox>
 
+                        <!--  Tag2 TextBox  -->
                         <TextBox
                             x:Name="Tag2_TextBox"
                             Grid.Column="1"
@@ -499,6 +501,7 @@
                             IsSpellCheckEnabled="False"
                             PlaceholderText="#Important" />
 
+                        <!--  Tag3 TextBox  -->
                         <TextBox
                             x:Name="Tag3_TextBox"
                             Grid.Column="2"
@@ -508,11 +511,12 @@
                             IsSpellCheckEnabled="False"
                             PlaceholderText="#Reminders" />
 
+                        <!--  Tag4 TextBox  -->
                         <TextBox
                             x:Name="Tag4_TextBox"
                             Grid.Column="3"
                             Height="30"
-                            Margin="0,0,10,0"
+                            Margin="0,0,14,0"
                             VerticalAlignment="Bottom"
                             IsSpellCheckEnabled="False"
                             PlaceholderText="#Projects" />
@@ -523,9 +527,8 @@
                             Grid.Column="4"
                             Height="35"
                             VerticalAlignment="Bottom"
-                            Background="Transparent"
                             BorderThickness="0"
-                            Click="TitleInfo_Button_Click">
+                            Click="TagsInfo_Button_Click">
                             <Button.Content>
                                 <FontIcon
                                     VerticalAlignment="Center"
@@ -538,7 +541,7 @@
                         <TeachingTip
                             x:Name="TagsInfo_TeachingTip"
                             Title="Tags Info"
-                            Subtitle="• Title must be at least 3 characters long &#x0a;• Title must not exceed 15 characters &#x0a;• Examples: &#x0a;&#x09; • Recipes &#x0a;&#x09; • Personal Finances &#x0a;&#x09; • Travel Plans &#x0a;&#x09; • Creative Ideas &#x0a;&#x09; • Fitness Goals"
+                            Subtitle="• Tags make searching for notes easier &#x0a;• Tag must start with # (Hashtag)  &#x0a;• Tag cannot contain spaces &#x0a;• Tag can only contain alphabets &#x0a;• Tag must be at least 3 characters long &#x0a;• Tag must not exceed 10 characters  &#x0a;• Examples: &#x0a;&#x09; • #Important &#x0a;&#x09; • #Reminders &#x0a;&#x09; • #Meetings &#x0a;&#x09; • #Projects"
                             Target="{x:Bind TagsInfo_Button}" />
                     </Grid>
 
@@ -575,5 +578,31 @@
             </ScrollViewer>
 
         </Grid>
+
+        <!--  Right Content (Select to View)  -->
+        <Grid x:Name="ErrorContainer_Grid" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <Image
+                        Width="288"
+                        Height="277"
+                        Source="/Assets/select.png" />
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="Select Any Note to View Here" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
     </Grid>
 </Page>
