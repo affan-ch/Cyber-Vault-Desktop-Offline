@@ -8,32 +8,47 @@ internal class SecureNote
     }
 
     public string? Title
-    {    
-        get; set;
-    }
-
-    public string? Note
-    {    
+    {
         get; set;
     }
 
     public string? Category
-    {       
+    {
         get; set;
     }
 
-    public string? Tags
-    {          
+    public string? Tag1
+    {
         get; set;
     }
 
-    public string? DateCreated
-    {       
+    public string? Tag2
+    {
+        get; set;
+    }
+
+    public string? Tag3
+    {
+        get; set;
+    }
+
+    public string? Tag4
+    {
+        get; set;
+    }
+
+    public string? Note
+    {
+        get; set;
+    }
+
+    public string? DateAdded
+    {
         get; set;
     }
 
     public string? DateModified
-    {          
+    {
         get; set;
     }
 
@@ -41,34 +56,4 @@ internal class SecureNote
     public SecureNote()
     {
     }
-
-    public SecureNote(int? id, string? title, string? note, string? category, string? tags, string? dateCreated, string? dateModified)
-    {    
-        Id = id;
-        Title = title;
-        Note = note;
-        Category = category;
-        Tags = tags;
-        DateCreated = dateCreated;
-        DateModified = dateModified;
-    }
-
-    public SecureNote(string? title, string? note, string? category, string? tags, string? dateCreated, string? dateModified)
-    {       
-        Title = title;
-        Note = note;
-        Category = category;
-        Tags = tags;
-        DateCreated = dateCreated;
-        DateModified = dateModified;
-    }
-
-    public SecureNote(string? title, string? note, string? category, string? tags)
-    {          
-        Title = title;
-        Note = note;
-        Category = category;
-        Tags = tags;
-    }
-
 }

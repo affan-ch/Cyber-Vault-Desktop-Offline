@@ -6,7 +6,7 @@ namespace Cyber_Vault.Utils;
 internal class DatabaseHelper
 {
     private static readonly string AppDataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Cyber Vault");
-    
+
     public static readonly string ThumbsFolderPath = Path.Combine(AppDataFolderPath, "Thumbs");
 
     private static readonly string DatabaseFilePath = Path.Combine(AppDataFolderPath, "CyberVault.db");
@@ -87,11 +87,24 @@ internal class DatabaseHelper
         DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );";
 
+    private static readonly string CreateSecureNoteTableQuery = @"CREATE TABLE IF NOT EXISTS [SecureNote] (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Title TEXT NOT NULL,
+        Category TEXT NOT NULL,
+        Tag1 TEXT,
+        Tag2 TEXT,
+        Tag3 TEXT,
+        Tag4 TEXT,
+        Note TEXT,
+        DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+
     public static void CreateDatabase()
     {
         using var connection = new SQLiteConnection(ConnectionString);
         connection.Open();
-        
+
         using var CreateAccountTableCommand = new SQLiteCommand(CreateAccountTableQuery, connection);
         CreateAccountTableCommand.ExecuteNonQuery();
 
@@ -113,6 +126,9 @@ internal class DatabaseHelper
         using var CreateCreditCardTableCommand = new SQLiteCommand(CreateCreditCardTableQuery, connection);
         CreateCreditCardTableCommand.ExecuteNonQuery();
 
+        using var CreateSecureNoteTableCommand = new SQLiteCommand(CreateSecureNoteTableQuery, connection);
+        CreateSecureNoteTableCommand.ExecuteNonQuery();
+
         connection.Close();
 
         if (!Directory.Exists(AppDataFolderPath))
@@ -123,7 +139,7 @@ internal class DatabaseHelper
         }
 
         if (!Directory.Exists(ThumbsFolderPath))
-        {        
+        {
             Directory.CreateDirectory(ThumbsFolderPath);
             Debug.WriteLine("Thumbs folder created");
         }

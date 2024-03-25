@@ -443,12 +443,12 @@
 
                             <!--  Custom Category Info Button  -->
                             <Button
-                                x:Name="CustomCategory_Button"
+                                x:Name="CustomCategoryInfo_Button"
                                 Grid.Column="1"
                                 Height="35"
                                 VerticalAlignment="Bottom"
                                 BorderThickness="0"
-                                Click="CustomCategory_Button_Click">
+                                Click="CustomCategoryInfo_Button_Click">
                                 <Button.Content>
                                     <FontIcon
                                         VerticalAlignment="Center"
@@ -462,7 +462,7 @@
                                 x:Name="CustomCategory_TeachingTip"
                                 Title="Custom Category Info"
                                 Subtitle="• Category must have at least 3 characters &#x0a;• Category must not exceed 15 characters"
-                                Target="{x:Bind CustomCategory_Button}" />
+                                Target="{x:Bind CustomCategoryInfo_Button}" />
                         </Grid>
                     </Grid>
 
@@ -547,12 +547,20 @@
 
                     <!--  Notes Container  -->
                     <Grid Margin="20,20,20,0">
-                        <RelativePanel Margin="0,0,0,20" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <RelativePanel
+                            Grid.Column="0"
+                            Margin="0,0,15,20"
+                            HorizontalAlignment="Stretch">
                             <RelativePanel.Resources>
                                 <Style TargetType="Button">
                                     <Setter Property="BorderThickness" Value="0" />
                                     <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="Margin" Value="0,0,8,0" />
+                                    <Setter Property="Margin" Value="0,0,0,0" />
                                 </Style>
                             </RelativePanel.Resources>
 
@@ -573,6 +581,30 @@
                             </RichEditBox>
 
                         </RelativePanel>
+
+                        <!--  Notes Info Button  -->
+                        <Button
+                            x:Name="NotesInfo_Button"
+                            Grid.Column="1"
+                            Height="35"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            Click="NotesInfo_Button_Click">
+                            <Button.Content>
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="17"
+                                    Glyph="&#xE946;" />
+                            </Button.Content>
+                        </Button>
+
+                        <!--  Notes Info TeachingTip  -->
+                        <TeachingTip
+                            x:Name="Notes_TeachingTip"
+                            Title="Notes Info"
+                            Subtitle="• Ctrl + I --&gt; Italic Selected Text &#x0a;• Ctrl + B --&gt; Bold Selected Text &#x0a;• Ctrl + U --&gt; Underline Selected Text"
+                            Target="{x:Bind NotesInfo_Button}" />
+
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
