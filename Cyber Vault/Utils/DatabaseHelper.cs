@@ -96,8 +96,8 @@ internal class DatabaseHelper
         Tag3 TEXT,
         Tag4 TEXT,
         Note TEXT,
-        DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        DateAdded TEXT,
+        DateModified TEXT
     );";
 
     public static void CreateDatabase()
