@@ -371,7 +371,7 @@
                                 MinWidth="391"
                                 Margin="0,0,15,0"
                                 PlaceholderText="Select Category"
-                                SelectedIndex="0"
+                                SelectedIndex="9"
                                 SelectionChanged="Category_ComboBox_SelectionChanged">
                                 <x:String>Personal</x:String>
                                 <x:String>Work</x:String>
@@ -420,7 +420,7 @@
                             x:Name="CustomCategory_Container"
                             Grid.Row="1"
                             Margin="0,20,0,0"
-                            Visibility="Collapsed">
+                            Visibility="Visible">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -636,5 +636,197 @@
             </Grid>
         </Grid>
 
+
+        <!--  Right Content (View Secure Note)  -->
+        <Grid
+            x:Name="ViewSecureNote_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  Header (Page Title & Edit Button, Delete Button)  -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Page Title  -->
+                <TextBlock
+                    x:Name="Title_TextBlock"
+                    Grid.Column="0"
+                    Margin="20,10,0,0"
+                    FontSize="22"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="Travel Plans" />
+
+                <!--  Save Button  -->
+                <Button
+                    x:Name="Update_Button"
+                    Grid.Column="2"
+                    Width="90"
+                    Click="Update_Button_Click"
+                    Style="{StaticResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                        <TextBlock
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="Update" />
+                    </StackPanel>
+                </Button>
+
+
+            </Grid>
+
+            <Border
+                Margin="0,20,0,0"
+                BorderBrush="#1D1D1D"
+                BorderThickness="0,0,0,1" />
+
+            <!--  Category and Tags Container  -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Category Container  -->
+                <StackPanel
+                    x:Name="CategoryView_Container"
+                    Grid.Row="0"
+                    Margin="0,10,0,0"
+                    Orientation="Vertical">
+                    <!--  Category Header  -->
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        FontSize="17"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="Category" />
+
+                    <!--  Category TextBlock  -->
+                    <RichTextBlock
+                        x:Name="Category_TextBlock"
+                        Grid.Column="0"
+                        Margin="20,15,0,0"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Opacity="0.9">
+                        <Paragraph>
+                            <Bold>
+                                <Run x:Name="Category_Text" Text="Travel" />
+                            </Bold>
+                        </Paragraph>
+                    </RichTextBlock>
+
+                    <Border
+                        Margin="0,20,0,0"
+                        BorderBrush="#1D1D1D"
+                        BorderThickness="0,0,0,1" />
+                </StackPanel>
+
+                <!--  Tags  -->
+                <StackPanel
+                    x:Name="TagsView_Container"
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    Orientation="Vertical">
+                    <!--  Tags Header  -->
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        FontSize="17"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="Tags" />
+
+                    <!--  Tags Grid  -->
+                    <Grid x:Name="Tags_Grid" Margin="20,15,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Tag1 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag1_TextBlock"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                        <!--  Tag2 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag2_TextBlock"
+                            Grid.Column="1"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                        <!--  Tag3 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag3_TextBlock"
+                            Grid.Column="2"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                        <!--  Tag4 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag4_TextBlock"
+                            Grid.Column="3"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                    </Grid>
+
+                    <Border
+                        Margin="0,20,0,0"
+                        BorderBrush="#1D1D1D"
+                        BorderThickness="0,0,0,1" />
+                </StackPanel>
+            </Grid>
+
+            <!--  Notes Container  -->
+            <Grid
+                x:Name="NotesView_Container"
+                Grid.Row="2"
+                Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Notes Header  -->
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="20,0,0,0"
+                    FontSize="17"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                    Text="Notes" />
+
+                <!--  Notes RichEditBox  -->
+                <RichEditBox
+                    x:Name="editorView"
+                    Grid.Row="1"
+                    Margin="20,15,0,20"
+                    AutomationProperties.Name="Custom editor"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True" />
+
+            </Grid>
+
+        </Grid>
     </Grid>
 </Page>

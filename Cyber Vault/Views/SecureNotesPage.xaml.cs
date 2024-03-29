@@ -17,7 +17,7 @@ public sealed partial class SecureNotesPage : Page
     {
         Visibility = Visibility.Collapsed
     };
-    private int currentSecureNoteId = 0;
+    private int currentSecureNoteId;
 
     public SecureNotesViewModel ViewModel
     {
@@ -41,6 +41,7 @@ public sealed partial class SecureNotesPage : Page
         ClearFields();
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
         AddSecureNote_Grid.Visibility = Visibility.Visible;
+        ViewSecureNote_Grid.Visibility = Visibility.Collapsed;
     }
 
     // Search Bar Key Up
@@ -109,10 +110,12 @@ public sealed partial class SecureNotesPage : Page
                 if (Category_ComboBox.SelectedValue.ToString() == "Custom")
                 {
                     CustomCategory_Container.Visibility = Visibility.Visible;
+                    editor.Height = 255;
                 }
                 else
                 {
                     CustomCategory_Container.Visibility = Visibility.Collapsed;
+                    editor.Height = 334;
                 }
             }
         }
@@ -163,7 +166,7 @@ public sealed partial class SecureNotesPage : Page
         var Tag2 = Tag2_TextBox.Text;
         var Tag3 = Tag3_TextBox.Text;
         var Tag4 = Tag4_TextBox.Text;
-        editor.Document.GetText(TextGetOptions.UseCrlf, out var RichEditBoxContent);
+        editor.Document.GetText(TextGetOptions.FormatRtf, out var RichEditBoxContent);
 
         if (string.IsNullOrEmpty(Title))
         {
@@ -276,7 +279,7 @@ public sealed partial class SecureNotesPage : Page
     private void ClearFields()
     {
         Title_TextBox.Text = string.Empty;
-        Category_ComboBox.SelectedIndex = -1;
+        Category_ComboBox.SelectedIndex = 9;
         CustomCategory_TextBox.Text = string.Empty;
         Tag1_TextBox.Text = string.Empty;
         Tag2_TextBox.Text = string.Empty;
@@ -423,8 +426,8 @@ public sealed partial class SecureNotesPage : Page
 
                     ErrorContainer_Grid.Visibility = Visibility.Collapsed;
                     AddSecureNote_Grid.Visibility = Visibility.Collapsed;
-                    //ViewAccount_Grid.Visibility = Visibility.Visible;
-                    //RenderUserInterface(account);
+                    ViewSecureNote_Grid.Visibility = Visibility.Visible;
+                    RenderUserInterface(note);
                 }
                 else
                 {
@@ -461,4 +464,46 @@ public sealed partial class SecureNotesPage : Page
         }
     }
 
+    // Render User Interface
+    private void RenderUserInterface(SecureNote note)
+    {
+        Tag1_TextBlock.Text = string.Empty;
+        Tag2_TextBlock.Text = string.Empty;
+        Tag3_TextBlock.Text = string.Empty;
+        Tag4_TextBlock.Text = string.Empty;
+
+        Title_TextBlock.Text = note.Title;
+        Category_Text.Text = note.Category;
+        editorView.IsReadOnly = false;
+        editorView.Document.SetText(TextSetOptions.FormatRtf, note.Note);
+        editorView.IsReadOnly = true;
+
+        if (string.IsNullOrEmpty(note.Tag1) && string.IsNullOrEmpty(note.Tag2) && string.IsNullOrEmpty(note.Tag3) && string.IsNullOrEmpty(note.Tag4))
+        {
+            TagsView_Container.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            TagsView_Container.Visibility = Visibility.Visible;
+
+            string[] tags = { note.Tag1!, note.Tag2!, note.Tag3!, note.Tag4! };
+            TextBlock[] textBlocks = { Tag1_TextBlock, Tag2_TextBlock, Tag3_TextBlock, Tag4_TextBlock };
+
+            var count = 0;
+            for (var i = 0; i < tags.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(tags[i]))
+                {
+                    textBlocks[count].Text = tags[i];
+                    count++;
+                }
+            }
+        }
+
+    }
+
+    private void Update_Button_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }
