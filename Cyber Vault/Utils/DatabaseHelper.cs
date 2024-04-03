@@ -33,6 +33,16 @@ internal class DatabaseHelper
         DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );";
 
+    private static readonly string CreateDocumentTableQuery = @"CREATE TABLE IF NOT EXISTS [Document] (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Type TEXT NOT NULL,
+        Title TEXT NOT NULL,
+        Document1 BLOB NOT NULL,
+        Document2 BLOB,
+        DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+
     private static readonly string CreatePasswordHistoryTableQuery = @"CREATE TABLE IF NOT EXISTS [PasswordHistory] (
         Id INTEGER PRIMARY KEY AUTOINCREMENT,
         AccountId INTEGER NOT NULL,
@@ -107,6 +117,9 @@ internal class DatabaseHelper
 
         using var CreateAccountTableCommand = new SQLiteCommand(CreateAccountTableQuery, connection);
         CreateAccountTableCommand.ExecuteNonQuery();
+
+        using var CreateDocumentTableCommand = new SQLiteCommand(CreateDocumentTableQuery, connection);
+        CreateDocumentTableCommand.ExecuteNonQuery();
 
         using var UpdateAccountTriggerCommand = new SQLiteCommand(UpdateAccountTriggerQuery, connection);
         UpdateAccountTriggerCommand.ExecuteNonQuery();
