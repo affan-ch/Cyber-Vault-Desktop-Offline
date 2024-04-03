@@ -177,7 +177,7 @@ public sealed partial class DocumentsPage : Page
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
                     currentDocumentId = id ?? 0;
-                    OTP_Ring.Value = 100;
+                    /*OTP_Ring.Value = 100;*/
                    /* timer?.Dispose();*/
                     documentContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     documentContainer.PointerEntered += (sender, e) =>

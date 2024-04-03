@@ -35,5 +35,7 @@
 
     <Thickness x:Key="AccountsPageMidTextBoxMargin">20,20,20,0</Thickness>
     <Thickness x:Key="AccountsPageRightTextBoxMargin">20,20,13,0</Thickness>
+    <Thickness x:Key="DocumentsPageMidTextBoxMargin">20,20,20,0</Thickness>
+    <Thickness x:Key="DocumentsPageRightTextBoxMargin">20,20,13,0</Thickness>
     
 </ResourceDictionary>
