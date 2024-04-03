@@ -286,6 +286,9 @@ public sealed partial class SecureNotesPage : Page
         Tag3_TextBox.Text = string.Empty;
         Tag4_TextBox.Text = string.Empty;
         editor.Document.SetText(TextSetOptions.None, string.Empty);
+        PageTitle_TextBlock.Text = "Add Secure Note";
+        Save_Button.Visibility = Visibility.Visible;
+        Update_Button.Visibility = Visibility.Collapsed;
     }
 
     // Add Secure Note Tile in ListView (Left Sidebar)
@@ -500,6 +503,88 @@ public sealed partial class SecureNotesPage : Page
             }
         }
 
+    }
+
+
+    private void Modify_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        ViewSecureNote_Grid.Visibility = Visibility.Collapsed;
+        AddSecureNote_Grid.Visibility = Visibility.Visible;
+
+        Save_Button.Visibility = Visibility.Collapsed;
+        Update_Button.Visibility = Visibility.Visible;
+        PageTitle_TextBlock.Text = "Modify Secure Note";
+
+
+        var note = SecureNoteDL.GetSecureNoteById(currentSecureNoteId);
+
+        if (note == null)
+        {
+            return;
+        }
+
+        Title_TextBox.Text = note.Title;
+
+        Tag1_TextBox.Text = note.Tag1;
+        Tag2_TextBox.Text = note.Tag2;
+        Tag3_TextBox.Text = note.Tag3;
+        Tag4_TextBox.Text = note.Tag4;
+
+        var categories = new string[]
+        {
+            "Personal",
+            "Work",
+            "Finance",
+            "Health",
+            "Education",
+            "Travel",
+            "Shopping",
+            "Entertainment",
+            "Miscellaneous"
+        };
+
+        if (categories.Contains(note.Category))
+        {
+            Category_ComboBox.SelectedValue = note.Category;
+            CustomCategory_Container.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            CustomCategory_Container.Visibility = Visibility.Visible;
+            CustomCategory_TextBox.Text = note.Category;
+            Category_ComboBox.SelectedIndex = 9;
+        }
+
+        editor.Document.SetText(TextSetOptions.FormatRtf, note.Note);
+
+    }
+
+    private async void Delete_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = "Confirm deletion?",
+            PrimaryButtonText = "Delete",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = "Are you sure you want to delete this record? This action cannot be undone and whole record will be permanently removed. Please confirm by typing 'DELETE' to proceed or 'CANCEL' to abort."
+        };
+
+        var result = await dialog.ShowAsync();
+
+        if (result.ToString() == "Primary")
+        {
+            SecureNoteDB.DeleteSecureNoteFromDatabase(currentSecureNoteId);
+            SecureNoteDL.DeleteSecureNote(currentSecureNoteId);
+
+            ViewSecureNote_Grid.Visibility = Visibility.Collapsed;
+            ErrorContainer_Grid.Visibility = Visibility.Visible;
+
+            RefreshSecureNotesListView();
+        }
     }
 
     private void Update_Button_Click(object sender, RoutedEventArgs e)

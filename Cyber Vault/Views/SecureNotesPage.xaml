@@ -276,28 +276,48 @@
 
                 <!--  Page Title  -->
                 <TextBlock
+                    x:Name="PageTitle_TextBlock"
                     Grid.Column="0"
                     Margin="20,0,0,0"
                     FontSize="22"
                     Style="{ThemeResource TitleTextBlockStyle}"
                     Text="Add Secure Note" />
 
-                <!--  Save Button  -->
-                <Button
-                    x:Name="Save_Button"
-                    Grid.Column="2"
-                    Width="73"
-                    Click="Save_Button_Click"
-                    Style="{StaticResource AccentButtonStyle}">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE74E;" />
-                        <TextBlock
-                            Margin="4,0,0,0"
-                            VerticalAlignment="Center"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="Save" />
-                    </StackPanel>
-                </Button>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <!--  Save Button  -->
+                    <Button
+                        x:Name="Save_Button"
+                        Width="73"
+                        Click="Save_Button_Click"
+                        Style="{StaticResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                            <TextBlock
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Text="Save" />
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Update Button  -->
+                    <Button
+                        x:Name="Update_Button"
+                        Width="90"
+                        Click="Update_Button_Click"
+                        Style="{StaticResource AccentButtonStyle}"
+                        Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                            <TextBlock
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Text="Update" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
 
             </Grid>
 
@@ -665,22 +685,54 @@
                     Style="{ThemeResource TitleTextBlockStyle}"
                     Text="Travel Plans" />
 
-                <!--  Save Button  -->
-                <Button
-                    x:Name="Update_Button"
-                    Grid.Column="2"
-                    Width="90"
-                    Click="Update_Button_Click"
-                    Style="{StaticResource AccentButtonStyle}">
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE74E;" />
-                        <TextBlock
-                            Margin="4,0,0,0"
-                            VerticalAlignment="Center"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="Update" />
-                    </StackPanel>
-                </Button>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+
+                    <!--  Favorite Button  -->
+                    <Button
+                        x:Name="Favorite_Button"
+                        Width="40"
+                        Margin="0,0,10,0"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="Favorite this Record"
+                        Visibility="Collapsed">
+
+                        <FontIcon FontSize="17" Glyph="&#xE734;" />
+                    </Button>
+
+                    <!--  Delete Button  -->
+                    <Button
+                        x:Name="Delete_Button"
+                        Width="40"
+                        Margin="0,0,10,0"
+                        Click="Delete_Button_Click"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="Move to Recycle Bin">
+
+                        <FontIcon FontSize="17" Glyph="&#xE74D;" />
+                    </Button>
+
+
+                    <!--  Modify Button  -->
+                    <Button
+                        x:Name="Modify_Button"
+                        Grid.Column="2"
+                        Width="95"
+                        Click="Modify_Button_Click"
+                        Style="{StaticResource AccentButtonStyle}"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="Modify this Record">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="17" Glyph="&#xE70F;" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Text="Modify" />
+                        </StackPanel>
+                    </Button>
+
+                </StackPanel>
+
 
 
             </Grid>
