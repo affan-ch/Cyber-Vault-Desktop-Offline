@@ -1,27 +1,19 @@
 ﻿using Cyber_Vault.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Cyber_Vault.BL;
 using Cyber_Vault.DL;
-using Cyber_Vault.DB;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using CommunityToolkit.Mvvm.Input;
-using Windows.ApplicationModel.DataTransfer;
-using Cyber_Vault.Utils;
 using System.Diagnostics;
-using QRCoder;
-using OtpNet;
-using Microsoft.UI.Xaml.Documents;
-using Microsoft.UI.Text;
-using Microsoft.UI.Xaml.Input;
+using Windows.Storage.Pickers;
 
 namespace Cyber_Vault.Views;
 
 public sealed partial class DocumentsPage : Page
 {
-    private int currentDocumentId = 0;
-    private int _selectedDocumentIndex = -1;
+    //private int currentDocumentId = 0;
+    //private int _selectedDocumentIndex = -1;
+    private int filesCount = 1;
+
     private readonly RadioButtons radioButtons = new()
     {
         Visibility = Visibility.Collapsed
@@ -93,30 +85,30 @@ public sealed partial class DocumentsPage : Page
         radioButtons.Items.Add(radioButton);
 
         // Create an Image and set its properties
-       /* if (url != null && url != string.Empty)
-        {
-            url = $"https://www.google.com/s2/favicons?domain={url}&sz=128";
-        }
-        else
-        {
-            url = "https://www.unsplash.com";
-        }
+        /* if (url != null && url != string.Empty)
+         {
+             url = $"https://www.google.com/s2/favicons?domain={url}&sz=128";
+         }
+         else
+         {
+             url = "https://www.unsplash.com";
+         }
 
-        var image = new Image
+         var image = new Image
+         {
+             Margin = new Thickness(12, 10, 10, 10),
+             Source = new BitmapImage(new Uri(url)),
+             Width = 35,
+             Height = 35
+         };*/
+        // create document icon
+        var image = new FontIcon
         {
+
+            Glyph = "\uE8A5",
+            FontSize = 35,
             Margin = new Thickness(12, 10, 10, 10),
-            Source = new BitmapImage(new Uri(url)),
-            Width = 35,
-            Height = 35
-        };*/
-       // create document icon
-       var image = new FontIcon
-       {
-       
-                  Glyph = "\uE8A5",
-                  FontSize = 35,
-                  Margin = new Thickness(12, 10, 10, 10),
-                  Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["SystemAccentColor"],
+            Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["SystemAccentColor"],
         };
 
 
@@ -176,9 +168,9 @@ public sealed partial class DocumentsPage : Page
                 {
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
-                    currentDocumentId = id ?? 0;
+                    //currentDocumentId = id ?? 0;
                     /*OTP_Ring.Value = 100;*/
-                   /* timer?.Dispose();*/
+                    /* timer?.Dispose();*/
                     documentContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     documentContainer.PointerEntered += (sender, e) =>
                     {
@@ -216,7 +208,7 @@ public sealed partial class DocumentsPage : Page
     private void RenderUserInterface(Document document)
     {
         Title_TextBox.Text = document.Title;
-        
+
     }
 
 
@@ -241,11 +233,96 @@ public sealed partial class DocumentsPage : Page
 
             foreach (var document in documents)
             {
-                
-                    AddDocumentInListView(document.Id, document.Title, document.Type);
-                
+
+                AddDocumentInListView(document.Id, document.Title, document.Type);
+
             }
         }
     }
 
+    private void AddDocument_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        AddDocumentContainer_Grid.Visibility = Visibility.Visible;
+        ViewDocument_Grid.Visibility = Visibility.Collapsed;
+    }
+
+    private void FileCountIncrease_Button_Click(object sender, RoutedEventArgs e)
+    {
+        filesCount += 1;
+
+        var newButton = new Button
+        {
+            Name = $"File{filesCount}_Button",
+            Width = 130,
+            Height = 40,
+            Margin = new Thickness(20, 8, 0, 0),
+            Content = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new FontIcon
+                    {
+                        FontSize = 17,
+                        Glyph = "\uE8E5",
+                    },
+                    new TextBlock
+                    {
+                        Margin = new Thickness(5,0,0,0),
+                        Text = "Browse File"
+                    }
+                }
+            }
+        };
+
+        FileSelectButtons_Container.Children.Add(newButton);
+        FileCountDecrease_Button.Visibility = Visibility.Visible;
+
+        FileCountIncrease_Button.Visibility = (filesCount >= 5) ? Visibility.Collapsed : Visibility.Visible;
+        FileCountDecrease_Button.Visibility = (filesCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
+
+    }
+
+    private void FileCountDecrease_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (FileSelectButtons_Container.Children.Count > 0)
+        {
+            filesCount -= 1;
+            FileSelectButtons_Container.Children.RemoveAt(FileSelectButtons_Container.Children.Count - 1);
+
+            FileCountIncrease_Button.Visibility = (filesCount >= 5) ? Visibility.Collapsed : Visibility.Visible;
+            FileCountDecrease_Button.Visibility = (filesCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
+
+    private async void File1_Button_Click(object sender, RoutedEventArgs e)
+    {
+        // Create a file picker
+        var openPicker = new FileOpenPicker();
+
+        // See the sample code below for how to make the window accessible from the App class.
+        var window = App.MainWindow;
+
+        // Retrieve the window handle (HWND) of the current WinUI 3 window.
+        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+
+        // Initialize the file picker with the window handle (HWND).
+        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+        // Set options for your file picker
+        openPicker.ViewMode = PickerViewMode.Thumbnail;
+        openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        openPicker.FileTypeFilter.Add(".jpg");
+        openPicker.FileTypeFilter.Add(".jpeg");
+        openPicker.FileTypeFilter.Add(".png");
+
+        // Open the picker for the user to pick a file
+        var file = await openPicker.PickSingleFileAsync();
+        if (file != null)
+        {
+            File1_Path.Text = file.Path;
+        }
+
+    }
 }

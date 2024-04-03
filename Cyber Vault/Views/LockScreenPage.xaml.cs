@@ -30,8 +30,6 @@ public sealed partial class LockScreenPage : Page
         AppTitleBarText.Text = "AppDisplayName".GetLocalized();
 
         _ = ActivationService.StartupAsync();
-        Login_Username_TextBox.Text = "farman";
-        Login_PasswordBox.Password = "farman123";
 
         if (CredentialsManager.CheckInDatabase())
         {
