@@ -6,7 +6,827 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-        
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Left Sidebar  -->
+        <Grid
+            Grid.Column="0"
+            MinWidth="320"
+            HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Header  -->
+                    <Grid Grid.Row="0">
+                        <Grid HorizontalAlignment="Left">
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Secure Notes" />
+                        </Grid>
+
+                        <StackPanel
+                            Margin="0,0,15,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+
+                            <!--  Filter Button  -->
+                            <Button
+                                x:Name="Filter_Button"
+                                Height="40"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                ToolTipService.Placement="Bottom"
+                                ToolTipService.ToolTip="Filter Notes">
+
+                                <Button.Content>
+                                    <FontIcon FontSize="17" Glyph="&#xE71C;" />
+                                </Button.Content>
+
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <!--  Filter By Secure Note Category  -->
+                                        <MenuFlyoutSubItem Text="Category">
+                                            <MenuFlyoutSubItem.Icon>
+                                                <FontIcon Glyph="&#xE8EC;" />
+                                            </MenuFlyoutSubItem.Icon>
+
+                                            <!--  Personal Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Personal_Filter" Text="Personal">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="G" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Work Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Work_Filter" Text="Work">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="M" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Finance Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Facebook_Filter" Text="Finance">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="F" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Health Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Instagram_Filter" Text="Health">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="R" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Education Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Twitter_Filter" Text="Education">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="T" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Travel Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Snapchat_Filter" Text="Travel">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="S" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <!--  Shopping Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Shopping_Filter" Text="Shopping">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="L" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+
+                                            <!--  Entertainment Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Entertainment_Filter" Text="Entertainment">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="L" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+
+                                            <!--  Miscellaneous Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Miscellaneous_Filter" Text="Miscellaneous">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="L" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSeparator />
+
+                                            <!--  Custom Category Filter  -->
+                                            <MenuFlyoutItem x:Name="Custom_Filter" Text="Custom">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="U" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyoutSubItem>
+
+                                        <!--  Filter By Date Added  -->
+                                        <MenuFlyoutSubItem Text="Date Added">
+                                            <MenuFlyoutSubItem.Icon>
+                                                <FontIcon Glyph="&#xED0E;" />
+                                            </MenuFlyoutSubItem.Icon>
+
+                                            <!--  Newest First (Date Added)  -->
+                                            <MenuFlyoutItem x:Name="Newest_DateAdded_Filter" Text="Newest First">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="N" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <MenuFlyoutSeparator />
+
+                                            <!--  Oldest First (Date Added)  -->
+                                            <MenuFlyoutItem x:Name="Oldest_DateAdded_Filter" Text="Oldest First">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="O" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyoutSubItem>
+
+                                        <!--  Filter By Date Modified  -->
+                                        <MenuFlyoutSubItem Text="Date Modified">
+                                            <MenuFlyoutSubItem.Icon>
+                                                <FontIcon Glyph="&#xEC92;" />
+                                            </MenuFlyoutSubItem.Icon>
+
+                                            <!--  Newest First (Date Modified)  -->
+                                            <MenuFlyoutItem x:Name="Newest_DateModified_Filter" Text="Newest First">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="K" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+
+                                            <MenuFlyoutSeparator />
+
+                                            <!--  Oldest First (Date Modified)  -->
+                                            <MenuFlyoutItem x:Name="Oldest_DateModified_Filter" Text="Oldest First">
+                                                <MenuFlyoutItem.KeyboardAccelerators>
+                                                    <KeyboardAccelerator Key="E" Modifiers="Control" />
+                                                </MenuFlyoutItem.KeyboardAccelerators>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyoutSubItem>
+
+                                        <MenuFlyoutSeparator />
+
+                                        <!--  Clear Filter  -->
+                                        <MenuFlyoutItem x:Name="Clear_Filter" Text="Clear Filter">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xECC9;" />
+                                            </MenuFlyoutItem.Icon>
+                                            <MenuFlyoutItem.KeyboardAccelerators>
+                                                <KeyboardAccelerator Key="D" Modifiers="Control" />
+                                            </MenuFlyoutItem.KeyboardAccelerators>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+
+                            <!--  Add Secure Note Button  -->
+                            <Button
+                                x:Name="AddSecureNote_Button"
+                                Height="40"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="AddSecureNote_Button_Click"
+                                ToolTipService.Placement="Bottom"
+                                ToolTipService.ToolTip="Add Secure Note">
+                                <FontIcon FontSize="19" Glyph="&#xF164;" />
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  Search Bar  -->
+                    <AutoSuggestBox
+                        x:Name="SearchBar"
+                        Grid.Row="1"
+                        Margin="0,20,20,0"
+                        KeyUp="SearchBar_KeyUp"
+                        PlaceholderText="Search Secure Notes"
+                        QueryIcon="Find" />
+
+                    <!--  Secure Notes ListView  -->
+                    <ScrollViewer
+                        x:Name="SecureNotes_ScrollViewer"
+                        Grid.Row="2"
+                        Width="320"
+                        Margin="0,20,0,10"
+                        Visibility="Collapsed">
+                        <StackPanel x:Name="SecureNotes_ListView" Orientation="Vertical">
+                            <!--  Item to be Added Dynamically by C# Code  -->
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Grid
+                        x:Name="NoSecureNotes_Grid"
+                        Grid.Row="2"
+                        Width="290"
+                        HorizontalAlignment="Left">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="19"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="No Secure Note!" />
+
+                    </Grid>
+
+                </Grid>
+                <Border
+                    Margin="0,0,0,10"
+                    BorderBrush="#1D1D1D"
+                    BorderThickness="0,0,1,0" />
+            </Grid>
+
+        </Grid>
+
+        <!--  Right Content (Add Secure Note)  -->
+        <Grid
+            x:Name="AddSecureNote_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  Header (Page Title & Save Button)  -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Page Title  -->
+                <TextBlock
+                    Grid.Column="0"
+                    Margin="20,0,0,0"
+                    FontSize="22"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="Add Secure Note" />
+
+                <!--  Save Button  -->
+                <Button
+                    x:Name="Save_Button"
+                    Grid.Column="2"
+                    Width="73"
+                    Click="Save_Button_Click"
+                    Style="{StaticResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                        <TextBlock
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="Save" />
+                    </StackPanel>
+                </Button>
+
+            </Grid>
+
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Orientation="Vertical">
+
+                    <!--  Title Container  -->
+                    <Grid x:Name="Title_Container" Margin="20,20,20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Title Textbox  -->
+                        <TextBox
+                            x:Name="Title_TextBox"
+                            Grid.Column="0"
+                            Margin="0,0,15,0"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="Finance Notes">
+                            <TextBox.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,4,0" Text="Enter Title" />
+                                    <FontIcon FontSize="13" Glyph="&#xE735;" />
+                                </StackPanel>
+                            </TextBox.Header>
+                        </TextBox>
+
+                        <!--  Title Info Button  -->
+                        <Button
+                            x:Name="TitleInfo_Button"
+                            Grid.Column="1"
+                            Height="35"
+                            VerticalAlignment="Bottom"
+                            BorderThickness="0"
+                            Click="TitleInfo_Button_Click">
+                            <Button.Content>
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="17"
+                                    Glyph="&#xE946;" />
+                            </Button.Content>
+                        </Button>
+
+                        <!--  Title Info TeachingTip  -->
+                        <TeachingTip
+                            x:Name="Title_TeachingTip"
+                            Title="Title Info"
+                            Subtitle="• Title must be at least 3 characters long &#x0a;• Title must not exceed 15 characters &#x0a;• Examples: &#x0a;&#x09; • Recipes &#x0a;&#x09; • Personal Finances &#x0a;&#x09; • Travel Plans &#x0a;&#x09; • Creative Ideas &#x0a;&#x09; • Fitness Goals"
+                            Target="{x:Bind TitleInfo_Button}" />
+                    </Grid>
+
+                    <!--  Category Container  -->
+                    <Grid x:Name="Category_Container" Margin="20,20,20,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Category ComboBox  -->
+                            <ComboBox
+                                x:Name="Category_ComboBox"
+                                Grid.Column="0"
+                                MinWidth="391"
+                                Margin="0,0,15,0"
+                                PlaceholderText="Select Category"
+                                SelectedIndex="9"
+                                SelectionChanged="Category_ComboBox_SelectionChanged">
+                                <x:String>Personal</x:String>
+                                <x:String>Work</x:String>
+                                <x:String>Finance</x:String>
+                                <x:String>Health</x:String>
+                                <x:String>Education</x:String>
+                                <x:String>Travel</x:String>
+                                <x:String>Shopping</x:String>
+                                <x:String>Entertainment</x:String>
+                                <x:String>Miscellaneous</x:String>
+                                <x:String>Custom</x:String>
+
+                                <ComboBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,4,0" Text="Select Category" />
+                                        <FontIcon FontSize="13" Glyph="&#xE735;" />
+                                    </StackPanel>
+                                </ComboBox.Header>
+                            </ComboBox>
+
+                            <!--  Category Info Button  -->
+                            <Button
+                                x:Name="CategoryInfo_Button"
+                                Grid.Column="1"
+                                Height="35"
+                                VerticalAlignment="Bottom"
+                                BorderThickness="0"
+                                Click="CategoryInfo_Button_Click">
+                                <Button.Content>
+                                    <FontIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="17"
+                                        Glyph="&#xE946;" />
+                                </Button.Content>
+                            </Button>
+
+                            <!--  Category Info TeachingTip  -->
+                            <TeachingTip
+                                x:Name="Category_TeachingTip"
+                                Title="Category Info"
+                                Subtitle="• Categories help to filter notes easily &#x0a;• Select a category for your secure note &#x0a;• Examples: &#x0a;&#x09; • Personal &#x0a;&#x09; • Work &#x0a;&#x09; • Finance &#x0a;&#x09; • Health &#x0a;&#x09; • Education &#x0a;&#x09; • Travel &#x0a;&#x09; • Shopping &#x0a;&#x09; • Entertainment &#x0a;&#x09; • Miscellaneous"
+                                Target="{x:Bind CategoryInfo_Button}" />
+                        </Grid>
+
+                        <Grid
+                            x:Name="CustomCategory_Container"
+                            Grid.Row="1"
+                            Margin="0,20,0,0"
+                            Visibility="Visible">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Custom Category Textbox  -->
+                            <TextBox
+                                x:Name="CustomCategory_TextBox"
+                                Grid.Column="0"
+                                Margin="0,0,15,0"
+                                IsSpellCheckEnabled="False"
+                                PlaceholderText="Wi-Fi Passwords">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Custom Category" />
+                                        <FontIcon FontSize="13" Glyph="&#xE735;" />
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+
+                            <!--  Custom Category Info Button  -->
+                            <Button
+                                x:Name="CustomCategoryInfo_Button"
+                                Grid.Column="1"
+                                Height="35"
+                                VerticalAlignment="Bottom"
+                                BorderThickness="0"
+                                Click="CustomCategoryInfo_Button_Click">
+                                <Button.Content>
+                                    <FontIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="17"
+                                        Glyph="&#xE946;" />
+                                </Button.Content>
+                            </Button>
+
+                            <!--  Custom Category Info TeachingTip  -->
+                            <TeachingTip
+                                x:Name="CustomCategory_TeachingTip"
+                                Title="Custom Category Info"
+                                Subtitle="• Category must have at least 3 characters &#x0a;• Category must not exceed 15 characters"
+                                Target="{x:Bind CustomCategoryInfo_Button}" />
+                        </Grid>
+                    </Grid>
+
+                    <!--  Tags Container  -->
+                    <Grid x:Name="Tags_Container" Margin="20,20,20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Tag1 TextBox  -->
+                        <TextBox
+                            x:Name="Tag1_TextBox"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="#Meetings">
+                            <TextBox.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,4,0" Text="Enter Tags" />
+                                    <FontIcon FontSize="13" Glyph="&#xE734;" />
+                                </StackPanel>
+                            </TextBox.Header>
+                        </TextBox>
+
+                        <!--  Tag2 TextBox  -->
+                        <TextBox
+                            x:Name="Tag2_TextBox"
+                            Grid.Column="1"
+                            Height="30"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Bottom"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="#Important" />
+
+                        <!--  Tag3 TextBox  -->
+                        <TextBox
+                            x:Name="Tag3_TextBox"
+                            Grid.Column="2"
+                            Height="30"
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Bottom"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="#Reminders" />
+
+                        <!--  Tag4 TextBox  -->
+                        <TextBox
+                            x:Name="Tag4_TextBox"
+                            Grid.Column="3"
+                            Height="30"
+                            Margin="0,0,14,0"
+                            VerticalAlignment="Bottom"
+                            IsSpellCheckEnabled="False"
+                            PlaceholderText="#Projects" />
+
+                        <!--  Tags Info Button  -->
+                        <Button
+                            x:Name="TagsInfo_Button"
+                            Grid.Column="4"
+                            Height="35"
+                            VerticalAlignment="Bottom"
+                            BorderThickness="0"
+                            Click="TagsInfo_Button_Click">
+                            <Button.Content>
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="17"
+                                    Glyph="&#xE946;" />
+                            </Button.Content>
+                        </Button>
+
+                        <!--  Tags Info TeachingTip  -->
+                        <TeachingTip
+                            x:Name="TagsInfo_TeachingTip"
+                            Title="Tags Info"
+                            Subtitle="• Tags make searching for notes easier &#x0a;• Tag must start with # (Hashtag)  &#x0a;• Tag cannot contain spaces &#x0a;• Tag can only contain alphabets &#x0a;• Tag must be at least 3 characters long &#x0a;• Tag must not exceed 10 characters  &#x0a;• Examples: &#x0a;&#x09; • #Important &#x0a;&#x09; • #Reminders &#x0a;&#x09; • #Meetings &#x0a;&#x09; • #Projects"
+                            Target="{x:Bind TagsInfo_Button}" />
+                    </Grid>
+
+                    <!--  Notes Container  -->
+                    <Grid Margin="20,20,20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <RelativePanel
+                            Grid.Column="0"
+                            Margin="0,0,15,20"
+                            HorizontalAlignment="Stretch">
+                            <RelativePanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                </Style>
+                            </RelativePanel.Resources>
+
+                            <!--  Notes RichEditBox  -->
+                            <RichEditBox
+                                x:Name="editor"
+                                Height="255"
+                                AutomationProperties.Name="Custom editor"
+                                GotFocus="Editor_GotFocus"
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignRightWithPanel="True">
+                                <RichEditBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Notes" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
+                                    </StackPanel>
+                                </RichEditBox.Header>
+                            </RichEditBox>
+
+                        </RelativePanel>
+
+                        <!--  Notes Info Button  -->
+                        <Button
+                            x:Name="NotesInfo_Button"
+                            Grid.Column="1"
+                            Height="35"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            Click="NotesInfo_Button_Click">
+                            <Button.Content>
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="17"
+                                    Glyph="&#xE946;" />
+                            </Button.Content>
+                        </Button>
+
+                        <!--  Notes Info TeachingTip  -->
+                        <TeachingTip
+                            x:Name="Notes_TeachingTip"
+                            Title="Notes Info"
+                            Subtitle="• Ctrl + I --&gt; Italic Selected Text &#x0a;• Ctrl + B --&gt; Bold Selected Text &#x0a;• Ctrl + U --&gt; Underline Selected Text"
+                            Target="{x:Bind NotesInfo_Button}" />
+
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+
+        <!--  Right Content (Select to View)  -->
+        <Grid x:Name="ErrorContainer_Grid" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <Image
+                        Width="288"
+                        Height="277"
+                        Source="/Assets/select.png" />
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="Select Any Note to View Here" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+        <!--  Right Content (View Secure Note)  -->
+        <Grid
+            x:Name="ViewSecureNote_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  Header (Page Title & Edit Button, Delete Button)  -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Page Title  -->
+                <TextBlock
+                    x:Name="Title_TextBlock"
+                    Grid.Column="0"
+                    Margin="20,10,0,0"
+                    FontSize="22"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="Travel Plans" />
+
+                <!--  Save Button  -->
+                <Button
+                    x:Name="Update_Button"
+                    Grid.Column="2"
+                    Width="90"
+                    Click="Update_Button_Click"
+                    Style="{StaticResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                        <TextBlock
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="Update" />
+                    </StackPanel>
+                </Button>
+
+
+            </Grid>
+
+            <Border
+                Margin="0,20,0,0"
+                BorderBrush="#1D1D1D"
+                BorderThickness="0,0,0,1" />
+
+            <!--  Category and Tags Container  -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Category Container  -->
+                <StackPanel
+                    x:Name="CategoryView_Container"
+                    Grid.Row="0"
+                    Margin="0,10,0,0"
+                    Orientation="Vertical">
+                    <!--  Category Header  -->
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        FontSize="17"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="Category" />
+
+                    <!--  Category TextBlock  -->
+                    <RichTextBlock
+                        x:Name="Category_TextBlock"
+                        Grid.Column="0"
+                        Margin="20,15,0,0"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Opacity="0.9">
+                        <Paragraph>
+                            <Bold>
+                                <Run x:Name="Category_Text" Text="Travel" />
+                            </Bold>
+                        </Paragraph>
+                    </RichTextBlock>
+
+                    <Border
+                        Margin="0,20,0,0"
+                        BorderBrush="#1D1D1D"
+                        BorderThickness="0,0,0,1" />
+                </StackPanel>
+
+                <!--  Tags  -->
+                <StackPanel
+                    x:Name="TagsView_Container"
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    Orientation="Vertical">
+                    <!--  Tags Header  -->
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        FontSize="17"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        Text="Tags" />
+
+                    <!--  Tags Grid  -->
+                    <Grid x:Name="Tags_Grid" Margin="20,15,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Tag1 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag1_TextBlock"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                        <!--  Tag2 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag2_TextBlock"
+                            Grid.Column="1"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                        <!--  Tag3 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag3_TextBlock"
+                            Grid.Column="2"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                        <!--  Tag4 TextBlock  -->
+                        <TextBlock
+                            x:Name="Tag4_TextBlock"
+                            Grid.Column="3"
+                            Margin="0,0,5,0"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Opacity="0.9" />
+
+                    </Grid>
+
+                    <Border
+                        Margin="0,20,0,0"
+                        BorderBrush="#1D1D1D"
+                        BorderThickness="0,0,0,1" />
+                </StackPanel>
+            </Grid>
+
+            <!--  Notes Container  -->
+            <Grid
+                x:Name="NotesView_Container"
+                Grid.Row="2"
+                Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Notes Header  -->
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="20,0,0,0"
+                    FontSize="17"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}"
+                    Text="Notes" />
+
+                <!--  Notes RichEditBox  -->
+                <RichEditBox
+                    x:Name="editorView"
+                    Grid.Row="1"
+                    Margin="20,15,0,20"
+                    AutomationProperties.Name="Custom editor"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True" />
+
+            </Grid>
+
+        </Grid>
     </Grid>
 </Page>
