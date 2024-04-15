@@ -589,6 +589,22 @@ public sealed partial class SecureNotesPage : Page
 
     private void Update_Button_Click(object sender, RoutedEventArgs e)
     {
+        ErrorContainer_Grid.Visibility = Visibility.Collapsed;
+        AddSecureNote_Grid.Visibility = Visibility.Collapsed;
+        ViewSecureNote_Grid.Visibility = Visibility.Visible;
 
+        var note = GetInputObject();
+
+        if (note == null)
+        {
+            return;
+        }
+
+        note.Id = currentSecureNoteId;
+
+        SecureNoteDL.UpdateSecureNote(note);
+        SecureNoteDB.UpdateSecureNoteInDatabase(note);
+
+        RenderUserInterface(note);
     }
 }
