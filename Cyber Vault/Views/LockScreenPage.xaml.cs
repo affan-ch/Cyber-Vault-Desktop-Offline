@@ -31,8 +31,10 @@ public sealed partial class LockScreenPage : Page
 
         _ = ActivationService.StartupAsync();
 
+        Login_Username_TextBox.Text = "umer123";
+        Login_PasswordBox.Password = "Umerfarooq*123";
 
-        if(CredentialsManager.CheckInDatabase())
+        if (CredentialsManager.CheckInDatabase())
         {
             Login_StackPanel.Visibility = Visibility.Visible;
             if(CredentialsManager.GetUsernameFromMemory() != null) {
@@ -89,6 +91,7 @@ public sealed partial class LockScreenPage : Page
         CredentialsManager.StorePasswordInMemory(Login_PasswordBox.Password);
         AccountDL.LoadAccountsFromDatabase();
         BackupCodeDL.LoadBackupCodesFromDatabase();
+        CreditCardDL.LoadCreditCardsFromDatabase();
 
         UIElement? _shell = App.GetService<ShellPage>();
         App.MainWindow.Content = _shell ?? new Frame();

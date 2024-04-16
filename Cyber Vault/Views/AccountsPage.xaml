@@ -22,33 +22,33 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <!-- Header -->
                     <Grid Grid.Row="0">
-						<Grid HorizontalAlignment="Left">
-							<TextBlock Text="Accounts" Style="{ThemeResource TitleTextBlockStyle}" />
-						</Grid>
+                        <Grid HorizontalAlignment="Left">
+                            <TextBlock Text="Accounts" Style="{ThemeResource TitleTextBlockStyle}" />
+                        </Grid>
 
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
-							<!-- Filter Button -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
+                            <!-- Filter Button -->
                             <Button x:Name="Filter_Button" 
                                     Background="Transparent"
                                     ToolTipService.ToolTip="Filter Accounts"
                                     ToolTipService.Placement="Bottom"
                                     BorderThickness="0" 
                                     Height="40">
-                               
+
                                 <Button.Content>
                                     <FontIcon Glyph="&#xE71C;" FontSize="17"/>
                                 </Button.Content>
-                                
+
                                 <Button.Flyout>
                                     <MenuFlyout>
                                         <!-- Account Type -->
@@ -56,42 +56,42 @@
                                             <MenuFlyoutSubItem.Icon>
                                                 <FontIcon Glyph="&#xE774;"/>
                                             </MenuFlyoutSubItem.Icon>
-                                            
+
                                             <!-- Google Filter -->
                                             <MenuFlyoutItem x:Name="Google_Filter" Text="Google" Click="Google_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="G" Modifiers="Control"/>
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <!-- Microsoft Filter -->
                                             <MenuFlyoutItem x:Name="Microsoft_Filter" Text="Microsoft" Click="Microsoft_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="M" Modifiers="Control"/>
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <!-- Facebook Filter -->
                                             <MenuFlyoutItem x:Name="Facebook_Filter" Text="Facebook" Click="Facebook_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="F" Modifiers="Control"/>
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <!-- Instagram Filter -->
                                             <MenuFlyoutItem x:Name="Instagram_Filter" Text="Instagram" Click="Instagram_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="R" Modifiers="Control"/>
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <!-- Twitter Filter -->
                                             <MenuFlyoutItem x:Name="Twitter_Filter" Text="Twitter" Click="Twitter_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="T" Modifiers="Control"/>
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <!-- Snapchat Filter -->
                                             <MenuFlyoutItem x:Name="Snapchat_Filter" Text="Snapchat" Click="Snapchat_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
@@ -106,7 +106,7 @@
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutSeparator/>
-                                            
+
                                             <!-- Custom Filter -->
                                             <MenuFlyoutItem x:Name="Custom_Filter" Text="Custom" Click="Custom_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
@@ -120,16 +120,16 @@
                                             <MenuFlyoutSubItem.Icon>
                                                 <FontIcon Glyph="&#xED0E;" />
                                             </MenuFlyoutSubItem.Icon>
-                                            
+
                                             <!-- Newest First (Date Added) -->
                                             <MenuFlyoutItem x:Name="Newest_DateAdded_Filter" Text="Newest First" Click="Newest_DateAdded_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="N" Modifiers="Control"/>
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <MenuFlyoutSeparator/>
-                                            
+
                                             <!-- Oldest First (Date Added) -->
                                             <MenuFlyoutItem x:Name="Oldest_DateAdded_Filter" Text="Oldest First" Click="Oldest_DateAdded_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
@@ -143,16 +143,16 @@
                                             <MenuFlyoutSubItem.Icon>
                                                 <FontIcon Glyph="&#xEC92;" />
                                             </MenuFlyoutSubItem.Icon>
-                                            
+
                                             <!-- Newest First (Date Modified) -->
                                             <MenuFlyoutItem x:Name="Newest_DateModified_Filter" Text="Newest First" Click="Newest_DateModified_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
                                                     <KeyboardAccelerator Key="K" Modifiers="Control" />
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
-                                            
+
                                             <MenuFlyoutSeparator/>
-                                            
+
                                             <!-- Oldest First (Date Modified) -->
                                             <MenuFlyoutItem x:Name="Oldest_DateModified_Filter" Text="Oldest First" Click="Oldest_DateModified_Filter_Click">
                                                 <MenuFlyoutItem.KeyboardAccelerators>
@@ -160,7 +160,7 @@
                                                 </MenuFlyoutItem.KeyboardAccelerators>
                                             </MenuFlyoutItem>
                                         </MenuFlyoutSubItem>
-                                        
+
                                         <!-- Authenticator -->
                                         <MenuFlyoutItem x:Name="Authenticator_Filter" Text="Authenticator" Click="Authenticator_Filter_Click">
                                             <MenuFlyoutItem.Icon>
@@ -170,9 +170,9 @@
                                                 <KeyboardAccelerator Key="P" Modifiers="Control"/>
                                             </MenuFlyoutItem.KeyboardAccelerators>
                                         </MenuFlyoutItem>
-                                        
+
                                         <MenuFlyoutSeparator/>
-                                        
+
                                         <!-- Clear Filter -->
                                         <MenuFlyoutItem x:Name="Clear_Filter" Text="Clear Filter" Click="Clear_Filter_Click">
                                             <MenuFlyoutItem.Icon>
@@ -185,7 +185,6 @@
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>
-
                             <!-- Add Account Button -->
                             <Button x:Name="AddAccount_Button"
                                     Click="AddAccount_Button_Click"
@@ -196,33 +195,29 @@
                                     Height="40" >
                                 <FontIcon Glyph="&#xF164;" FontSize="19" />
                             </Button>
-
                         </StackPanel>
-					</Grid>
-                    
+                    </Grid>
+
                     <!-- Search Bar -->
                     <AutoSuggestBox x:Name="SearchBar" KeyUp="SearchBar_KeyDown" Grid.Row="1" PlaceholderText="Search Accounts" QueryIcon="Find" Margin="0,20,20,0"/>
 
-					<!-- Accounts ListView -->
+                    <!-- Accounts ListView -->
                     <ScrollViewer x:Name="Accounts_ScrollViewer" Grid.Row="2" Width="320" Margin="0,20,0,10" Visibility="Collapsed">
                         <StackPanel x:Name="AccountsListView"  Orientation="Vertical">
-                           <!-- Item to be Added Dynamically by C# Code -->
+                            <!-- Item to be Added Dynamically by C# Code -->
                         </StackPanel>
                     </ScrollViewer>
-
                     <Grid x:Name="NoAccounts_Grid" Grid.Row="2" Width="290" HorizontalAlignment="Left">
                         <TextBlock Text="No Accounts !" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                    Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="19"/>
 
                     </Grid>
-
                 </Grid>
-				<Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
-			</Grid>
+                <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
+            </Grid>
 
-		</Grid>
+        </Grid>
 
-        
         <!-- Right Content (Add Account) -->
         <Grid x:Name="AddAccountContainer_Grid" Grid.Column="1" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
@@ -266,8 +261,8 @@
                                     </StackPanel>
                                 </ComboBox.Header>
                             </ComboBox>
-                            
-                            
+
+
                             <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
 
                         </StackPanel>
@@ -373,7 +368,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <!-- Password TextBox -->
                                     <PasswordBox x:Name="Password_TextBox"
                                         PlaceholderText="pass123$" 
@@ -447,17 +442,17 @@
                 <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
             </Grid>
 
-            
+
             <!-- Right Second -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid Grid.Row="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,20">
-                        
+
                         <!-- Save Button -->
                         <Button x:Name="Save_Button" Style="{StaticResource AccentButtonStyle}" Width="73" Click="Save_Button_Click">
                             <StackPanel Orientation="Horizontal">
@@ -487,7 +482,7 @@
                         </Button>
                     </StackPanel>
                 </Grid>
-                
+
                 <Grid Grid.Row="1">
                     <ScrollViewer Margin="0,0,5,20">
                         <StackPanel Orientation="Vertical">
@@ -495,12 +490,12 @@
 
                             <!-- Recovery Info -->
                             <Grid Grid.Row="0">
-                               <TextBlock Text="Recovery Info" 
+                                <TextBlock Text="Recovery Info" 
                                Style="{ThemeResource BodyStrongTextBlockStyle}" 
                                FontSize="17" 
                                Margin="20,10,0,15"/>
                             </Grid>
-                            
+
                             <!-- Recovery Email -->
                             <TextBox x:Name="RecoveryEmail_TextBox"
                                 IsSpellCheckEnabled="False"
@@ -570,7 +565,7 @@
                                     <FontIcon Glyph="&#xE8A7;" />
                                 </Button>
                             </Grid>
-                           
+
 
                             <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,10,0"/>
 
@@ -611,13 +606,9 @@
                                         Width="40">
                                         <FontIcon Glyph="&#xECC8;" FontSize="17" />
                                     </Button>
-
                                 </StackPanel>
-                                
                             </Grid>
-
                             <StackPanel x:Name="BackupCodes_StackPanel" Orientation="Vertical">
-
                                 <TextBox x:Name="BackupCode1_TextBox"
                                     IsSpellCheckEnabled="False"
                                     PlaceholderText="123987" 
@@ -629,18 +620,12 @@
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
-                                
                             </StackPanel>
-
-
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
-                
             </Grid>
         </Grid>
-		
-        
         <!-- Right Content (Select to View) -->
         <Grid x:Name="ErrorContainer_Grid" Grid.Column="1">
             <Grid.ColumnDefinitions>

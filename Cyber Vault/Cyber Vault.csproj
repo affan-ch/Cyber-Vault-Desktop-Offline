@@ -25,6 +25,7 @@
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\card.png" />
     <None Remove="Assets\cyber-vault-icon.png" />
     <None Remove="Assets\Righteous-Regular.ttf" />
     <None Remove="Assets\select.png" />
