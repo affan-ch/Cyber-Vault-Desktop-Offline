@@ -31,13 +31,12 @@ public sealed partial class LockScreenPage : Page
 
         _ = ActivationService.StartupAsync();
 
-        Login_Username_TextBox.Text = "umer123";
-        Login_PasswordBox.Password = "Umerfarooq*123";
 
         if (CredentialsManager.CheckInDatabase())
         {
             Login_StackPanel.Visibility = Visibility.Visible;
-            if(CredentialsManager.GetUsernameFromMemory() != null) {
+            if (CredentialsManager.GetUsernameFromMemory() != null)
+            {
                 var ptr = IntPtr.Zero;
                 try
                 {
@@ -49,7 +48,7 @@ public sealed partial class LockScreenPage : Page
                 {
                     Marshal.ZeroFreeGlobalAllocUnicode(ptr);
                 }
-                
+
             }
         }
         else
@@ -57,7 +56,7 @@ public sealed partial class LockScreenPage : Page
             Signup_StackPanel.Visibility = Visibility.Visible;
         }
 
-        
+
     }
 
     private async void Login_Button_Click(object _, RoutedEventArgs e)
@@ -93,9 +92,13 @@ public sealed partial class LockScreenPage : Page
         BackupCodeDL.LoadBackupCodesFromDatabase();
         CreditCardDL.LoadCreditCardsFromDatabase();
 
+        DocumentDL.LoadDocumentsFromDatabase();
+        SecureNoteDL.LoadSecureNotesFromDatabase();
+
+
         UIElement? _shell = App.GetService<ShellPage>();
         App.MainWindow.Content = _shell ?? new Frame();
-        
+
         await ActivationService.StartupAsync();
     }
 

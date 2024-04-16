@@ -25,7 +25,10 @@
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
+
     <None Remove="Assets\card.png" />
+    <None Remove="AccountThumbSelect.xaml" />
+
     <None Remove="Assets\cyber-vault-icon.png" />
     <None Remove="Assets\Righteous-Regular.ttf" />
     <None Remove="Assets\select.png" />
@@ -51,6 +54,9 @@
     <ProjectReference Include="..\Cyber Vault.Core\Cyber Vault.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AccountThumbSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

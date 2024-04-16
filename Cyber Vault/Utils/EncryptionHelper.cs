@@ -66,4 +66,40 @@ internal class EncryptionHelper
         return srDecrypt.ReadToEnd();
     }
 
+    public static byte[]? DocumentEncrypt(byte[] data, string pin)
+    {
+        if ( data == null || pin == string.Empty || pin == null)
+        {
+            return null;
+        }
+        using var aesAlg = Aes.Create();
+        aesAlg.KeySize = 256; // Set the key size explicitly for AES-256
+        aesAlg.BlockSize = 128; // Set the block size explicitly
+        aesAlg.Key = Encoding.UTF8.GetBytes(pin.PadRight(32, '0')[..32]); // Use a 32-byte key for AES-256
+
+        aesAlg.GenerateIV();
+        var iv = aesAlg.IV;
+
+        aesAlg.Mode = CipherMode.CFB; // Cipher Feedback Mode
+        aesAlg.Padding = PaddingMode.None; // No padding
+
+        var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, iv);
+
+        using var msEncrypt = new MemoryStream();
+        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+        using (var swEncrypt = new StreamWriter(csEncrypt))
+        {
+            swEncrypt.Write(data);
+        }
+
+        // Concatenate IV and ciphertext
+
+        var ivAndCiphertext = iv.Concat(msEncrypt.ToArray()).ToArray();
+        return ivAndCiphertext;
+       
+    }
+
+
+
+
 }

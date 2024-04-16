@@ -70,17 +70,17 @@ internal class AccountDL
     
         using var reader = command.ExecuteReader();
 
-        while (reader.Read())
-        {
-            var UsernamePtr = IntPtr.Zero;
-            var PasswordPtr = IntPtr.Zero;
-            try
-            {
-                UsernamePtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
-                PasswordPtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetPasswordFromMemory()!);
-                var username = Marshal.PtrToStringUni(UsernamePtr);
-                var password = Marshal.PtrToStringUni(PasswordPtr);
+        var UsernamePtr = IntPtr.Zero;
+        var PasswordPtr = IntPtr.Zero;
+        try
+        {        
+            UsernamePtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetUsernameFromMemory()!);
+            PasswordPtr = Marshal.SecureStringToGlobalAllocUnicode(CredentialsManager.GetPasswordFromMemory()!);
+            var username = Marshal.PtrToStringUni(UsernamePtr);
+            var password = Marshal.PtrToStringUni(PasswordPtr);
 
+            while (reader.Read())
+            {
                 var account = new Account
                 (
                     Id: int.Parse(reader["Id"].ToString() ?? "0"),
@@ -103,13 +103,11 @@ internal class AccountDL
                 );
                 accounts.Add(account);
             }
-            finally
-            {
-                Marshal.ZeroFreeGlobalAllocUnicode(UsernamePtr);
-                Marshal.ZeroFreeGlobalAllocUnicode(PasswordPtr);
-            }
-
-
+        }
+        finally
+        {        
+             Marshal.ZeroFreeGlobalAllocUnicode(UsernamePtr);
+             Marshal.ZeroFreeGlobalAllocUnicode(PasswordPtr);
         }
 
         connection.Close();

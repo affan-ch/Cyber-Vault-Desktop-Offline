@@ -16,7 +16,6 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Input;
 
-
 namespace Cyber_Vault.Views;
 
 public sealed partial class AccountsPage : Page
@@ -47,6 +46,8 @@ public sealed partial class AccountsPage : Page
     private void AddAccountInListView(int? id, string? url, string? title, string? subtitle)
     {
         NoAccounts_Grid.Visibility = Visibility.Collapsed;
+        AccountsListView.Visibility = Visibility.Visible;
+        Accounts_ScrollViewer.Visibility = Visibility.Visible;
 
         // Create a new StackPanel dynamically
         var accountContainer = new Grid
@@ -106,7 +107,7 @@ public sealed partial class AccountsPage : Page
         else
         {
             url = "https://www.unsplash.com";
-        }    
+        }
         
         var image = new Image
         {
@@ -115,6 +116,19 @@ public sealed partial class AccountsPage : Page
             Width = 35,
             Height = 35
         };
+
+        var account = AccountDL.GetAccountById(id ?? 0);
+        if (account != null)
+        {
+            if (!string.IsNullOrEmpty(account.Domain))
+            {
+                var ThumbPath = AccountThumbsDB.GetThumbPath(account.Domain);
+                if (!string.IsNullOrEmpty(ThumbPath))
+                {
+                    image.Source = new BitmapImage(new Uri(ThumbPath));
+                }   
+            }
+        }
 
         // Create the inner StackPanel
         var innerStackPanel = new StackPanel
@@ -497,11 +511,13 @@ public sealed partial class AccountsPage : Page
             {
                 Title_TextBox.Visibility = Visibility.Visible;
                 Domain_TextBox.Visibility = Visibility.Visible;
+                SelectThumbnail_Button.Visibility = Visibility.Visible;
             }
             else
             {
                 Title_TextBox.Visibility = Visibility.Collapsed;
                 Domain_TextBox.Visibility = Visibility.Collapsed;
+                SelectThumbnail_Button.Visibility = Visibility.Collapsed;
             }
         } 
     }
@@ -531,6 +547,15 @@ public sealed partial class AccountsPage : Page
         if(account == null)
         {        
             return;
+        }
+
+        if (!string.IsNullOrEmpty(account.Domain))
+        {
+            if(!AccountThumbsDB.IsThumbExist(account.Domain))
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Please add a thumb for this domain!");
+                return;
+            }
         }
 
         AccountDL.AddAccount(account);
@@ -2364,6 +2389,20 @@ public sealed partial class AccountsPage : Page
             }
         }
         
+    }
+
+    private void SelectThumbnail_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var window = new AccountThumbSelect
+        {
+            Domain = Domain_TextBox.Text
+        };
+        window.Show();
+
+        GotFocus += (sender, e) =>
+        {
+            window.Close();
+        };
     }
 
 }
