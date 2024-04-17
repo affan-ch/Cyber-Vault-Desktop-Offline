@@ -1,8 +1,6 @@
 ﻿using Cyber_Vault.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Controls.AnimatedVisuals;
 using Cyber_Vault.BL;
 using Cyber_Vault.DL;
 using Cyber_Vault.DB;
@@ -32,10 +30,10 @@ public sealed partial class CreditCardsPage : Page
         ViewModel = App.GetService<CreditCardsViewModel>();
         InitializeComponent();
         RefreshCreditCardsListView();
-
     }
 
-    // Refresh Credit Cards List View
+
+    // Refresh Credit Cards List View (Left Sidebar)
     public void RefreshCreditCardsListView()
     {
         CreditCardsListView.Children.Clear();
@@ -55,14 +53,13 @@ public sealed partial class CreditCardsPage : Page
 
             foreach (var card in creditCards)
             {
-                
                 AddCreditCardInListView(card.Id, card.CardIssuer, card.CardNumber);
-                
             }
         }
     }
 
-    // Add Credit Cards In List View
+
+    // Add Credit Cards In List View (Left Sidebar)
     private void AddCreditCardInListView(int? id, string? title, string? subtitle)
     {
         NoCreditCards_Grid.Visibility = Visibility.Collapsed;
@@ -169,7 +166,6 @@ public sealed partial class CreditCardsPage : Page
         Grid.SetColumn(innerStackPanel, 1);
         Grid.SetColumn(fontIcon, 3);
 
-        // Add the Image, inner StackPanel, and FontIcon to the dynamic StackPanel
         creditcardContainer.Children.Add(image);
         creditcardContainer.Children.Add(innerStackPanel);
         creditcardContainer.Children.Add(fontIcon);
@@ -216,11 +212,12 @@ public sealed partial class CreditCardsPage : Page
         CreditCardsListView.Children.Add(creditcardContainer);
     }
 
-    // Add Credit Card Button
+
+    // Open Add Credit Card Page Button (Left Sidebar)
     private void AddCreditCard_Button_Click(object sender, RoutedEventArgs e)
     {
-        AddCreditCardContainer_Grid.Visibility = Visibility.Visible;
         ClearFields();
+        AddCreditCardContainer_Grid.Visibility = Visibility.Visible;
         Save_Button.Visibility = Visibility.Visible;
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
         ViewCreditCard_Grid.Visibility = Visibility.Collapsed;
@@ -231,7 +228,9 @@ public sealed partial class CreditCardsPage : Page
             rb.IsChecked = false;
         }
     }
-    // Saving All the Data
+
+
+    // Save Button (Add Credit Card Page)
     private void Save_Button_Click(object sender, RoutedEventArgs e)
     {
         var creditcard = GetInputCard();
@@ -240,16 +239,15 @@ public sealed partial class CreditCardsPage : Page
             return;
         }
 
-        AddCreditCardInListView(creditcard.Id, creditcard.CardIssuer, creditcard.CardNumber);
-        
-
         CreditCardDL.AddCreditCard(creditcard);
         CreditCardDB.StoreCreditCard(creditcard);
-        ClearFields();
         MessageDialogHelper.ShowMessageDialog(XamlRoot, "Success", "Credit Card added successfully!");
+        RefreshCreditCardsListView();
+        ClearFields();
     }
 
-    // Fill all the data in the fields
+
+    // Fill Values in all Fields (View Credit Card Page)
     private void RenderUserInterface(CreditCard creditcard)
     {
 
@@ -424,7 +422,8 @@ public sealed partial class CreditCardsPage : Page
 
     }
 
-    //Updating The record
+
+    // Update Button (Update Credit Card Page)
     private void Update_Button_Click(object sender, RoutedEventArgs e)
     {
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
@@ -446,6 +445,8 @@ public sealed partial class CreditCardsPage : Page
         RenderUserInterface(creditcard);
     }
 
+
+    // Search TextBox (Left Sidebar)
     private void SearchBar_KeyDown(object sender, KeyRoutedEventArgs e)
     {
         if (SearchBar.Text == string.Empty)
@@ -496,6 +497,8 @@ public sealed partial class CreditCardsPage : Page
         }
     }
 
+
+    // Modify Button (View Credit Card Page)
     private void Modify_Button_Click(object sender, RoutedEventArgs e)
     {
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
@@ -503,6 +506,7 @@ public sealed partial class CreditCardsPage : Page
         ViewCreditCard_Grid.Visibility = Visibility.Collapsed;
         Save_Button.Visibility = Visibility.Collapsed;
         Update_Button.Visibility = Visibility.Visible;
+        AddUpdatePageTitle_TextBlock.Text = "Update Credit Card Record";
 
         var creditcard = CreditCardDL.GetCreditCardById(currentcreditcardId);
 
@@ -528,23 +532,24 @@ public sealed partial class CreditCardsPage : Page
 
     }
 
-    //Deleting The Card
-    private async void  Delete_Button_Click(object sender, RoutedEventArgs e)
-    {
-    var dialog = new ContentDialog
-    {
-        XamlRoot = XamlRoot,
-        Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-        Title = "Confirm deletion?",
-        PrimaryButtonText = "Delete",
-        CloseButtonText = "Cancel",
-        DefaultButton = ContentDialogButton.Primary,
-        Content = "Are you sure you want to delete this record? This action cannot be undone and whole record will be permanently removed. Please confirm by typing 'DELETE' to proceed or 'CANCEL' to abort."
-    };
 
-    var result = await dialog.ShowAsync();
+    // Delete Button (View Credit Card Page)
+    private async void Delete_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Title = "Confirm deletion?",
+            PrimaryButtonText = "Delete",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = "Are you sure you want to delete this record? This action cannot be undone and whole record will be permanently removed. Please confirm by typing 'DELETE' to proceed or 'CANCEL' to abort."
+        };
 
-        if(result.ToString() == "Primary")
+        var result = await dialog.ShowAsync();
+
+        if (result.ToString() == "Primary")
         {
             CreditCardDL.DeleteCreditCard(currentcreditcardId);
             CreditCardDB.DeleteCreditCard(currentcreditcardId);
@@ -553,13 +558,15 @@ public sealed partial class CreditCardsPage : Page
             ErrorContainer_Grid.Visibility = Visibility.Visible;
 
             RefreshCreditCardsListView();
-}
+        }
 
     }
 
-    // Clear All Fields (Add CreditCard Page)
+
+    // Clear All Fields (Add Credit Card Page)
     private void ClearFields()
     {
+        AddUpdatePageTitle_TextBlock.Text = "Add Credit Card Record";
         CardHolderName_TextBox.Text = string.Empty;
         CardNumber_TextBox.Text = string.Empty;
         ExpiryMonth_TextBox.Text = string.Empty;
@@ -576,6 +583,8 @@ public sealed partial class CreditCardsPage : Page
         Notes_TextBox.Text = string.Empty;
     }
 
+
+    // Get Credit Card Input Object (Add Credit Card Page)
     private CreditCard? GetInputCard()
     {
         var CardHolderName = CardHolderName_TextBox.Text;
@@ -594,27 +603,28 @@ public sealed partial class CreditCardsPage : Page
         var Notes = Notes_TextBox.Text;
 
         var CreditCard = new CreditCard
-            (
-                Id: CreditCardDB.GetMaxId() + 1,
-                CardHolderName: CardHolderName ?? "",
-                CardNumber: CardNumber ?? "",
-                ExpiryMonth: ExpiryMonth ?? "",
-                ExpiryYear: ExpiryYear ?? "",
-                Pin: CardPin ?? "",
-                CVV: CVV ?? "",
-                CardIssuer: CardIssuer ?? "",
-                CardType: CardType ?? "",
-                BillingAddress: BillingAddress ?? "",
-                Country: Country ?? "",
-                State: State ?? "",
-                City: City ?? "",
-                ZipCode: ZipCode ?? "",
-                Notes: Notes ?? ""
-            );
-            return CreditCard;
+        (
+            Id: CreditCardDB.GetMaxId() + 1,
+            CardHolderName: CardHolderName ?? "",
+            CardNumber: CardNumber ?? "",
+            ExpiryMonth: ExpiryMonth ?? "",
+            ExpiryYear: ExpiryYear ?? "",
+            Pin: CardPin ?? "",
+            CVV: CVV ?? "",
+            CardIssuer: CardIssuer ?? "",
+            CardType: CardType ?? "",
+            BillingAddress: BillingAddress ?? "",
+            Country: Country ?? "",
+            State: State ?? "",
+            City: City ?? "",
+            ZipCode: ZipCode ?? "",
+            Notes: Notes ?? ""
+        );
+        return CreditCard;
     }
 
 
+    // Toggle Card Holder Name Button (View Credit Card Page)
     private void CopyHolderName_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -622,6 +632,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Card Number Button (View Credit Card Page)
     private void CopyCardNumber_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -629,6 +641,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Expiry Month Button (View Credit Card Page)
     private void CopyExpiryMonth_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -636,6 +650,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Expiry Year Button (View Credit Card Page)
     private void CopyExpiryYear_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -643,6 +659,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Card CVV Button (View Credit Card Page)
     private void CopyCVV_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -650,6 +668,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Card Pin Button (View Credit Card Page)
     private void CopyCardPin_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -657,6 +677,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Card Issuer Button (View Credit Card Page)
     private void CopyIssuer_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -664,6 +686,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Card Type Button (View Credit Card Page)
     private void CopyCardType_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -671,6 +695,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Billing Address Button (View Credit Card Page)
     private void CopyBillingAddress_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -678,6 +704,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Country Button (View Credit Card Page)
     private void CopyCountry_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -685,6 +713,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy State Button (View Credit Card Page)
     private void CopyState_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -692,6 +722,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy City Button (View Credit Card Page)
     private void CopyCity_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -699,6 +731,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Zip Code Button (View Credit Card Page)
     private void CopyZipCode_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -706,6 +740,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Copy Notes Button (View Credit Card Page)
     private void CopyNotes_Button_Click(object sender, RoutedEventArgs e)
     {
         var dataPackage = new DataPackage();
@@ -713,6 +749,8 @@ public sealed partial class CreditCardsPage : Page
         Clipboard.SetContent(dataPackage);
     }
 
+
+    // Toggle Card Pin Visibility Button (View Credit Card Page)
     private void ToggleCardPin_Button_Click(object sender, RoutedEventArgs e)
     {
         if (ToggleCardPin_CheckBox.IsChecked == false)
@@ -731,6 +769,8 @@ public sealed partial class CreditCardsPage : Page
         }
     }
 
+
+    // Toggle Card CVV Visibility Button (View Credit Card Page)
     private void ToggleCVV_Button_Click(object sender, RoutedEventArgs e)
     {
         if (ToggleCVV_CheckBox.IsChecked == false)
@@ -749,6 +789,8 @@ public sealed partial class CreditCardsPage : Page
         }
     }
 
+
+    // Toggle Card Number Visibility Button (View Credit Card Page)
     private void ToggleCardNumber_Button_Click(object sender, RoutedEventArgs e)
     {
         if (ToggleCardNumber_CheckBox.IsChecked == false)
@@ -766,4 +808,6 @@ public sealed partial class CreditCardsPage : Page
             CardNumberToggle_Icon.Glyph = "\uE7B3";
         }
     }
+
+
 }

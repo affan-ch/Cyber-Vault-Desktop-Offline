@@ -303,7 +303,6 @@
 
                                 <StackPanel x:Name="FileSelectButtons_Container" Orientation="Vertical" />
 
-
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>

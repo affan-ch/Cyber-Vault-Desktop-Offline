@@ -12,183 +12,222 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Left Sidebar -->
-        <Grid 
-            Width="320"
-            Grid.Column="0"
-        >
+        <!--  Left Sidebar  -->
+        <Grid Grid.Column="0" Width="320">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <!-- Header -->
+                    <!--  Header  -->
                     <Grid Grid.Row="0">
                         <Grid HorizontalAlignment="Left">
-                            <TextBlock Text="Credit Cards" Style="{ThemeResource TitleTextBlockStyle}" />
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Credit Cards" />
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 15 0">
+                        <StackPanel
+                            Margin="0,0,15,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
 
-                            <!-- Add Credit Card Button -->
-                            <Button x:Name="AddCreditCard_Button"
-                                    Click="AddCreditCard_Button_Click"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    ToolTipService.ToolTip="Add Credit Card"
-                                    ToolTipService.Placement="Bottom"
-                                    Height="40" >
-                                <FontIcon Glyph="&#xF164;" FontSize="19" />
+                            <!--  Add Credit Card Button  -->
+                            <Button
+                                x:Name="AddCreditCard_Button"
+                                Height="40"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="AddCreditCard_Button_Click"
+                                ToolTipService.Placement="Bottom"
+                                ToolTipService.ToolTip="Add Credit Card">
+                                <FontIcon FontSize="19" Glyph="&#xF164;" />
                             </Button>
 
                         </StackPanel>
                     </Grid>
 
-                    <!-- Search Bar -->
-                    <AutoSuggestBox x:Name="SearchBar" KeyUp="SearchBar_KeyDown" Grid.Row="1" PlaceholderText="Search Credit Cards" QueryIcon="Find" Margin="0,20,20,0"/>
+                    <!--  Search Bar  -->
+                    <AutoSuggestBox
+                        x:Name="SearchBar"
+                        Grid.Row="1"
+                        Margin="0,20,20,0"
+                        KeyUp="SearchBar_KeyDown"
+                        PlaceholderText="Search Credit Cards"
+                        QueryIcon="Find" />
 
-                    <!-- Credit Cards ListView -->
-                    <ScrollViewer x:Name="CreditCards_ScrollViewer" Grid.Row="2" Width="320" Margin="0,20,0,10" Visibility="Collapsed">
-                        <StackPanel x:Name="CreditCardsListView"  Orientation="Vertical">
-                            <!-- Item to be Added Dynamically by C# Code -->
+                    <!--  Credit Cards ListView  -->
+                    <ScrollViewer
+                        x:Name="CreditCards_ScrollViewer"
+                        Grid.Row="2"
+                        Width="320"
+                        Margin="0,20,0,10"
+                        Visibility="Collapsed">
+                        <StackPanel x:Name="CreditCardsListView" Orientation="Vertical">
+                            <!--  Item to be Added Dynamically by C# Code  -->
                         </StackPanel>
                     </ScrollViewer>
 
-                    <Grid x:Name="NoCreditCards_Grid" Grid.Row="2" Width="290" HorizontalAlignment="Left">
-                        <TextBlock Text="No Credit Cards !" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                   Style="{ThemeResource BodyStrongTextBlockStyle}" FontSize="19"/>
+                    <Grid
+                        x:Name="NoCreditCards_Grid"
+                        Grid.Row="2"
+                        Width="290"
+                        HorizontalAlignment="Left">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="19"
+                            Style="{ThemeResource BodyStrongTextBlockStyle}"
+                            Text="No Credit Cards !" />
 
                     </Grid>
 
                 </Grid>
-                <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
+                <Border
+                    Margin="0,0,0,10"
+                    BorderBrush="#1D1D1D"
+                    BorderThickness="0,0,1,0" />
             </Grid>
         </Grid>
-        <!-- Right Content (Add Credit Cards) -->
-        <Grid x:Name="AddCreditCardContainer_Grid" Grid.Column="1" Visibility="Collapsed">
+
+        <!--  Right Content (Add Credit Cards)  -->
+        <Grid
+            x:Name="AddCreditCardContainer_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Right First -->
+            <!--  Right First  -->
             <Grid Grid.Column="0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
-                            <TextBlock Text="Credit Card Info" 
-                               Style="{ThemeResource BodyStrongTextBlockStyle}" 
-                               FontSize="17" 
-                               Margin="20,10,0,15"/>
+                            <TextBlock
+                                x:Name="AddUpdatePageTitle_TextBlock"
+                                Margin="20,10,0,20"
+                                FontSize="20"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Add Credit Card Record" />
+
+                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" />
                         </Grid>
-                        <ScrollViewer Margin="0,0,2,30" Grid.Row="1">
+
+                        <ScrollViewer Grid.Row="1" Margin="0,20,2,30">
                             <StackPanel Orientation="Vertical">
 
-                                <!-- Card Holder Name -->
-                                <TextBox x:Name="CardHolderName_TextBox"
-                                    PlaceholderText="Umer Farooq" 
+                                <!--  Card Holder Name  -->
+                                <TextBox
+                                    x:Name="CardHolderName_TextBox"
+                                    Margin="20,0,20,0"
                                     IsSpellCheckEnabled="False"
-                                    Margin="20,0,20,0" >
+                                    PlaceholderText="UMER FAROOQ">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Card Holder Name" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Card Holder Name" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Card Number -->
-                                <TextBox x:Name="CardNumber_TextBox"
-                                    PlaceholderText="1234 1234 1234 1234"
+                                <!--  Card Number  -->
+                                <TextBox
+                                    x:Name="CardNumber_TextBox"
+                                    Margin="20,20,20,10"
                                     IsSpellCheckEnabled="False"
-                                    Margin="20,20,20,10">
+                                    PlaceholderText="5231 6195 0371 5704">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Card Number" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE735;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Card Number" />
+                                            <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Expiry Month -->
-                                <TextBox x:Name="ExpiryMonth_TextBox"
-                                    PlaceholderText="1-12" 
+                                <!--  Expiry Month  -->
+                                <TextBox
+                                    x:Name="ExpiryMonth_TextBox"
+                                    Margin="20,10,20,0"
                                     IsSpellCheckEnabled="False"
-                                    Margin="20,10,20,0">
+                                    PlaceholderText="XX">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Card Expiry Month" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Card Expiry Month" />
+                                            <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Expiry Year -->
-                                <TextBox x:Name="ExpiryYear_TextBox"
-                                    PlaceholderText="20XX"
+                                <!--  Expiry Year  -->
+                                <TextBox
+                                    x:Name="ExpiryYear_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
                                     IsSpellCheckEnabled="False"
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                    PlaceholderText="20XX">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Card Expiry Year" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Card Expiry Year" />
+                                            <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Card CVV -->
-                                <TextBox x:Name="CVV_TextBox"
-                                    PlaceholderText="123"
+                                <!--  Card CVV  -->
+                                <TextBox
+                                    x:Name="CVV_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
                                     IsSpellCheckEnabled="False"
-                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}">
+                                    PlaceholderText="321">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter CVV" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter CVV" />
+                                            <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Card Pin -->
-                                <TextBox x:Name="CardPin_TextBox"
-                                     PlaceholderText="0000" 
+                                <!--  Card Pin  -->
+                                <TextBox
+                                    x:Name="CardPin_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
                                     IsSpellCheckEnabled="False"
-                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
+                                    PlaceholderText="1697">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Card Pin" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Card Pin" />
+                                            <FontIcon FontSize="13" Glyph="&#xE734;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
 
-                                <!-- Card Issuer -->
-                                <TextBox x:Name="CardIssuer_TextBox"
-                                     PlaceholderText="Meezan Bank" 
+                                <!--  Card Issuer  -->
+                                <TextBox
+                                    x:Name="CardIssuer_TextBox"
+                                    Margin="{StaticResource AccountsPageMidTextBoxMargin}"
                                     IsSpellCheckEnabled="False"
-                                     Margin="{StaticResource AccountsPageMidTextBoxMargin}" >
+                                    PlaceholderText="Meezan Bank">
                                     <TextBox.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Enter Card Issuer" Margin="0,0,4,0"/>
-                                            <FontIcon Glyph="&#xF0E7;" FontSize="13"/>
+                                            <TextBlock Margin="0,0,4,0" Text="Enter Card Issuer" />
+                                            <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </TextBox.Header>
                                 </TextBox>
@@ -196,131 +235,153 @@
                         </ScrollViewer>
                     </Grid>
                 </Grid>
-                <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
+                <Border
+                    Margin="0,57,0,10"
+                    BorderBrush="#1D1D1D"
+                    BorderThickness="0,0,1,0" />
             </Grid>
-            <!-- Right Second -->
+            <!--  Right Second  -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,20">
+                    <StackPanel
+                        Height="50"
+                        Margin="0,0,0,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
 
-                        <!-- Save Button -->
-                        <Button x:Name="Save_Button" Style="{StaticResource AccentButtonStyle}" Width="73" Click="Save_Button_Click">
+                        <!--  Save Button  -->
+                        <Button
+                            x:Name="Save_Button"
+                            Width="73"
+                            Click="Save_Button_Click"
+                            Style="{StaticResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <FontIcon 
-                                    Glyph="&#xE74E;" 
-                                    FontSize="17"/>
-                                <TextBlock 
-                                    Text="Save"  
+                                <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                                <TextBlock
                                     Margin="4,0,0,0"
-                                    Style="{ThemeResource BodyTextBlockStyle}" 
-                                    VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Text="Save" />
                             </StackPanel>
                         </Button>
-                        <!-- Update Button -->
-                        <Button x:Name="Update_Button" Style="{StaticResource AccentButtonStyle}" Width="90" Click="Update_Button_Click">
+                        <!--  Update Button  -->
+                        <Button
+                            x:Name="Update_Button"
+                            Width="90"
+                            Click="Update_Button_Click"
+                            Style="{StaticResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <FontIcon 
-                                    Glyph="&#xE74E;" 
-                                    FontSize="17"/>
-                                <TextBlock 
-                                    Text="Update"  
+                                <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                                <TextBlock
                                     Margin="4,0,0,0"
-                                    Style="{ThemeResource BodyTextBlockStyle}" 
-                                    VerticalAlignment="Center"/>        
+                                    VerticalAlignment="Center"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Text="Update" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
+
+                    <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" />
                 </Grid>
                 <Grid Grid.Row="1">
                     <ScrollViewer Margin="0,0,5,20">
                         <StackPanel Orientation="Vertical">
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,0,10,0"/>
-                            <!-- Card Type -->
-                            <TextBox x:Name="CardType_TextBox"
-                                IsSpellCheckEnabled="False"
-                                PlaceholderText="VISA" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
-                                <TextBox.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Card Type" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
-                                    </StackPanel>
-                                </TextBox.Header>
-                            </TextBox>                            
 
-                            <!-- Billing Address -->
-                            <TextBox x:Name="BillingAddress_TextBox"
+                            <!--  Card Type  -->
+                            <TextBox
+                                x:Name="CardType_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="DHA Phase 7, Lahore" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="VISA">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Billing Address" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Card Type" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
-                            <!-- Country -->
-                            <TextBox x:Name="Country_TextBox"
+
+                            <!--  Billing Address  -->
+                            <TextBox
+                                x:Name="BillingAddress_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="Pakistan" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="DHA Phase 7, Lahore Cantt.">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Country" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Billing Address" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
-                            <!-- State -->
-                            <TextBox x:Name="State_TextBox"
+                            <!--  Country  -->
+                            <TextBox
+                                x:Name="Country_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="Punjab" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="Pakistan">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter State" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Country" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
-                            <!-- City -->
-                            <TextBox x:Name="City_TextBox"
+                            <!--  State  -->
+                            <TextBox
+                                x:Name="State_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="Lahore" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="Punjab">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter City" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter State" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
-                            <!-- Zip Code -->
-                            <TextBox x:Name="ZipCode_TextBox"
+                            <!--  City  -->
+                            <TextBox
+                                x:Name="City_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                PlaceholderText="54000" 
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="Lahore">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Zip Code" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter City" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
-                            <!-- Notes -->
-                            <TextBox x:Name="Notes_TextBox"
+                            <!--  Zip Code  -->
+                            <TextBox
+                                x:Name="ZipCode_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
                                 IsSpellCheckEnabled="False"
-                                Margin="{StaticResource AccountsPageRightTextBoxMargin}">
+                                PlaceholderText="54000">
                                 <TextBox.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Enter Notes" Margin="0,0,4,0"/>
-                                        <FontIcon Glyph="&#xE734;" FontSize="13"/>
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Zip Code" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
+                                    </StackPanel>
+                                </TextBox.Header>
+                            </TextBox>
+                            <!--  Notes  -->
+                            <TextBox
+                                x:Name="Notes_TextBox"
+                                Margin="{StaticResource AccountsPageRightTextBoxMargin}"
+                                IsSpellCheckEnabled="False"
+                                PlaceholderText="Credit Limit: $10,000 per month">
+                                <TextBox.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,4,0" Text="Enter Notes" />
+                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
                                     </StackPanel>
                                 </TextBox.Header>
                             </TextBox>
@@ -329,23 +390,37 @@
                 </Grid>
             </Grid>
         </Grid>
-        <!-- Right Content (Select to View) -->
+
+        <!--  Right Content (Select to View)  -->
         <Grid x:Name="ErrorContainer_Grid" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                    <Image Source="/Assets/select.png" Width="288" Height="277" />
-                    <TextBlock Text="Select Any Credit Card to View Here" Style="{ThemeResource TitleTextBlockStyle}"
-                        FontSize="18" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <Image
+                        Width="288"
+                        Height="277"
+                        Source="/Assets/select.png" />
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="Select Any Credit Card to View Here" />
                 </StackPanel>
             </Grid>
         </Grid>
 
-        <!-- Right Content (View Credit Cards) -->
-        <Grid x:Name="ViewCreditCard_Grid" Grid.Column="1" Visibility="Collapsed">
+        <!--  Right Content (View Credit Cards)  -->
+        <Grid
+            x:Name="ViewCreditCard_Grid"
+            Grid.Column="1"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -353,15 +428,18 @@
             <Grid Grid.Column="0">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
-                        <!-- Card Holder Name Container -->
-                        <StackPanel x:Name="CardHolderName_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Card Holder Name Container  -->
+                        <StackPanel
+                            x:Name="CardHolderName_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Card Holder Name Header -->
-                            <TextBlock Text="Card Holder Name"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Card Holder Name Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Card Holder Name" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -370,47 +448,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Card Holder Name TextBlock -->
-                                <RichTextBlock x:Name="CardHolderName_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Card Holder Name TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="CardHolderName_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="CardHolderName_Text" Text="Umer Farooq"/>
+                                            <Run x:Name="CardHolderName_Text" Text="Umer Farooq" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Card Holder Name Button -->
-                                <Button x:Name="CopyHolderName_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Card Holder Name Button  -->
+                                <Button
+                                    x:Name="CopyHolderName_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyHolderName_Button_Click"
-                                    ToolTipService.ToolTip="Copy Card Holder Name"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Card Holder Name">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Card Numnber Container -->
-                        <StackPanel x:Name="CardNumber_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Card Numnber Container  -->
+                        <StackPanel
+                            x:Name="CardNumber_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Card Number Header -->
-                            <TextBlock Text="Card Number"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Card Number Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Card Number" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -419,66 +504,77 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Card Number TextBlock -->
-                                <TextBlock x:Name="CardNumber_Hidden" Visibility="Collapsed">
-                                    
-                                </TextBlock>
-                                <RichTextBlock x:Name="CardNumber_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Card Number TextBlock  -->
+                                <TextBlock x:Name="CardNumber_Hidden" Visibility="Collapsed" />
+                                <RichTextBlock
+                                    x:Name="CardNumber_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="CardNumber_Text" Text="1234 **** **** 5678"/>
+                                            <Run x:Name="CardNumber_Text" Text="1234 **** **** 5678" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
-                                <!-- Hide/Unhide Button -->
-                                <CheckBox x:Name="ToggleCardNumber_CheckBox" IsChecked="False" Visibility="Collapsed"/>
-                                <Button x:Name="ToggleCardNumber_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,5,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="ToggleCardNumber_Button_Click"
-                                        ToolTipService.ToolTip="Show Card Number"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon x:Name="CardNumberToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
-                                </Button>
-
-                                <!-- Copy Card Number Button -->
-                                <Button x:Name="CopyCardNumber_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Hide/Unhide Button  -->
+                                <CheckBox
+                                    x:Name="ToggleCardNumber_CheckBox"
+                                    IsChecked="False"
+                                    Visibility="Collapsed" />
+                                <Button
+                                    x:Name="ToggleCardNumber_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="ToggleCardNumber_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Show Card Number">
+                                    <FontIcon
+                                        x:Name="CardNumberToggle_Icon"
+                                        FontSize="17"
+                                        Glyph="&#xE7B3;" />
+                                </Button>
+
+                                <!--  Copy Card Number Button  -->
+                                <Button
+                                    x:Name="CopyCardNumber_Button"
+                                    Grid.Column="2"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyCardNumber_Button_Click"
-                                    
-                                    ToolTipService.ToolTip="Copy Card Number"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Card Number">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Expiry Month Container -->
-                        <StackPanel x:Name="ExpiryMonth_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Expiry Month Container  -->
+                        <StackPanel
+                            x:Name="ExpiryMonth_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Expiry Month Header -->
-                            <TextBlock Text="Expiry Month"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Expiry Month Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Expiry Month" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -486,48 +582,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Expiry Month TextBlock -->
-                                <RichTextBlock x:Name="ExpiryMonth_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Expiry Month TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="ExpiryMonth_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="ExpiryMonth_Text" Text="1-12"/>
+                                            <Run x:Name="ExpiryMonth_Text" Text="1-12" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Expiry Month Button -->
-                                <Button x:Name="CopyExpiryMonth_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Expiry Month Button  -->
+                                <Button
+                                    x:Name="CopyExpiryMonth_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                        Click="CopyExpiryMonth_Button_Click"
-                                    
-                                    ToolTipService.ToolTip="Copy Expiry Month"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    Click="CopyExpiryMonth_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Expiry Month">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Expiry Year Container -->
-                        <StackPanel x:Name="ExpiryYear_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Expiry Year Container  -->
+                        <StackPanel
+                            x:Name="ExpiryYear_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Expiry Year Header -->
-                            <TextBlock Text="Expiry Year"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Expiry Year Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Expiry Year" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -535,48 +637,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Expiry Year TextBlock -->
-                                <RichTextBlock x:Name="ExpiryYear_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Expiry Year TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="ExpiryYear_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="ExpiryYear_Text" Text="20XX"/>
+                                            <Run x:Name="ExpiryYear_Text" Text="20XX" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Expiry Year Button -->
-                                <Button x:Name="CopyExpiryYear_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Expiry Year Button  -->
+                                <Button
+                                    x:Name="CopyExpiryYear_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                        Click="CopyExpiryYear_Button_Click"
-                                    
-                                    ToolTipService.ToolTip="Copy Expiry Year"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    Click="CopyExpiryYear_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Expiry Year">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- CVV Container -->
-                        <StackPanel x:Name="CVV_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  CVV Container  -->
+                        <StackPanel
+                            x:Name="CVV_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- CVV Header -->
-                            <TextBlock Text="CVV"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  CVV Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="CVV" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -585,63 +693,77 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- CVV TextBlock -->
-                                <TextBlock x:Name="CVV_Hidden" Visibility="Collapsed"></TextBlock>
-                                <RichTextBlock x:Name="CVV_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  CVV TextBlock  -->
+                                <TextBlock x:Name="CVV_Hidden" Visibility="Collapsed" />
+                                <RichTextBlock
+                                    x:Name="CVV_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="CVV_Text" Text="20XX"/>
+                                            <Run x:Name="CVV_Text" Text="20XX" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
-                                <!-- Hide/Unhide Button -->
-                                <CheckBox x:Name="ToggleCVV_CheckBox" IsChecked="False" Visibility="Collapsed"/>
-                                <Button x:Name="ToggleCVV_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,5,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="ToggleCVV_Button_Click"
-                                        ToolTipService.ToolTip="Show CVV"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon x:Name="CVVToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
-                                </Button>
-
-                                <!-- Copy CVV Button -->
-                                <Button x:Name="CopyCVV_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Hide/Unhide Button  -->
+                                <CheckBox
+                                    x:Name="ToggleCVV_CheckBox"
+                                    IsChecked="False"
+                                    Visibility="Collapsed" />
+                                <Button
+                                    x:Name="ToggleCVV_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="ToggleCVV_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Show CVV">
+                                    <FontIcon
+                                        x:Name="CVVToggle_Icon"
+                                        FontSize="17"
+                                        Glyph="&#xE7B3;" />
+                                </Button>
+
+                                <!--  Copy CVV Button  -->
+                                <Button
+                                    x:Name="CopyCVV_Button"
+                                    Grid.Column="2"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyCVV_Button_Click"
-                                    ToolTipService.ToolTip="Copy CVV"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy CVV">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Card Pin Container -->
-                        <StackPanel x:Name="CardPin_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Card Pin Container  -->
+                        <StackPanel
+                            x:Name="CardPin_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Card Pin Header -->
-                            <TextBlock Text="Card Pin"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Card Pin Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Card Pin" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -650,63 +772,77 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Card Pin TextBlock -->
-                                <TextBlock x:Name="CardPin_Hidden" Visibility="Collapsed"></TextBlock>
-                                <RichTextBlock x:Name="CardPin_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Card Pin TextBlock  -->
+                                <TextBlock x:Name="CardPin_Hidden" Visibility="Collapsed" />
+                                <RichTextBlock
+                                    x:Name="CardPin_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="CardPin_Text" Text="1234"/>
+                                            <Run x:Name="CardPin_Text" Text="1234" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
-                                <!-- Hide/Unhide Button -->
-                                <CheckBox x:Name="ToggleCardPin_CheckBox" IsChecked="False" Visibility="Collapsed"/>
-                                <Button x:Name="ToggleCardPin_Button"
-                                        Grid.Column="1" 
-                                        Margin="0,0,5,0" 
-                                        VerticalAlignment="Bottom" 
-                                        Width="45"
-                                        Height="35"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Click="ToggleCardPin_Button_Click"
-                                        ToolTipService.ToolTip="Show Card Pin"
-                                        ToolTipService.Placement="Top">
-                                    <FontIcon x:Name="CardPinToggle_Icon" Glyph="&#xE7B3;" FontSize="17"/>
-                                </Button>
-
-                                <!-- Copy Card Pin Button -->
-                                <Button x:Name="CopyCardPin_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Hide/Unhide Button  -->
+                                <CheckBox
+                                    x:Name="ToggleCardPin_CheckBox"
+                                    IsChecked="False"
+                                    Visibility="Collapsed" />
+                                <Button
+                                    x:Name="ToggleCardPin_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="ToggleCardPin_Button_Click"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Show Card Pin">
+                                    <FontIcon
+                                        x:Name="CardPinToggle_Icon"
+                                        FontSize="17"
+                                        Glyph="&#xE7B3;" />
+                                </Button>
+
+                                <!--  Copy Card Pin Button  -->
+                                <Button
+                                    x:Name="CopyCardPin_Button"
+                                    Grid.Column="2"
+                                    Width="45"
+                                    Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyCardPin_Button_Click"
-                                    ToolTipService.ToolTip="Copy Card Pin"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Card Pin">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Card Issuer Container -->
-                        <StackPanel x:Name="CardIssuer_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Card Issuer Container  -->
+                        <StackPanel
+                            x:Name="CardIssuer_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Card Issuer Header -->
-                            <TextBlock Text="Card Issuer"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Card Issuer Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Card Issuer" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -714,48 +850,55 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Card Issuer TextBlock -->
-                                <RichTextBlock x:Name="CardIssuer_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Card Issuer TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="CardIssuer_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="CardIssuer_Text" Text="Meezan Bank"/>
+                                            <Run x:Name="CardIssuer_Text" Text="Meezan Bank" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Card Issuer Button -->
-                                <Button x:Name="CopyIssuer_Button"
-                                    Grid.Column="1" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Card Issuer Button  -->
+                                <Button
+                                    x:Name="CopyIssuer_Button"
+                                    Grid.Column="1"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyIssuer_Button_Click"
-                                    ToolTipService.ToolTip="Copy Card Issuer"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Card Issuer">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-                <Border BorderBrush="#1D1D1D" BorderThickness="0,0,1,0" Margin="0,0,0,10"/>
-                    
+                <Border
+                    Margin="0,0,0,10"
+                    BorderBrush="#1D1D1D"
+                    BorderThickness="0,0,1,0" />
+
             </Grid>
             <Grid Grid.Column="1">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
 
-                        <!-- Header Grid (Containing Delete and Modify Button) -->
+                        <!--  Header Grid (Containing Delete and Modify Button)  -->
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -763,47 +906,62 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Margin="0,0,0,15">
+                            <StackPanel
+                                Height="50"
+                                Margin="0,0,0,15"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
 
-                                <!-- Delete Button -->
-                                <Button x:Name="Delete_Button" Width="90" Margin="0,0,10,0" Click="Delete_Button_Click">
+                                <!--  Delete Button  -->
+                                <Button
+                                    x:Name="Delete_Button"
+                                    Width="90"
+                                    Margin="0,0,10,0"
+                                    Click="Delete_Button_Click">
                                     <StackPanel Orientation="Horizontal">
-                                        <FontIcon 
-                                           Glyph="&#xE74D;" 
-                                           FontSize="17"/>
-                                        <TextBlock 
-                                           Text="Delete"  
-                                           Margin="5,0,0,0"
-                                           Style="{ThemeResource BodyTextBlockStyle}" 
-                                           VerticalAlignment="Center"/>
+                                        <FontIcon FontSize="17" Glyph="&#xE74D;" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="Delete" />
                                     </StackPanel>
                                 </Button>
 
-                                <!-- Modify Button -->
-                                <Button x:Name="Modify_Button" Style="{StaticResource AccentButtonStyle}" Width="95" Click="Modify_Button_Click">
+                                <!--  Modify Button  -->
+                                <Button
+                                    x:Name="Modify_Button"
+                                    Width="95"
+                                    Click="Modify_Button_Click"
+                                    Style="{StaticResource AccentButtonStyle}">
                                     <StackPanel Orientation="Horizontal">
-                                        <FontIcon 
-                                           Glyph="&#xE70F;" 
-                                           FontSize="17"/>
-                                        <TextBlock 
-                                           Text="Modify"  
-                                           Margin="5,0,0,0"
-                                           Style="{ThemeResource BodyTextBlockStyle}" 
-                                           VerticalAlignment="Center"/>
+                                        <FontIcon FontSize="17" Glyph="&#xE70F;" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="Modify" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </Grid>
-                        <!-- Card Type Container -->
-                        <StackPanel x:Name="CardType_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Card Type Container  -->
+                        <StackPanel
+                            x:Name="CardType_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Card Type Header -->
-                            <TextBlock Text="Card Type"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Card Type Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Card Type" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -812,47 +970,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Card Type TextBlock -->
-                                <RichTextBlock x:Name="CardType_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Card Type TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="CardType_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="CardType_Text" Text="VISA"/>
+                                            <Run x:Name="CardType_Text" Text="VISA" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Card Type Button -->
-                                <Button x:Name="CopyCardType_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Card Type Button  -->
+                                <Button
+                                    x:Name="CopyCardType_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyCardType_Button_Click"
-                                    ToolTipService.ToolTip="Copy Card Type"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Card Type">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Billing Address Container -->
-                        <StackPanel x:Name="BillingAddress_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Billing Address Container  -->
+                        <StackPanel
+                            x:Name="BillingAddress_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Billing Address Header -->
-                            <TextBlock Text="Billing Address"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Billing Address Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Billing Address" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -861,47 +1026,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Billing Address TextBlock -->
-                                <RichTextBlock x:Name="BillingAddress_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Billing Address TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="BillingAddress_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="BillingAddress_Text" Text="809-Eagen"/>
+                                            <Run x:Name="BillingAddress_Text" Text="809-Eagen" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Billing Address Button -->
-                                <Button x:Name="CopyBillingAddress_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Billing Address Button  -->
+                                <Button
+                                    x:Name="CopyBillingAddress_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyBillingAddress_Button_Click"
-                                    ToolTipService.ToolTip="Copy Billing Address"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Billing Address">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Country Container -->
-                        <StackPanel x:Name="Country_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Country Container  -->
+                        <StackPanel
+                            x:Name="Country_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Country Header -->
-                            <TextBlock Text="Country"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Country Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Country" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -910,47 +1082,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Country TextBlock -->
-                                <RichTextBlock x:Name="Country_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Country TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Country_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Country_Text" Text="United States"/>
+                                            <Run x:Name="Country_Text" Text="United States" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Country Button -->
-                                <Button x:Name="CopyCountry_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Country Button  -->
+                                <Button
+                                    x:Name="CopyCountry_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyCountry_Button_Click"
-                                    ToolTipService.ToolTip="Copy Country"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Country">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- State Container -->
-                        <StackPanel x:Name="State_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  State Container  -->
+                        <StackPanel
+                            x:Name="State_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- State Header -->
-                            <TextBlock Text="State"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  State Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="State" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -959,47 +1138,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- State TextBlock -->
-                                <RichTextBlock x:Name="State_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  State TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="State_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="State_Text" Text="San Fransisco"/>
+                                            <Run x:Name="State_Text" Text="San Fransisco" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy State Button -->
-                                <Button x:Name="CopyState_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy State Button  -->
+                                <Button
+                                    x:Name="CopyState_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyState_Button_Click"
-                                    ToolTipService.ToolTip="Copy State"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy State">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- City Container -->
-                        <StackPanel x:Name="City_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  City Container  -->
+                        <StackPanel
+                            x:Name="City_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- City Header -->
-                            <TextBlock Text="City"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  City Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="City" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -1008,47 +1194,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- City TextBlock -->
-                                <RichTextBlock x:Name="City_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  City TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="City_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="City_Text" Text="Texas"/>
+                                            <Run x:Name="City_Text" Text="Texas" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy City Button -->
-                                <Button x:Name="CopyCity_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy City Button  -->
+                                <Button
+                                    x:Name="CopyCity_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyCity_Button_Click"
-                                    ToolTipService.ToolTip="Copy City"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy City">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Zip Code Container -->
-                        <StackPanel x:Name="ZipCode_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Zip Code Container  -->
+                        <StackPanel
+                            x:Name="ZipCode_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Zip Code Header -->
-                            <TextBlock Text="Zip Code"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Zip Code Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Zip Code" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -1057,47 +1250,54 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Zip Code TextBlock -->
-                                <RichTextBlock x:Name="ZipCode_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Zip Code TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="ZipCode_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="ZipCode_Text" Text="54000"/>
+                                            <Run x:Name="ZipCode_Text" Text="54000" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Zip Code Button -->
-                                <Button x:Name="CopyZipCode_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Zip Code Button  -->
+                                <Button
+                                    x:Name="CopyZipCode_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyZipCode_Button_Click"
-                                    ToolTipService.ToolTip="Copy Zip Code"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Zip Code">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
-                        <!-- Notes Container -->
-                        <StackPanel x:Name="Notes_Container" Orientation="Vertical" Margin="0,5,0,0">
+                        <!--  Notes Container  -->
+                        <StackPanel
+                            x:Name="Notes_Container"
+                            Margin="0,5,0,0"
+                            Orientation="Vertical">
 
-                            <!-- Notes Header -->
-                            <TextBlock Text="Notes"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       FontSize="17"
-                                       Margin="20,0,0,0"
-                            />
+                            <!--  Notes Header  -->
+                            <TextBlock
+                                Margin="20,0,0,0"
+                                FontSize="17"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Notes" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -1106,42 +1306,46 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Notes TextBlock -->
-                                <RichTextBlock x:Name="Notes_TextBlock" 
-                                       Grid.Column="0"
-                                       FontSize="14"
-                                       FontWeight="Bold"
-                                       Margin="20,15,0,0"
-                                       Opacity="0.9"
-                                >
+                                <!--  Notes TextBlock  -->
+                                <RichTextBlock
+                                    x:Name="Notes_TextBlock"
+                                    Grid.Column="0"
+                                    Margin="20,15,0,0"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Opacity="0.9">
                                     <Paragraph>
                                         <Bold>
-                                            <Run x:Name="Notes_Text" Text="This is my Business card or Personal card"/>
+                                            <Run x:Name="Notes_Text" Text="This is my Business card or Personal card" />
                                         </Bold>
                                     </Paragraph>
                                 </RichTextBlock>
 
-                                <!-- Copy Notes Button -->
-                                <Button x:Name="CopyNotes_Button"
-                                    Grid.Column="2" 
-                                    Margin="0,0,20,0" 
-                                    VerticalAlignment="Bottom" 
+                                <!--  Copy Notes Button  -->
+                                <Button
+                                    x:Name="CopyNotes_Button"
+                                    Grid.Column="2"
                                     Width="45"
                                     Height="35"
+                                    Margin="0,0,20,0"
+                                    VerticalAlignment="Bottom"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="CopyNotes_Button_Click"
-                                   
-                                    ToolTipService.ToolTip="Copy Notes"
-                                    ToolTipService.Placement="Top">
-                                    <FontIcon Glyph="&#xE8C8;" FontSize="17"/>
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.ToolTip="Copy Notes">
+                                    <FontIcon FontSize="17" Glyph="&#xE8C8;" />
                                 </Button>
                             </Grid>
-                            <Border BorderBrush="#1D1D1D" BorderThickness="0,0,0,1" Margin="0,20,0,0"/>
+                            <Border
+                                Margin="0,20,0,0"
+                                BorderBrush="#1D1D1D"
+                                BorderThickness="0,0,0,1" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
         </Grid>
+
     </Grid>
 </Page>
