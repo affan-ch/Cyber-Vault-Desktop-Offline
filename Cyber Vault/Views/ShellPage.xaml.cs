@@ -4,18 +4,15 @@ using Cyber_Vault.DB;
 using Cyber_Vault.DL;
 using Cyber_Vault.Helpers;
 using Cyber_Vault.Services;
+using Cyber_Vault.Utils;
 using Cyber_Vault.ViewModels;
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-
 using Windows.System;
 
 namespace Cyber_Vault.Views;
 
-// TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page
 {
     public ShellViewModel ViewModel
@@ -31,9 +28,6 @@ public sealed partial class ShellPage : Page
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
 
-        // TODO: Set the title bar icon by updating /Assets/WindowIcon.ico.
-        // A custom title bar is required for full window theme and Mica support.
-        // https://docs.microsoft.com/windows/apps/develop/title-bar?tabs=winui3#full-customization
         App.MainWindow.ExtendsContentIntoTitleBar = true;
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
@@ -41,16 +35,15 @@ public sealed partial class ShellPage : Page
 
         NavigationFrame.Content = App.GetService<AccountsPage>();
 
+        //MessagingHelper.StartListening();
     }
 
-    private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
         TitleBarHelper.UpdateTitleBar(RequestedTheme);
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
-
-       
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -108,6 +101,5 @@ public sealed partial class ShellPage : Page
         {
             Debug.WriteLine(ex.Message);
         }
-        
     }
 }

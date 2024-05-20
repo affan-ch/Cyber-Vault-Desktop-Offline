@@ -5,6 +5,8 @@ using Cyber_Vault.BL;
 using Cyber_Vault.DL;
 using System.Diagnostics;
 using Windows.Storage.Pickers;
+using Cyber_Vault.DB;
+using Cyber_Vault.Utils;
 
 namespace Cyber_Vault.Views;
 
@@ -84,33 +86,13 @@ public sealed partial class DocumentsPage : Page
 
         radioButtons.Items.Add(radioButton);
 
-        // Create an Image and set its properties
-        /* if (url != null && url != string.Empty)
-         {
-             url = $"https://www.google.com/s2/favicons?domain={url}&sz=128";
-         }
-         else
-         {
-             url = "https://www.unsplash.com";
-         }
-
-         var image = new Image
-         {
-             Margin = new Thickness(12, 10, 10, 10),
-             Source = new BitmapImage(new Uri(url)),
-             Width = 35,
-             Height = 35
-         };*/
         // create document icon
         var image = new FontIcon
         {
-
             Glyph = "\uE8A5",
             FontSize = 35,
-            Margin = new Thickness(12, 10, 10, 10),
-            Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["SystemAccentColor"],
+            Margin = new Thickness(12, 10, 10, 10)
         };
-
 
         // Create the inner StackPanel
         var innerStackPanel = new StackPanel
@@ -141,7 +123,6 @@ public sealed partial class DocumentsPage : Page
         innerStackPanel.Children.Add(textBlock2);
         innerStackPanel.Children.Add(radioButton);
 
-
         // Create a FontIcon
         var fontIcon = new FontIcon
         {
@@ -169,8 +150,7 @@ public sealed partial class DocumentsPage : Page
                     rb.IsChecked = true;
                     Debug.WriteLine(rb.Name);
                     //currentDocumentId = id ?? 0;
-                    /*OTP_Ring.Value = 100;*/
-                    /* timer?.Dispose();*/
+
                     documentContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     documentContainer.PointerEntered += (sender, e) =>
                     {
@@ -211,8 +191,6 @@ public sealed partial class DocumentsPage : Page
 
     }
 
-
-
     // Refresh Documents List View
     public void RefreshDocumentsListView()
     {
@@ -240,6 +218,7 @@ public sealed partial class DocumentsPage : Page
         }
     }
 
+    // View Add Document Page Button (Left Sidebar)
     private void AddDocument_Button_Click(object sender, RoutedEventArgs e)
     {
         ErrorContainer_Grid.Visibility = Visibility.Collapsed;
@@ -247,6 +226,7 @@ public sealed partial class DocumentsPage : Page
         ViewDocument_Grid.Visibility = Visibility.Collapsed;
     }
 
+    // File Count Increase Button (Add Document Page)
     private void FileCountIncrease_Button_Click(object sender, RoutedEventArgs e)
     {
         filesCount += 1;
@@ -284,6 +264,7 @@ public sealed partial class DocumentsPage : Page
 
     }
 
+    // File Count Decrease Button (Add Document Page)
     private void FileCountDecrease_Button_Click(object sender, RoutedEventArgs e)
     {
         if (FileSelectButtons_Container.Children.Count > 0)
@@ -324,5 +305,54 @@ public sealed partial class DocumentsPage : Page
             File1_Path.Text = file.Path;
         }
 
+    }
+
+    // Save Button (Add Document Page)
+    private void Save_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var Title = Title_TextBox.Text;
+        var Type = DocumentType_ComboBox.SelectedValue.ToString();
+
+        var document = new Document
+        {
+            Title = Title,
+            Type = Type
+        };
+
+        DocumentDL.AddDocument(document);
+        DocumentDB.StoreDocument(document);
+
+        var filePath = File1_Path.Text;
+        var fileName = Path.GetFileNameWithoutExtension(filePath);
+        var fileType = Path.GetExtension(filePath);
+
+        var documentFile = new DocumentFile
+        {
+            DocumentId = DocumentDB.GetMaxDocumentId(),
+            FileName = fileName,
+            FileType = fileType,
+            FileContent = File.ReadAllBytes(filePath)
+        };
+
+        DocumentDL.AddDocumentFile(documentFile);
+        DocumentDB.StoreDocumentFile(documentFile);
+
+        AddDocumentInListView(document.Id, document.Title, document.Type);
+        MessageDialogHelper.ShowMessageDialog(XamlRoot, "Success", "Document added successfully.");
+    }
+
+    private void DocumentType_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (CustomType_TextBox != null)
+        {
+            if (DocumentType_ComboBox.SelectedValue.ToString() == "Custom")
+            {
+                CustomType_TextBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                CustomType_TextBox.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

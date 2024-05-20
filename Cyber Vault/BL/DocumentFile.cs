@@ -1,34 +1,35 @@
 ﻿
 namespace Cyber_Vault.BL;
-internal class Document
+internal class DocumentFile
 {
     public int? Id
     {
         get; set;
     }
 
-    public string? Type
+    public int? DocumentId
     {
         get; set;
     }
 
-    public string? Title
+    public string? FileName
     {
         get; set;
     }
 
-    public string? DateAdded
+    public string? FileType
     {
         get; set;
     }
 
-    public string? DateModified
+    public byte[]? FileContent
     {
         get; set;
     }
 
-    public Document()
+    public DocumentFile()
     {
 
     }
+
 }

@@ -37,10 +37,16 @@ internal class DatabaseHelper
         Id INTEGER PRIMARY KEY AUTOINCREMENT,
         Type TEXT NOT NULL,
         Title TEXT NOT NULL,
-        Document1 BLOB NOT NULL,
-        Document2 BLOB,
-        DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        DateAdded TEXT NOT NULL,
+        DateModified TEXT NOT NULL
+    );";
+
+    private static readonly string CreateDocumentFilesTableQuery = @"CREATE TABLE IF NOT EXISTS [DocumentFile] (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        DocumentId INTEGER NOT NULL,
+        FileName TEXT NOT NULL,
+        FileType TEXT NOT NULL,
+        FileContent BLOB NOT NULL
     );";
 
     private static readonly string CreatePasswordHistoryTableQuery = @"CREATE TABLE IF NOT EXISTS [PasswordHistory] (
@@ -112,6 +118,19 @@ internal class DatabaseHelper
 
     public static void CreateDatabase()
     {
+        if (!Directory.Exists(AppDataFolderPath))
+        {
+            var directoryInfo = Directory.CreateDirectory(AppDataFolderPath);
+            directoryInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden | FileAttributes.System;
+            Debug.WriteLine("App Data folder created");
+        }
+
+        if (!Directory.Exists(ThumbsFolderPath))
+        {
+            Directory.CreateDirectory(ThumbsFolderPath);
+            Debug.WriteLine("Thumbs folder created");
+        }
+
         using var connection = new SQLiteConnection(ConnectionString);
         connection.Open();
 
@@ -120,6 +139,9 @@ internal class DatabaseHelper
 
         using var CreateDocumentTableCommand = new SQLiteCommand(CreateDocumentTableQuery, connection);
         CreateDocumentTableCommand.ExecuteNonQuery();
+
+        using var CreateDocumentFilesTableCommand = new SQLiteCommand(CreateDocumentFilesTableQuery, connection);
+        CreateDocumentFilesTableCommand.ExecuteNonQuery();
 
         using var UpdateAccountTriggerCommand = new SQLiteCommand(UpdateAccountTriggerQuery, connection);
         UpdateAccountTriggerCommand.ExecuteNonQuery();
@@ -143,19 +165,6 @@ internal class DatabaseHelper
         CreateSecureNoteTableCommand.ExecuteNonQuery();
 
         connection.Close();
-
-        if (!Directory.Exists(AppDataFolderPath))
-        {
-            var directoryInfo = Directory.CreateDirectory(AppDataFolderPath);
-            directoryInfo.Attributes = FileAttributes.Directory | FileAttributes.Hidden | FileAttributes.System;
-            Debug.WriteLine("App Data folder created");
-        }
-
-        if (!Directory.Exists(ThumbsFolderPath))
-        {
-            Directory.CreateDirectory(ThumbsFolderPath);
-            Debug.WriteLine("Thumbs folder created");
-        }
 
     }
 

@@ -132,11 +132,35 @@
                     <Grid Grid.Row="0">
                         <StackPanel Orientation="Vertical">
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
                                 <TextBlock
+                                    Grid.Column="0"
                                     Margin="20,10,0,10"
                                     FontSize="20"
                                     Style="{ThemeResource BodyStrongTextBlockStyle}"
                                     Text="Add New Document" />
+
+                                <!--  Save Button  -->
+                                <Button
+                                    x:Name="Save_Button"
+                                    Grid.Column="2"
+                                    Width="73"
+                                    Click="Save_Button_Click"
+                                    Style="{StaticResource AccentButtonStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon FontSize="17" Glyph="&#xE74E;" />
+                                        <TextBlock
+                                            Margin="4,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Style="{ThemeResource BodyTextBlockStyle}"
+                                            Text="Save" />
+                                    </StackPanel>
+                                </Button>
                             </Grid>
 
                             <!--
@@ -176,7 +200,8 @@
                                     x:Name="DocumentType_ComboBox"
                                     Margin="20,20,0,0"
                                     PlaceholderText="Pick an Document Type"
-                                    SelectedIndex="8">
+                                    SelectedIndex="8"
+                                    SelectionChanged="DocumentType_ComboBox_SelectionChanged">
                                     <x:String>ID Card</x:String>
                                     <x:String>Passport</x:String>
                                     <x:String>Domicile</x:String>
@@ -210,7 +235,7 @@
                                 </TextBox>
 
                                 <!--  MIME Type  -->
-                                <ComboBox
+                                <!--<ComboBox
                                     x:Name="MimeType_ComboBox"
                                     Margin="20,20,0,0"
                                     PlaceholderText="Pick an MIME Type"
@@ -224,10 +249,10 @@
                                             <FontIcon FontSize="13" Glyph="&#xE735;" />
                                         </StackPanel>
                                     </ComboBox.Header>
-                                </ComboBox>
+                                </ComboBox>-->
 
                                 <!--  Files Header Container  -->
-                                <Grid>
+                                <Grid Margin="0,20,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -237,14 +262,23 @@
                                     <!--  Files Header  -->
                                     <StackPanel
                                         Grid.Column="0"
-                                        Margin="20,20,0,0"
+                                        Margin="20,0,0,0"
                                         Orientation="Horizontal">
-                                        <TextBlock Margin="0,0,4,0" Text="Select Document Files" />
-                                        <FontIcon FontSize="13" Glyph="&#xE734;" />
+                                        <TextBlock
+                                            Margin="0,0,4,0"
+                                            VerticalAlignment="Center"
+                                            Text="Select Document Files" />
+                                        <FontIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="13"
+                                            Glyph="&#xE734;" />
                                     </StackPanel>
 
                                     <!--  Files Count Inc/Dec Container  -->
-                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <StackPanel
+                                        Grid.Column="2"
+                                        Margin="0,0,0,0"
+                                        Orientation="Horizontal">
 
                                         <!--  File Count Decrease Button  -->
                                         <Button
@@ -284,7 +318,7 @@
                                         x:Name="File1_Button"
                                         Width="130"
                                         Height="40"
-                                        Margin="20,8,0,0"
+                                        Margin="20,0,0,0"
                                         Click="File1_Button_Click">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
