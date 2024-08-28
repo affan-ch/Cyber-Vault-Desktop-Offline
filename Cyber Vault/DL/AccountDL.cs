@@ -82,25 +82,25 @@ internal class AccountDL
             while (reader.Read())
             {
                 var account = new Account
-                (
-                    Id: int.Parse(reader["Id"].ToString() ?? "0"),
-                    Type: EncryptionHelper.Decrypt(reader["Type"].ToString() ?? "", username + password),
-                    Title: EncryptionHelper.Decrypt(reader["Title"].ToString() ?? "", username + password),
-                    Domain: EncryptionHelper.Decrypt(reader["Domain"].ToString() ?? "", username + password),
-                    Name: EncryptionHelper.Decrypt(reader["Name"].ToString() ?? "", username + password),
-                    Email: EncryptionHelper.Decrypt(reader["Email"].ToString() ?? "", username + password),
-                    Username: EncryptionHelper.Decrypt(reader["Username"].ToString() ?? "", username + password),
-                    PhoneNumber: EncryptionHelper.Decrypt(reader["PhoneNumber"].ToString() ?? "", username + password),
-                    Password: EncryptionHelper.Decrypt(reader["Password"].ToString() ?? "", username + password),
-                    Pin: EncryptionHelper.Decrypt(reader["Pin"].ToString() ?? "", username + password),
-                    DateOfBirth: EncryptionHelper.Decrypt(reader["DateOfBirth"].ToString() ?? "", username + password),
-                    RecoveryEmail: EncryptionHelper.Decrypt(reader["RecoveryEmail"].ToString() ?? "", username + password),
-                    RecoveryPhoneNumber: EncryptionHelper.Decrypt(reader["RecoveryPhoneNumber"].ToString() ?? "", username + password),
-                    QrCode: EncryptionHelper.Decrypt(reader["QrCode"].ToString() ?? "", username + password),
-                    Notes: EncryptionHelper.Decrypt(reader["Notes"].ToString() ?? "", username + password),
-                    DateAdded: reader["DateAdded"].ToString() ?? "",
-                    DateModified: reader["DateModified"].ToString() ?? ""
-                );
+                {
+                    Id = int.Parse(reader["Id"].ToString() ?? "0"),
+                    Type = EncryptionHelper.Decrypt(reader["Type"].ToString() ?? "", username + password),
+                    Title = EncryptionHelper.Decrypt(reader["Title"].ToString() ?? "", username + password),
+                    Domain = EncryptionHelper.Decrypt(reader["Domain"].ToString() ?? "", username + password),
+                    Name = EncryptionHelper.Decrypt(reader["Name"].ToString() ?? "", username + password),
+                    Email = EncryptionHelper.Decrypt(reader["Email"].ToString() ?? "", username + password),
+                    Username = EncryptionHelper.Decrypt(reader["Username"].ToString() ?? "", username + password),
+                    PhoneNumber = EncryptionHelper.Decrypt(reader["PhoneNumber"].ToString() ?? "", username + password),
+                    Password = EncryptionHelper.Decrypt(reader["Password"].ToString() ?? "", username + password),
+                    Pin = EncryptionHelper.Decrypt(reader["Pin"].ToString() ?? "", username + password),
+                    DateOfBirth = EncryptionHelper.Decrypt(reader["DateOfBirth"].ToString() ?? "", username + password),
+                    RecoveryEmail = EncryptionHelper.Decrypt(reader["RecoveryEmail"].ToString() ?? "", username + password),
+                    RecoveryPhoneNumber = EncryptionHelper.Decrypt(reader["RecoveryPhoneNumber"].ToString() ?? "", username + password),
+                    QrCode = EncryptionHelper.Decrypt(reader["QrCode"].ToString() ?? "", username + password),
+                    Notes = EncryptionHelper.Decrypt(reader["Notes"].ToString() ?? "", username + password),
+                    DateAdded = reader["DateAdded"].ToString() ?? "",
+                    DateModified = reader["DateModified"].ToString() ?? ""
+                };
                 accounts.Add(account);
             }
         }

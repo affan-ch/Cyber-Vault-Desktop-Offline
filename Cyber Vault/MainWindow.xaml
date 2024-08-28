@@ -2,31 +2,30 @@
     x:Class="Cyber_Vault.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Cyber_Vault"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Cyber_Vault"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="using:H.NotifyIcon"
     xmlns:windowex="using:WinUIEx"
-    MinWidth="930"
+    MinWidth="1000"
     MinHeight="500"
     PersistenceId="MainWindow"
-    xmlns:tb="using:H.NotifyIcon"
     mc:Ignorable="d">
 
     <tb:TaskbarIcon
         x:Name="TrayIcon"
-        ToolTipText="Cyber Vault"
         IconSource="/Assets/WindowIcon.ico"
         MenuActivation="RightClick"
         PopupActivation="DoubleClick"
-        >
-        
+        ToolTipText="Cyber Vault">
+
         <tb:TaskbarIcon.ContextFlyout>
             <MenuFlyout AreOpenCloseAnimationsEnabled="False">
                 <MenuFlyoutItem Command="{x:Bind ShowHideWindowCommand}" Text="Show/Hide Window" />
                 <MenuFlyoutSeparator />
-                <MenuFlyoutItem Command="{x:Bind SponsorCommand}" Text="Sponsor"/>
-                <MenuFlyoutItem Command="{x:Bind ReportCommand}" Text="Report Bug"/>
-                <MenuFlyoutItem Command="{x:Bind DocumentationCommand}" Text="Documentation"/>
+                <MenuFlyoutItem Command="{x:Bind SponsorCommand}" Text="Sponsor" />
+                <MenuFlyoutItem Command="{x:Bind ReportCommand}" Text="Report Bug" />
+                <MenuFlyoutItem Command="{x:Bind DocumentationCommand}" Text="Documentation" />
                 <MenuFlyoutItem Command="{x:Bind ContactCommand}" Text="Contact Support" />
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem Command="{x:Bind ExitApplicationCommand}" Text="Exit" />
@@ -35,6 +34,6 @@
     </tb:TaskbarIcon>
 
     <Window.SystemBackdrop>
-        <MicaBackdrop/>
+        <MicaBackdrop />
     </Window.SystemBackdrop>
 </windowex:WindowEx>

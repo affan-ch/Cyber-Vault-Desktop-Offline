@@ -28,9 +28,26 @@ internal class DatabaseHelper
         RecoveryEmail TEXT,
         RecoveryPhoneNumber TEXT,
         QrCode TEXT,
+        TfaPhoneNumber TEXT,
+        IsFavourite INTEGER DEFAULT 0,
+        IsDeleted INTEGER DEFAULT 0,
+        Tag1 TEXT,
+        Tag2 TEXT,
+        Tag3 TEXT,
+        Tag4 TEXT,
+        FolderId INTEGER,
         Notes TEXT,
         DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+
+
+    private static readonly string CreateCustomFieldTableQuery = @"CREATE TABLE IF NOT EXISTS [CustomField] (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        RecordTable INTEGER NOT NULL,
+        RecordId INTEGER NOT NULL,
+        FieldName TEXT NOT NULL,
+        FieldValue TEXT NOT NULL
     );";
 
     private static readonly string CreateDocumentTableQuery = @"CREATE TABLE IF NOT EXISTS [Document] (
@@ -39,6 +56,15 @@ internal class DatabaseHelper
         Title TEXT NOT NULL,
         DateAdded TEXT NOT NULL,
         DateModified TEXT NOT NULL
+    );";
+
+    // folder table
+    private static readonly string CreateFolderTableQuery = @"CREATE TABLE IF NOT EXISTS [Folder] (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+        Name TEXT NOT NULL,
+        ParentId INTEGER,
+        DateAdded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        DateModified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );";
 
     private static readonly string CreateDocumentFilesTableQuery = @"CREATE TABLE IF NOT EXISTS [DocumentFile] (
@@ -163,6 +189,13 @@ internal class DatabaseHelper
 
         using var CreateSecureNoteTableCommand = new SQLiteCommand(CreateSecureNoteTableQuery, connection);
         CreateSecureNoteTableCommand.ExecuteNonQuery();
+
+        using var CreateCustomFieldTableCommand = new SQLiteCommand(CreateCustomFieldTableQuery, connection);
+        CreateCustomFieldTableCommand.ExecuteNonQuery();
+
+        using var CreateFolderTableCommand = new SQLiteCommand(CreateFolderTableQuery, connection);
+        CreateFolderTableCommand.ExecuteNonQuery();
+
 
         connection.Close();
 

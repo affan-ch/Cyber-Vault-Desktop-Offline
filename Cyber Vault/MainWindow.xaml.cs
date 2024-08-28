@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using Windows.UI.ViewManagement;
 using Cyber_Vault.DL;
+using Microsoft.UI.Windowing;
 namespace Cyber_Vault;
 
 public sealed partial class MainWindow : WindowEx
@@ -16,6 +17,8 @@ public sealed partial class MainWindow : WindowEx
     private readonly Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
 
     private readonly UISettings settings;
+
+    private int isWindowVisible = 1;
 
     public MainWindow()
     {
@@ -37,6 +40,8 @@ public sealed partial class MainWindow : WindowEx
         TrayIcon.ForceCreate(true); // Show System Tray Icon
 
         DatabaseHelper.CreateDatabase();
+
+        TrayIcon.LeftClickCommand = new RelayCommand(ShowRestoreWindow);
 
     }
 
@@ -66,7 +71,7 @@ public sealed partial class MainWindow : WindowEx
 
 
     [RelayCommand]
-    public async void ShowHideWindow()
+    public void ShowHideWindow()
     {
         var window = App.MainWindow;
         if (window == null)
@@ -74,26 +79,58 @@ public sealed partial class MainWindow : WindowEx
             return;
         }
 
-        if (window.Visible)
+        if (isWindowVisible == 1)
         {
-            // On Minimize to System Tray --> Delete MasterKey from Memory
-            CredentialsManager.DeletePasswordFromMemory();
-
-            // On Minimize to System Tray --> Logout
-            UIElement? _login = App.GetService<LockScreenPage>();
-            App.MainWindow.Content = _login ?? new Frame();
-            await ActivationService.StartupAsync();
-
-            //  Clear the Account List
-            AccountDL.ClearAccounts();
-
-            // On Minimize to System Tray --> Hide Window
-            window.Hide();
+            HideWindow();
+            isWindowVisible = 0;
         }
         else
         {
             window.Show();
+            window.Maximize();
+            isWindowVisible = 1;
         }
+    }
+
+    public async void HideWindow()
+    {
+        var window = App.MainWindow;
+        if (window == null)
+        {
+            return;
+        }
+
+        // On Minimize to System Tray --> Delete MasterKey from Memory
+        CredentialsManager.DeletePasswordFromMemory();
+
+        // On Minimize to System Tray --> Logout
+        UIElement? _login = App.GetService<LockScreenPage>();
+        App.MainWindow.Content = _login ?? new Frame();
+        await ActivationService.StartupAsync();
+
+        //  Clear the Account List
+        AccountDL.ClearAccounts();
+
+        // On Minimize to System Tray --> Hide Window
+        window.Hide();
+    }
+
+    [RelayCommand]
+    public void ShowRestoreWindow()
+    {
+        var window = App.MainWindow;
+        if (window == null)
+        {
+            return;
+        }
+
+        if (!window.Visible)
+        {
+            window.Show();
+            window.Maximize();
+        }
+
+
     }
 
     [RelayCommand]

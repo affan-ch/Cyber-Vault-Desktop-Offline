@@ -59,7 +59,7 @@ public sealed partial class LockScreenPage : Page
 
     }
 
-    private async void Login_Button_Click(object _, RoutedEventArgs e)
+    private async void Login_Button_Click(object? _, RoutedEventArgs? e)
     {
         if (Login_Username_TextBox.Text.Length < 5)
         {

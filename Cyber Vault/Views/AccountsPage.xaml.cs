@@ -15,13 +15,16 @@ using OtpNet;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Input;
+using System;
 
 namespace Cyber_Vault.Views;
+#pragma warning disable CS0649
 
 public sealed partial class AccountsPage : Page
 {
     private int currentAccountId = 0;
     private int backupCodeCount = 1;
+    private int customFieldCount = 1;
     private string oldOTP = "";
     private Timer? timer;
     private Authenticator? currentAuthenticator;
@@ -72,7 +75,7 @@ public sealed partial class AccountsPage : Page
 
         accountContainer.PointerExited += (sender, e) =>
         {
-             accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
+            accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
         };
 
         var radioButton = new RadioButton
@@ -85,7 +88,7 @@ public sealed partial class AccountsPage : Page
         radioButton.Unchecked += (sender, e) =>
         {
             accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"];
-            
+
             accountContainer.PointerEntered += (sender, e) =>
             {
                 accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
@@ -100,7 +103,7 @@ public sealed partial class AccountsPage : Page
         radioButtons.Items.Add(radioButton);
 
         // Create an Image and set its properties
-        if(url != null && url != string.Empty)
+        if (url != null && url != string.Empty)
         {
             url = $"https://www.google.com/s2/favicons?domain={url}&sz=128";
         }
@@ -108,7 +111,7 @@ public sealed partial class AccountsPage : Page
         {
             url = "https://www.unsplash.com";
         }
-        
+
         var image = new Image
         {
             Margin = new Thickness(12, 10, 10, 10),
@@ -126,7 +129,7 @@ public sealed partial class AccountsPage : Page
                 if (!string.IsNullOrEmpty(ThumbPath))
                 {
                     image.Source = new BitmapImage(new Uri(ThumbPath));
-                }   
+                }
             }
         }
 
@@ -195,7 +198,7 @@ public sealed partial class AccountsPage : Page
                         accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     };
                     accountContainer.PointerExited += (sender, e) =>
-                    {                    
+                    {
                         accountContainer.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["LayerOnAcrylicFillColorDefaultBrush"];
                     };
 
@@ -287,7 +290,7 @@ public sealed partial class AccountsPage : Page
 
         }
         else
-        {        
+        {
             return;
         }
 
@@ -300,7 +303,8 @@ public sealed partial class AccountsPage : Page
         var progressValue = (remainingSeconds / double.Parse(period)) * 100.0;
 
         // Set the progress ring value
-        DispatcherQueue.TryEnqueue(() => {
+        DispatcherQueue.TryEnqueue(() =>
+        {
             OTP_Ring.Value = progressValue;
         });
     }
@@ -308,7 +312,7 @@ public sealed partial class AccountsPage : Page
     // Timer callback method (View Account Page - Authenticator Timer)
     private void TimerCallback(object? state)
     {
-        if(currentAuthenticator != null)
+        if (currentAuthenticator != null)
         {
             UpdateOTP(currentAuthenticator);
         }
@@ -453,14 +457,14 @@ public sealed partial class AccountsPage : Page
             Authenticator_Container.Visibility = Visibility.Visible;
 
             var authenticator = ParseUri(account.QrCode);
-            
-            if(authenticator != null)
+
+            if (authenticator != null)
             {
                 if (!string.IsNullOrEmpty(authenticator.Secret) && !string.IsNullOrEmpty(authenticator.Type))
                 {
                     currentAuthenticator = authenticator;
 
-                    if(authenticator.Type.ToUpper() == "TOTP")
+                    if (authenticator.Type.ToUpper() == "TOTP")
                     {
                         OTP_Ring.Visibility = Visibility.Visible;
                         HOTP_Generate_Button.Visibility = Visibility.Collapsed;
@@ -468,13 +472,13 @@ public sealed partial class AccountsPage : Page
                         // Timer to update the OTP and ProgressRing value
                         timer = new Timer(TimerCallback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(300));
                     }
-                    else if(authenticator.Type.ToUpper() == "HOTP")
+                    else if (authenticator.Type.ToUpper() == "HOTP")
                     {
                         OTP_Ring.Visibility = Visibility.Collapsed;
                         HOTP_Generate_Button.Visibility = Visibility.Visible;
                         Authenticator_Text.Text = new string('●', int.Parse(authenticator.Digits ?? "6"));
                     }
-                    
+
                 }
             }
         }
@@ -490,10 +494,7 @@ public sealed partial class AccountsPage : Page
         {
             BackupCodes_Grids.Children.Clear();
             BackupCodes_Container.Visibility = Visibility.Visible;
-            foreach (var backupCode in backupCodes)
-            {
-                AddBackupCodeinContainer(backupCode.Code ?? "", backupCode.IsUsed ?? 0, account.Id ?? 0);
-            }
+            AddBackupCodesinContainer(backupCodes);
         }
         else
         {
@@ -519,7 +520,7 @@ public sealed partial class AccountsPage : Page
                 Domain_TextBox.Visibility = Visibility.Collapsed;
                 SelectThumbnail_Button.Visibility = Visibility.Collapsed;
             }
-        } 
+        }
     }
 
     // Add Account Button (Left Sidebar)
@@ -544,16 +545,42 @@ public sealed partial class AccountsPage : Page
     {
         var account = GetInputAccount();
 
-        if(account == null)
-        {        
+        if (account == null)
+        {
             return;
         }
 
         if (!string.IsNullOrEmpty(account.Domain))
         {
-            if(!AccountThumbsDB.IsThumbExist(account.Domain))
+            if (!AccountThumbsDB.IsThumbExist(account.Domain))
             {
                 MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Please add a thumb for this domain!");
+                return;
+            }
+        }
+
+        // check if the account already exists
+        if (!string.IsNullOrEmpty(account.Email) && account.Email.Length > 3)
+        {
+            if (AccountDL.GetAccounts().Any(a => a.Email == account.Email && a.Domain == account.Domain))
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "An account with this email already exists.");
+                return;
+            }
+        }
+        else if (!string.IsNullOrEmpty(account.Username) && account.Username.Length > 3)
+        {
+            if (AccountDL.GetAccounts().Any(a => a.Username == account.Username && a.Domain == account.Domain))
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "An account with this username already exists.");
+                return;
+            }
+        }
+        else if (!string.IsNullOrEmpty(account.PhoneNumber) && account.PhoneNumber.Length > 3)
+        {
+            if (AccountDL.GetAccounts().Any(a => a.PhoneNumber == account.PhoneNumber && a.Domain == account.Domain))
+            {
+                MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "An account with this phone number already exists.");
                 return;
             }
         }
@@ -611,7 +638,6 @@ public sealed partial class AccountsPage : Page
     {
         backupCodeCount += 1;
 
-
         var random = new Random();
 
         var backupCode = new TextBox
@@ -659,7 +685,7 @@ public sealed partial class AccountsPage : Page
 
     private void RemoveAllBackupCodesTextbox()
     {
-        for(var i = BackupCodes_StackPanel.Children.Count - 1; i >= 1; i--)
+        for (var i = BackupCodes_StackPanel.Children.Count - 1; i >= 1; i--)
         {
             BackupCodes_StackPanel.Children.RemoveAt(i);
         }
@@ -668,7 +694,7 @@ public sealed partial class AccountsPage : Page
         RemoveBackupCode_Button.Visibility = Visibility.Collapsed;
         BackupCode1_TextBox.Text = string.Empty;
     }
-    
+
     // Password Generator (Add Account Page)
     private async void GeneratePassword_Button_Click(object _, RoutedEventArgs e)
     {
@@ -782,13 +808,13 @@ public sealed partial class AccountsPage : Page
             VerticalAlignment = VerticalAlignment.Bottom,
             Height = 32,
             Command = new RelayCommand(() =>
-            {   
+            {
                 var includeUpper = UpperCase_CheckBox.IsChecked ?? false;
                 var includeLower = LowerCase_CheckBox.IsChecked ?? false;
                 var includeNumbers = Numbers_CheckBox.IsChecked ?? false;
                 var includeSpecialChars = SpecialCharacters_CheckBox.IsChecked ?? false;
                 var length = (int)PasswordLength_Slider.Value;
-                       
+
                 var password = PasswordGenerator.Generate(length, includeUpper, includeLower, includeNumbers, includeSpecialChars);
                 GeneratedPassword_TextBox.Text = password;
             })
@@ -810,9 +836,9 @@ public sealed partial class AccountsPage : Page
 
 
         // StackPanel to contain the elements
-        var Container_StackPanel = new StackPanel 
-        { 
-            Orientation = Orientation.Vertical 
+        var Container_StackPanel = new StackPanel
+        {
+            Orientation = Orientation.Vertical
         };
 
         // Add the elements to the StackPanel
@@ -837,7 +863,7 @@ public sealed partial class AccountsPage : Page
 
         var result = await dialog.ShowAsync();
 
-        if(result.ToString() == "Primary")
+        if (result.ToString() == "Primary")
         {
             Password_TextBox.Password = GeneratedPassword_TextBox.Text;
         }
@@ -848,7 +874,7 @@ public sealed partial class AccountsPage : Page
     private void OpenDomainLink_Button_Click(object _, RoutedEventArgs e)
     {
         var domain = Domain_Text.Text;
-        if(domain != string.Empty)
+        if (domain != string.Empty)
         {
             Process.Start(new ProcessStartInfo("https://" + domain) { UseShellExecute = true });
         }
@@ -889,7 +915,7 @@ public sealed partial class AccountsPage : Page
     // Toggle Hide/Unhide Password Button (View Account Page)
     private void TogglePassword_Button_Click(object _, RoutedEventArgs e)
     {
-        if(TogglePassword_CheckBox.IsChecked == false)
+        if (TogglePassword_CheckBox.IsChecked == false)
         {
             Password_Text.Text = Password_Text_Hidden.Text;
             TogglePassword_CheckBox.IsChecked = true;
@@ -972,7 +998,7 @@ public sealed partial class AccountsPage : Page
 
         var result = await dialog.ShowAsync();
 
-        if(result.ToString() == "Primary")
+        if (result.ToString() == "Primary")
         {
             AccountDB.DeleteAccount(currentAccountId);
             AccountDL.DeleteAccount(currentAccountId);
@@ -993,19 +1019,19 @@ public sealed partial class AccountsPage : Page
     {
         AccountsListView.Children.Clear();
         radioButtons.Items.Clear();
-    
+
         if (AccountDL.GetAccounts().Count == 0)
         {
             Accounts_ScrollViewer.Visibility = Visibility.Collapsed;
             NoAccounts_Grid.Visibility = Visibility.Visible;
         }
         else
-        {        
+        {
             Accounts_ScrollViewer.Visibility = Visibility.Visible;
             NoAccounts_Grid.Visibility = Visibility.Collapsed;
-        
+
             var accounts = AccountDL.GetAccounts();
-        
+
             foreach (var account in accounts)
             {
                 if (!string.IsNullOrEmpty(account.Email))
@@ -1117,7 +1143,7 @@ public sealed partial class AccountsPage : Page
 
         var authenticator = ParseUri(account.QrCode ?? "");
 
-        if(authenticator != null)
+        if (authenticator != null)
         {
             if (!string.IsNullOrEmpty(authenticator.Type))
             {
@@ -1269,25 +1295,25 @@ public sealed partial class AccountsPage : Page
                     FontSize = 17
                 };
 
-                var AlgorithmText = new RichTextBlock 
-                { 
+                var AlgorithmText = new RichTextBlock
+                {
                     Margin = new Thickness(0, 10, 0, 0),
                     FontSize = 13,
                     FontWeight = FontWeights.Bold,
                     Opacity = 0.9,
-                    Blocks = 
-                    { 
-                        new Paragraph 
-                        { 
-                            Inlines = 
-                            { 
-                                new Run 
-                                { 
-                                    Text = authenticator.Algorithm.ToUpper() 
-                                } 
-                            } 
-                        } 
-                    } 
+                    Blocks =
+                    {
+                        new Paragraph
+                        {
+                            Inlines =
+                            {
+                                new Run
+                                {
+                                    Text = authenticator.Algorithm.ToUpper()
+                                }
+                            }
+                        }
+                    }
                 };
 
                 stackPanel.Children.Add(AlgorithmLabel);
@@ -1331,7 +1357,7 @@ public sealed partial class AccountsPage : Page
 
             if (!string.IsNullOrEmpty(authenticator.Type))
             {
-                if(authenticator.Type.ToUpper() == "TOTP")
+                if (authenticator.Type.ToUpper() == "TOTP")
                 {
                     var PeriodLabel = new TextBlock
                     {
@@ -1365,7 +1391,7 @@ public sealed partial class AccountsPage : Page
                     stackPanel.Children.Add(PeriodLabel);
                     stackPanel.Children.Add(PeriodText);
                 }
-                else if(authenticator.Type.ToUpper() == "HOTP")
+                else if (authenticator.Type.ToUpper() == "HOTP")
                 {
                     var CounterLabel = new TextBlock
                     {
@@ -1401,125 +1427,113 @@ public sealed partial class AccountsPage : Page
                 }
             }
         }
-     
+
         await dialog.ShowAsync();
 
     }
 
     // Add Backup Code Field (View Account Page)
-    private void AddBackupCodeinContainer(string backupCodeValue, int isUsed, int accountId)
+    private void AddBackupCodesinContainer(List<BackupCode> backupCodes)
     {
-        var grid = new Grid
+        var mainGrid = new Grid
         {
-            Margin = new Thickness(0, 10, 0, 0),
+            Margin = new Thickness(0, 12, 0, 0)
         };
+        mainGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        mainGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-        // Create ColumnDefinitions for the Grid
-        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // For Backup Code Text
-        grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto }); // For Backup Code isUsed Checkbox & Backup Code Copy Button
+        var totalCodes = backupCodes.Count;
+        var splitPoint = (totalCodes + 1) / 2; // Left column gets one more if odd
 
-        // Backup Code TextBlock
-        var textBlock = new RichTextBlock
+        var leftColumnStackPanel = new StackPanel { Orientation = Orientation.Vertical };
+        var rightColumnStackPanel = new StackPanel { Orientation = Orientation.Vertical };
+
+        for (var i = 0; i < totalCodes; i++)
         {
-            Opacity = 0.9,
-            FontSize = 14,
-            VerticalAlignment = VerticalAlignment.Center,
-            FontWeight = Microsoft.UI.Text.FontWeights.Bold,
-            Margin = new Thickness(0, 0, 0, 0),
-            Blocks =
+            var backupCode = backupCodes[i];
+
+            var stackPanel = new StackPanel
             {
-                new Paragraph
+                Orientation = Orientation.Horizontal
+            };
+
+            // Backup Code isUsed CheckBox
+            var checkBox = new CheckBox
+            {
+                IsChecked = (backupCode.IsUsed == 1),
+                IsEnabled = true,
+                Padding = new Thickness(0),
+                MinWidth = 0
+            };
+
+            ToolTipService.SetToolTip(checkBox, backupCode.IsUsed == 1 ? "Mark as Unused" : "Mark as Used");
+            ToolTipService.SetPlacement(checkBox, PlacementMode.Bottom);
+
+            checkBox.Checked += (sender, e) =>
+            {
+                // get the backup code object from account Id
+                var updatedBackupCode = new BackupCode(backupCode.AccountId, backupCode.Code, 1);
+
+                BackupCodeDL.UpdateBackupCode(updatedBackupCode);
+                BackupCodeDB.UpdateBackupCodeStatus(backupCode.AccountId ?? 0, backupCode.Code ?? "", 1);
+
+                ToolTipService.SetToolTip(checkBox, "Mark as Unused");
+            };
+
+            checkBox.Unchecked += (sender, e) =>
+            {
+                // get the backup code object from account Id
+                var updatedBackupCode = new BackupCode(backupCode.AccountId, backupCode.Code, 0);
+
+                BackupCodeDL.UpdateBackupCode(updatedBackupCode);
+                BackupCodeDB.UpdateBackupCodeStatus(backupCode.AccountId ?? 0, backupCode.Code ?? "", 0);
+
+                ToolTipService.SetToolTip(checkBox, "Mark as Used");
+            };
+
+            // Backup Code TextBlock
+            var textBlock = new RichTextBlock
+            {
+                Opacity = 0.9,
+                FontSize = 14,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(8, 0, 0, 0),
+                Blocks =
                 {
-                    Inlines =
+                    new Paragraph
                     {
-                        new Run
+                        Inlines =
                         {
-                            Text = backupCodeValue,
+                            new Run
+                            {
+                                Text = backupCode.Code,
+                            }
                         }
                     }
                 }
+            };
+
+            stackPanel.Children.Add(checkBox);
+            stackPanel.Children.Add(textBlock);
+
+            if (i < splitPoint)
+            {
+                leftColumnStackPanel.Children.Add(stackPanel);
             }
-        };
+            else
+            {
+                rightColumnStackPanel.Children.Add(stackPanel);
+            }
+        }
 
-        var stackPanel = new StackPanel
-        {
-            Orientation = Orientation.Horizontal
-        };
+        Grid.SetColumn(leftColumnStackPanel, 0);
+        Grid.SetColumn(rightColumnStackPanel, 1);
 
-        // Backup Code isUsed CheckBox
-        var checkBox = new CheckBox
-        {
-            IsChecked = (isUsed == 1),
-            IsEnabled = true,
-            Padding = new Thickness(0),
-            MinWidth = 0
-        };
+        mainGrid.Children.Add(leftColumnStackPanel);
+        mainGrid.Children.Add(rightColumnStackPanel);
 
-        ToolTipService.SetToolTip(checkBox, isUsed == 1 ? "Mark as Unused" : "Mark as Used");
-        ToolTipService.SetPlacement(checkBox, PlacementMode.Bottom);
-
-        checkBox.Checked += (sender, e) =>
-        {
-            // get the backup code object from account Id
-            var updatedBackupCode = new BackupCode(accountId, backupCodeValue, 1);
-            
-            BackupCodeDL.UpdateBackupCode(updatedBackupCode);
-            BackupCodeDB.UpdateBackupCodeStatus(accountId, backupCodeValue, 1);
-
-            ToolTipService.SetToolTip(checkBox, "Mark as Unused");
-        };
-
-        checkBox.Unchecked += (sender, e) =>
-        {
-            // get the backup code object from account Id
-            var updatedBackupCode = new BackupCode(accountId, backupCodeValue, 0);
-
-            BackupCodeDL.UpdateBackupCode(updatedBackupCode);
-            BackupCodeDB.UpdateBackupCodeStatus(accountId, backupCodeValue, 0);
-
-            ToolTipService.SetToolTip(checkBox, "Mark as Used");
-        };
-
-        // Copy Backup Code Button
-        var copyButton = new Button
-        {
-            Content = new FontIcon
-            {           
-                Glyph = "\uE8C8",
-                FontSize = 17
-            },
-            Margin = new Thickness(15, 0, 20, 0),
-            BorderThickness = new Thickness(0),
-            Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["DesktopAcrylicTransparentBrush"],
-            Height = 35,
-            Width = 45,
-            Command = new RelayCommand(() =>
-            {      
-                var dataPackage = new DataPackage();
-                dataPackage.SetText(backupCodeValue);
-                Clipboard.SetContent(dataPackage);
-            })
-        };
-
-        // Set ToolTips for the Copy Backup Code Button
-        ToolTipService.SetToolTip(copyButton, "Copy Backup Code");
-        ToolTipService.SetPlacement(copyButton, PlacementMode.Bottom);
-
-        stackPanel.Children.Add(checkBox);
-        stackPanel.Children.Add(copyButton);
-
-        // Set Grid.Column for each element
-        Grid.SetColumn(textBlock, 0);
-        Grid.SetColumn(stackPanel, 1);
-
-        // Add the TextBlock, CheckBox, and Button to the Grid
-        grid.Children.Add(textBlock);
-
-        grid.Children.Add(stackPanel);
-
-
-
-        BackupCodes_Grids.Children.Add(grid);
+        BackupCodes_Grids.Children.Add(mainGrid);
 
     }
 
@@ -1607,7 +1621,7 @@ public sealed partial class AccountsPage : Page
             return null;
         }
 
-        if(Email.Length > 0)
+        if (Email.Length > 0)
         {
             if (!Email.Contains('@') || Email.Contains(' ') || Email.Length < 5)
             {
@@ -1623,23 +1637,23 @@ public sealed partial class AccountsPage : Page
         }
 
         var account = new Account
-        (
-            Id: AccountDB.GetMaxId() + 1,
-            Type: AccountType ?? "",
-            Title: Title ?? "",
-            Domain: Domain ?? "",
-            Name: Name ?? "",
-            Email: Email ?? "",
-            Username: Username ?? "",
-            PhoneNumber: PhoneNumber ?? "",
-            Password: Password ?? "",
-            Pin: Pin ?? "",
-            DateOfBirth: DateOfBirth ?? "",
-            RecoveryEmail: RecoveryEmail ?? "",
-            RecoveryPhoneNumber: RecoveryPhoneNumber ?? "",
-            QrCode: QrCode ?? "",
-            Notes: Notes ?? ""
-        );
+        {
+            Id = AccountDB.GetMaxId() + 1,
+            Type = AccountType ?? "",
+            Title = Title ?? "",
+            Domain = Domain.ToLower() ?? "",
+            Name = Name ?? "",
+            Email = Email ?? "",
+            Username = Username ?? "",
+            PhoneNumber = PhoneNumber ?? "",
+            Password = Password ?? "",
+            Pin = Pin ?? "",
+            DateOfBirth = DateOfBirth ?? "",
+            RecoveryEmail = RecoveryEmail ?? "",
+            RecoveryPhoneNumber = RecoveryPhoneNumber ?? "",
+            QrCode = QrCode ?? "",
+            Notes = Notes ?? ""
+        };
 
         return account;
     }
@@ -1648,22 +1662,22 @@ public sealed partial class AccountsPage : Page
     private List<BackupCode> GetInputBackupCodes()
     {
         var backupCodes = new List<BackupCode>();
-    
+
         foreach (var child in BackupCodes_StackPanel.Children)
         {
             if (child is TextBox backupCode)
             {
-                if(backupCode.Text == string.Empty)
+                if (backupCode.Text == string.Empty)
                 {
                     continue;
                 }
-            
+
                 var backupCodeBL = new BackupCode
                 (
                     AccountId: AccountDB.GetMaxId(),
                     Code: backupCode.Text
                 );
-            
+
                 backupCodes.Add(backupCodeBL);
             }
         }
@@ -1684,7 +1698,7 @@ public sealed partial class AccountsPage : Page
         var account = AccountDL.GetAccountById(currentAccountId);
 
         if (account == null)
-        {        
+        {
             return;
         }
 
@@ -1722,7 +1736,7 @@ public sealed partial class AccountsPage : Page
                     else
                     {
                         AddBackupCode_Button_Click(null, null);
-                        var backupCodeTextBox = (TextBox)BackupCodes_StackPanel.Children[index];
+                        var backupCodeTextBox = (TextBox)BackupCodes_StackPanel.Children.Last();
                         backupCodeTextBox.Text = backupCode.Code;
                     }
 
@@ -1744,7 +1758,7 @@ public sealed partial class AccountsPage : Page
         var account = GetInputAccount();
 
         if (account == null)
-        {        
+        {
             return;
         }
 
@@ -1765,11 +1779,11 @@ public sealed partial class AccountsPage : Page
 
     // Apply Accounts Filter (Left Sidebar)
     private void ApplyFilter(string filterType)
-    {    
+    {
         AccountsListView.Children.Clear();
         radioButtons.Items.Clear();
         currentAccountId = 0;
-        currentAuthenticator = null; 
+        currentAuthenticator = null;
         backupCodeCount = 1;
         oldOTP = "";
         timer?.Dispose();
@@ -1790,12 +1804,12 @@ public sealed partial class AccountsPage : Page
         };
 
         if (accounts.Count == 0)
-        {        
+        {
             Accounts_ScrollViewer.Visibility = Visibility.Collapsed;
             NoAccounts_Grid.Visibility = Visibility.Visible;
         }
         else
-        {        
+        {
             Accounts_ScrollViewer.Visibility = Visibility.Visible;
             NoAccounts_Grid.Visibility = Visibility.Collapsed;
         }
@@ -1908,7 +1922,7 @@ public sealed partial class AccountsPage : Page
     // Search Bar KeyDown Event
     private void SearchBar_KeyDown(object sender, KeyRoutedEventArgs e)
     {
-        if(SearchBar.Text == string.Empty)
+        if (SearchBar.Text == string.Empty)
         {
             RefreshAccountsListView();
         }
@@ -1918,8 +1932,8 @@ public sealed partial class AccountsPage : Page
 
             if (searchQuery != string.Empty)
             {
-                if(searchQuery.Length < 3)
-                {                
+                if (searchQuery.Length < 3)
+                {
                     MessageDialogHelper.ShowMessageDialog(XamlRoot, "Error", "Search query must be at least 3 characters long.");
                     return;
                 }
@@ -1946,7 +1960,7 @@ public sealed partial class AccountsPage : Page
                     ViewAccount_Grid.Visibility = Visibility.Collapsed;
                     ErrorContainer_Grid.Visibility = Visibility.Visible;
                     AddAccountContainer_Grid.Visibility = Visibility.Collapsed;
-                
+
                     foreach (var account in accounts)
                     {
                         if (!string.IsNullOrEmpty(account.Email))
@@ -1979,7 +1993,7 @@ public sealed partial class AccountsPage : Page
     private async void AuthenticatorConfigure_Button_Click(object sender, RoutedEventArgs e)
     {
         var Container_ScrollViewer = new ScrollViewer
-        {        
+        {
             Name = "Container_ScrollViewer",
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
@@ -1995,7 +2009,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var Type_ComboBox = new ComboBox
-        {        
+        {
             Name = "Type_ComboBox",
             Header = new StackPanel
             {
@@ -2046,7 +2060,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var Issuer_TextBox = new TextBox
-        {        
+        {
             Name = "Issuer_TextBox",
             Header = new StackPanel
             {
@@ -2070,7 +2084,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var SecretKey_TextBox = new TextBox
-        {        
+        {
             Name = "SecretKey_TextBox",
             Header = new StackPanel
             {
@@ -2094,7 +2108,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var Digits_TextBox = new TextBox
-        {               
+        {
             Name = "Digits_TextBox",
             Header = new StackPanel
             {
@@ -2118,7 +2132,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var Algorithm_ComboBox = new ComboBox
-        {               
+        {
             Name = "Algorithm_ComboBox",
             Header = new StackPanel
             {
@@ -2145,7 +2159,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var Period_TextBox = new TextBox
-        {                      
+        {
             Name = "Period_TextBox",
             Header = new StackPanel
             {
@@ -2169,7 +2183,7 @@ public sealed partial class AccountsPage : Page
         };
 
         var Counter_TextBox = new TextBox
-        {                             
+        {
             Name = "Counter_TextBox",
             Header = new StackPanel
             {
@@ -2221,13 +2235,13 @@ public sealed partial class AccountsPage : Page
         var authenticator = ParseUri(QrCode_TextBox.Text);
         if (authenticator != null)
         {
-            if(authenticator.Type!.ToUpper() == "TOTP")
-            {            
+            if (authenticator.Type!.ToUpper() == "TOTP")
+            {
                 Type_ComboBox.SelectedValue = "TOTP";
                 Period_TextBox.Text = authenticator.Period;
             }
             else
-            {            
+            {
                 Type_ComboBox.SelectedValue = "HOTP";
                 Counter_TextBox.Text = authenticator.Counter;
             }
@@ -2312,8 +2326,8 @@ public sealed partial class AccountsPage : Page
         }
 
         var type = uri.Host.ToLower();
-        if(type != "totp" && type != "hotp")
-        {        
+        if (type != "totp" && type != "hotp")
+        {
             return null;
         }
 
@@ -2388,7 +2402,7 @@ public sealed partial class AccountsPage : Page
                 currentAuthenticator!.Counter = (int.Parse(counter) + 1).ToString();
             }
         }
-        
+
     }
 
     private void SelectThumbnail_Button_Click(object sender, RoutedEventArgs e)
@@ -2405,4 +2419,111 @@ public sealed partial class AccountsPage : Page
         };
     }
 
+    private void RemoveCustomField_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (CustomFields_StackPanel.Children.Count > 0)
+        {
+            customFieldCount -= 1;
+            CustomFields_StackPanel.Children.RemoveAt(CustomFields_StackPanel.Children.Count - 1);
+
+            AddCustomField_Button.Visibility = (customFieldCount >= 16) ? Visibility.Collapsed : Visibility.Visible;
+            RemoveCustomField_Button.Visibility = (customFieldCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
+
+    private void AddCustomField_Button_Click(object sender, RoutedEventArgs e)
+    {
+        customFieldCount += 1;
+
+        var customFieldTitle_TextBox = new TextBox
+        {
+            Name = $"CustomFieldTitle{customFieldCount}_TextBox",
+            Margin = new Thickness(20, 15, 0, 0),
+            PlaceholderText = "Account Creation Date",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = $"Field Title {customFieldCount}",
+                        Margin = new Thickness(0, 0, 4, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\xE734",
+                        FontSize = 13
+                    }
+                }
+            }
+        };
+
+        var customFieldValue_TextBox = new TextBox
+        {
+            Name = $"CustomFieldValue{customFieldCount}_TextBox",
+            Margin = new Thickness(20, 10, 20, 0),
+            PlaceholderText = "2023-01-15",
+            Header = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = $"Field Value {customFieldCount}",
+                        Margin = new Thickness(0, 0, 4, 0)
+                    },
+                    new FontIcon
+                    {
+                        Glyph = "\xE734",
+                        FontSize = 13
+                    }
+                }
+            }
+        };
+
+        var customFieldContainer = new Grid
+        {
+            Children =
+            {
+                customFieldTitle_TextBox,
+                customFieldValue_TextBox
+            },
+            ColumnDefinitions =
+            {
+                new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                },
+                new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                }
+            }
+        };
+
+        Grid.SetColumn(customFieldTitle_TextBox, 0);
+        Grid.SetColumn(customFieldValue_TextBox, 1);
+
+        CustomFields_StackPanel.Children.Add(customFieldContainer);
+
+        AddCustomField_Button.Visibility = (customFieldCount >= 5) ? Visibility.Collapsed : Visibility.Visible;
+        RemoveCustomField_Button.Visibility = (customFieldCount <= 1) ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void ShowFavoriteAccounts_Button_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void ShowFolders_Button_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void RecycleBin_Filter_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

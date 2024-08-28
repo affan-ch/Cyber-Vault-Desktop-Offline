@@ -90,8 +90,9 @@ public sealed partial class DocumentsPage : Page
         var image = new FontIcon
         {
             Glyph = "\uE8A5",
-            FontSize = 35,
-            Margin = new Thickness(12, 10, 10, 10)
+            FontSize = 29,
+            Margin = new Thickness(12, 10, 10, 10),
+            Opacity = 0.8
         };
 
         // Create the inner StackPanel
@@ -106,10 +107,11 @@ public sealed partial class DocumentsPage : Page
         {
             Text = title ?? "Custom",
             Style = (Style)Application.Current.Resources["BaseTextBlockStyle"],
-            FontSize = 17
+            FontSize = 16,
+            Margin = new Thickness(0, 3, 0, 0)
         };
 
-        // Email TextBlock
+        // Subtitle TextBlock
         var textBlock2 = new TextBlock
         {
             Text = subtitle ?? "",
@@ -187,7 +189,8 @@ public sealed partial class DocumentsPage : Page
     // Render User Interface: fill values in the document fields (View Document Page)
     private void RenderUserInterface(Document document)
     {
-        Title_TextBox.Text = document.Title;
+        Title_Text.Text = document.Title;
+        DocumentType_Text.Text = document.Type;
 
     }
 

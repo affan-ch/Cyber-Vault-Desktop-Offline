@@ -73,10 +73,51 @@ internal class Account
         get; set; 
     }
 
+    public string? TfaPhoneNumber
+    {
+        get; set;
+    }
+
     public string? Notes
     {
         get; set; 
     }
+
+    public int? IsFavourite
+    {
+        get; set;
+    }
+
+    public int? IsDeleted
+    {
+        get; set;
+    }
+
+    public string? Tag1
+    {
+        get; set;
+    }
+
+    public string? Tag2
+    {
+        get; set;
+    }
+
+    public string? Tag3
+    {
+        get; set;
+    }
+
+    public string? Tag4
+    {
+        get; set;
+    }
+
+    public int? FolderId
+    {
+        get; set;
+    }
+
 
     public string? DateAdded
     {
@@ -88,67 +129,10 @@ internal class Account
         get; set;
     }
 
-    public Account(int Id, string Type, string Title, string Domain, string Name, string Email,
-        string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Notes, string DateAdded, string DateModified)
+    public Account()
     {
-        this.Id = Id;
-        this.Type = Type;
-        this.Title = Title;
-        this.Domain = Domain;
-        this.Name = Name;
-        this.Email = Email;
-        this.Username = Username;
-        this.PhoneNumber = PhoneNumber;
-        this.Password = Password;
-        this.Pin = Pin;
-        this.DateOfBirth = DateOfBirth;
-        this.RecoveryEmail = RecoveryEmail;
-        this.RecoveryPhoneNumber = RecoveryPhoneNumber;
-        this.QrCode = QrCode;
-        this.Notes = Notes;
-        this.DateAdded = DateAdded;
-        this.DateModified = DateModified;
+
     }
 
-    public Account(int Id, string Type, string Title, string Domain, string Name, string Email,
-        string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Notes)
-    {
-        this.Id = Id;
-        this.Type = Type;
-        this.Title = Title;
-        this.Domain = Domain;
-        this.Name = Name;
-        this.Email = Email;
-        this.Username = Username;
-        this.PhoneNumber = PhoneNumber;
-        this.Password = Password;
-        this.Pin = Pin;
-        this.DateOfBirth = DateOfBirth;
-        this.RecoveryEmail = RecoveryEmail;
-        this.RecoveryPhoneNumber = RecoveryPhoneNumber;
-        this.QrCode = QrCode;
-        this.Notes = Notes;
-    }
 
-    public Account(string Type, string Title, string Domain, string Name, string Email,
-        string Username, string PhoneNumber, string Password, string Pin, string DateOfBirth,
-        string RecoveryEmail, string RecoveryPhoneNumber, string QrCode, string Notes)
-    {
-        this.Type = Type;
-        this.Title = Title;
-        this.Domain = Domain;
-        this.Name = Name;
-        this.Email = Email;
-        this.Username = Username;
-        this.PhoneNumber = PhoneNumber;
-        this.Password = Password;
-        this.Pin = Pin;
-        this.DateOfBirth = DateOfBirth;
-        this.RecoveryEmail = RecoveryEmail;
-        this.RecoveryPhoneNumber = RecoveryPhoneNumber;
-        this.QrCode = QrCode;
-        this.Notes = Notes;
-    }
 }
