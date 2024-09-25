@@ -12,6 +12,9 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/affan-ch/Cyber-Vault-Desktop-Offline)
 ![GitHub forks](https://img.shields.io/github/forks/affan-ch/Cyber-Vault-Desktop-Offline)-->
 
+<a href="https://apps.microsoft.com/detail/9n35prv6lwmn?mode=direct">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
 
 Cyber Vault Desktop is an offline password manager designed exclusively for Windows desktop users. This lightweight application, built with WinUI3, utilizes an SQLite database for secure local storage of account credentials, credit card information, secure notes & documents and features a built-in authenticator for two-factor authentication (2FA).
 
